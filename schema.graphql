@@ -1,6 +1,15 @@
-type Gravatar @entity {
-  id: ID!
-  owner: Bytes!
-  displayName: String!
-  imageUrl: String!
+type Colony @entity {
+  id: ID! # Address
+  ensName: String
+  orbitAddress: String
+  index: BigInt!
+  token: String # Address
+  domains: [Domain!]!
+}
+
+type Domain @entity {
+  id: ID! # colonyAddress_domainId
+  index: BigInt!
+  parent: Domain
+  name: String
 }

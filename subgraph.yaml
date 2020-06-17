@@ -1,27 +1,44 @@
 specVersion: 0.0.2
-description: Gravatar for Ethereum
-repository: https://github.com/graphprotocol/example-subgraph
+description: A subgraph for the colonyNetwork
+repository: https://github.com/sprusr/colonySubgraph
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: Gravity
+    name: ColonyNetwork
     network: mainnet
     source:
-      address: '0x2E645469f354BB4F5c8a05B3b30A929361cf77eC'
-      abi: Gravity
+      address: "0xde3EDaBA7c15F845F59D1058eCD70Ed33FfdB2b9"
+      abi: IColonyNetwork
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - Gravatar
+        - Colony
       abis:
-        - name: Gravity
-          file: ./abis/Gravity.json
+        - name: IColonyNetwork
+          file: ./../colonyNetwork/build/contracts/IColonyNetwork.json
       eventHandlers:
-        - event: NewGravatar(uint256,address,string,string)
-          handler: handleNewGravatar
-        - event: UpdatedGravatar(uint256,address,string,string)
-          handler: handleUpdatedGravatar
-      file: ./src/mapping.ts
+        - event: ColonyAdded(indexed uint256,indexed address,address)
+          handler: handleColonyAdded
+      file: ./src/mappings/colonyNetwork.ts
+templates:
+  - name: Colony
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: IColony
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/colony.ts
+      entities:
+        - Domain
+      abis:
+        - name: IColony
+          file: ./../colonyNetwork/build/contracts/IColony.json
+      eventHandlers:
+        - event: DomainAdded(uint256)
+          handler: handleDomainAdded
