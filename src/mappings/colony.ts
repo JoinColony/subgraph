@@ -1,9 +1,7 @@
 import { BigInt, log } from '@graphprotocol/graph-ts'
+import { toChecksumAddress } from 'web3-utils';
 
-import {
-  IColony,
-  DomainAdded,
-} from '../../generated/templates/Colony/IColony'
+import { DomainAdded } from '../../generated/templates/Colony/IColony'
 
 import { Colony, Domain } from '../../generated/schema'
 
@@ -16,5 +14,6 @@ export function handleDomainAdded(event: DomainAdded): void {
   // isn't really a good sign...
   domain.parent = event.address.toHex() + '_1'
   domain.name = "Domain #" + event.params.domainId.toString()
+  domain.colonyAddress = toChecksumAddress(event.address.toHex())
   domain.save()
 }
