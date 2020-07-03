@@ -12,4 +12,5 @@ type Domain @entity {
   index: BigInt!
   parent: Domain
   name: String
+  colonyAddress: String
 }
