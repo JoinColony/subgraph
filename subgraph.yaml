@@ -8,7 +8,7 @@ dataSources:
     name: ColonyNetwork
     network: mainnet
     source:
-      address: "0x81957c068696FA33E4f20f1794A44738c2FC849c"
+      address: "0x0000000000000000000000000000000000000000"
       abi: IColonyNetwork
     mapping:
       kind: ethereum/events
