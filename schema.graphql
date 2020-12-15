@@ -2,15 +2,66 @@ type Colony @entity {
   id: ID! # Address
   ensName: String
   orbitAddress: String
-  index: BigInt!
+  colonyChainId: BigInt!
   token: String # Address
   domains: [Domain!]!
 }
 
 type Domain @entity {
   id: ID! # colonyAddress_domainId
-  index: BigInt!
+  domainChainId: BigInt!
   parent: Domain
   name: String
   colonyAddress: String
+}
+
+type Payment @entity {
+  id: ID!
+  domain: Domain
+  colony: Colony
+  to: String
+  fundingPot: FundingPot
+  paymentChainId: BigInt
+}
+
+type Expenditure @entity {
+  id: ID!
+}
+
+type OneTxPayment @entity {
+  id: ID!
+  fundamentalChainId: BigInt
+  nPayouts: BigInt
+  agent: String
+  transaction: Transaction
+  expenditure: Expenditure
+  payment: Payment
+}
+
+type Token @entity {
+  id: ID!
+  decimals: BigInt
+  symbol: String
+}
+
+type FundingPot @entity {
+  id: ID!
+  fundingPotPayouts: [FundingPotPayout!]!
+}
+
+type FundingPotPayout @entity {
+  id: ID!
+  token: Token
+  amount: BigInt
+  fundingPotChainId: BigInt
+}
+
+type Transaction @entity {
+  id: ID!
+  block: Block
+}
+
+type Block @entity {
+  id: ID!
+  timestamp: BigInt
 }

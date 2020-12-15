@@ -8,7 +8,7 @@ dataSources:
     name: ColonyNetwork
     network: mainnet
     source:
-      address: "0xde3EDaBA7c15F845F59D1058eCD70Ed33FfdB2b9"
+      address: "0x81957c068696FA33E4f20f1794A44738c2FC849c"
       abi: IColonyNetwork
     mapping:
       kind: ethereum/events
@@ -22,8 +22,44 @@ dataSources:
       eventHandlers:
         - event: ColonyAdded(indexed uint256,indexed address,address)
           handler: handleColonyAdded
+        - event: ExtensionInstalled(indexed bytes32,indexed address,uint256)
+          handler: handleExtensionInstalled
       file: ./src/mappings/colonyNetwork.ts
 templates:
+  - name: Token
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: Token
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/token.ts
+      entities:
+        - Token
+      abis:
+        - name: Token
+          file: ./../colonyNetwork/build/contracts/Token.json
+      eventHandlers: []
+  - name: OneTxPayment
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: OneTxPayment
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/oneTxPayment.ts
+      entities:
+        - OneTxPayment
+      abis:
+        - name: OneTxPayment
+          file: ./../colonyNetwork/build/contracts/OneTxPayment.json
+      eventHandlers:
+        - event: OneTxPaymentMade(address,uint256,uint256)
+          handler: handleOneTxPaymentMade
   - name: Colony
     kind: ethereum/contract
     network: mainnet
@@ -39,6 +75,12 @@ templates:
       abis:
         - name: IColony
           file: ./../colonyNetwork/build/contracts/IColony.json
+        - name: Token
+          file: ./../colonyNetwork/build/contracts/Token.json
       eventHandlers:
         - event: DomainAdded(uint256)
           handler: handleDomainAdded
+        - event: PaymentAdded(uint256)
+          handler: handlePaymentAdded
+        - event: PaymentPayoutSet(indexed uint256,address,uint256)
+          handler: handlePaymentPayoutSet
