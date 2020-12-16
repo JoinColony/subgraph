@@ -28,11 +28,11 @@ export function handleOneTxPaymentMade(event: OneTxPaymentMade): void {
   let transaction = Transaction.load(event.transaction.hash.toHexString())
   if (transaction == null){
     transaction = new Transaction(event.transaction.hash.toHexString())
-    transaction.block = event.block.number.toString()
+    transaction.block = "block_" + event.block.number.toString()
     transaction.save()
   }
 
-  let block = Block.load(event.block.number.toString())
+  let block = Block.load("block_" + event.block.number.toString())
   if (block == null){
     block = new Block(event.block.number.toString())
     block.timestamp = event.block.timestamp

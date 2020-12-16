@@ -26,11 +26,11 @@ export function handlePaymentPayoutSet(event: PaymentPayoutSet): void{
   let paymentInfo = c.getPayment(event.params.paymentId)
   let fundingPotChainId = paymentInfo.fundingPotId
 
-  let fundingPotPayoutId = event.address.toHexString() + "_fundingpot_" +  fundingPotChainId.toString() + "_" + event.params.token.toHexString()
-  let fundingPotPayout = FundingPotPayout.load(fundingPotPayoutId);
+  let fundingPotPayoutGid = event.address.toHexString() + "_fundingpot_" +  fundingPotChainId.toString() + "_" + event.params.token.toHexString()
+  let fundingPotPayout = FundingPotPayout.load(fundingPotPayoutGid);
 
   if (fundingPotPayout == null){
-    fundingPotPayout = new FundingPotPayout(fundingPotPayoutId)
+    fundingPotPayout = new FundingPotPayout(fundingPotPayoutGid)
   }
 
   fundingPotPayout.fundingPotChainId = fundingPotChainId
@@ -43,10 +43,10 @@ export function handlePaymentPayoutSet(event: PaymentPayoutSet): void{
   let fundingPot = FundingPot.load(fundingPotGid)
   if (fundingPot == null){
     fundingPot = new FundingPot(fundingPotGid)
-    fundingPot.fundingPotPayouts = [fundingPotPayoutId]
+    fundingPot.fundingPotPayouts = [fundingPotPayoutGid]
   } else {
-    if (fundingPot.fundingPotPayouts.indexOf(fundingPotPayoutId) == -1){
-      fundingPot.fundingPotPayouts.push(fundingPotPayoutId)
+    if (fundingPot.fundingPotPayouts.indexOf(fundingPotPayoutGid) == -1){
+      fundingPot.fundingPotPayouts.push(fundingPotPayoutGid)
     }
   }
   fundingPot.save()
