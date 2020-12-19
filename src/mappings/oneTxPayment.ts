@@ -34,7 +34,7 @@ export function handleOneTxPaymentMade(event: OneTxPaymentMade): void {
 
   let block = Block.load("block_" + event.block.number.toString())
   if (block == null){
-    block = new Block(event.block.number.toString())
+    block = new Block("block_" + event.block.number.toString())
     block.timestamp = event.block.timestamp
     block.save()
   }
