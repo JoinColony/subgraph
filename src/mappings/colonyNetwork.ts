@@ -13,9 +13,17 @@ import { Colony as ColonyTemplate, OneTxPayment as OneTxPaymentTemplate } from '
 export function handleColonyAdded(event: ColonyAdded): void {
   let rootDomain = new Domain(event.params.colonyAddress.toHex() + '_domain_1')
   rootDomain.domainChainId = new BigInt(1)
+  rootDomain.metadata = ""
+  rootDomain.metadataHistory = []
   rootDomain.save()
 
-  let colony = new Colony(event.params.colonyAddress.toHex())
+  let colony = Colony.load(event.params.colonyAddress.toHex())
+  if (colony == null){
+    colony = new Colony(event.params.colonyAddress.toHexString())
+    colony.metadata = ""
+    colony.metadataHistory = []
+  }
+
   colony.colonyChainId = event.params.colonyId
   colony.token = event.params.token.toHex()
   colony.domains = [rootDomain.id]

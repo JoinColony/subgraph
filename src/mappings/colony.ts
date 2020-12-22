@@ -1,12 +1,14 @@
 import { BigInt, log, Address } from '@graphprotocol/graph-ts'
 
-import { IColony, DomainAdded, PaymentAdded, PaymentPayoutSet } from '../../generated/templates/Colony/IColony'
+import { IColony, DomainAdded, PaymentAdded, PaymentPayoutSet, ColonyMetadata } from '../../generated/templates/Colony/IColony'
 
 import { Token as TokenContract } from '../../generated/templates/Token/Token'
 
 import { Token, Colony, Domain, Payment, FundingPotPayout, FundingPot } from '../../generated/schema'
 
 import { OneTxPayment } from '../../generated/schema'
+
+import { handleEvent } from './event'
 
 export function handleDomainAdded(event: DomainAdded): void {
   let domain = new Domain(event.address.toHex() + '_domain_' +  event.params.domainId.toString())
@@ -68,7 +70,9 @@ export function handlePaymentPayoutSet(event: PaymentPayoutSet): void{
     }
 
     token.save()
+
   }
+  handleEvent("PaymentPayoutSet(uint256,address,uint256)", event, event.address)
 }
 
 export function handlePaymentAdded(event: PaymentAdded): void {
@@ -86,6 +90,16 @@ export function handlePaymentAdded(event: PaymentAdded): void {
   payment.to = paymentInfo.recipient.toHexString()
   payment.fundingPot = event.address.toHexString() + "_fundingpot_" + paymentInfo.fundingPotId.toString()
   payment.save()
+  handleEvent("PaymentAdded(uint256)", event, event.address)
+}
 
-
+export function handleColonyMetadata(event: ColonyMetadata): void {
+  let colony = Colony.load(event.address.toHexString())
+  colony.metadata = event.params.metadata.toString()
+  // NB you have to do this reassignment dance with arrays
+  let metadataHistory = colony.metadataHistory
+  metadataHistory.push(event.params.metadata.toString())
+  colony.metadataHistory = metadataHistory
+  colony.save()
+  handleEvent("handleColonyMetadata(string)", event, event.address)
 }

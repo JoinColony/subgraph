@@ -7,6 +7,8 @@ import { OneTxPayment, Transaction, Block } from '../../generated/schema'
 
 import { OneTxPayment as OneTxPaymentContract } from '../../generated/templates/OneTxPayment/OneTxPayment'
 
+import { handleEvent } from './event'
+
 export function handleOneTxPaymentMade(event: OneTxPaymentMade): void {
   let extension = OneTxPaymentContract.bind(event.address);
   let colony = extension.getColony();
@@ -25,20 +27,7 @@ export function handleOneTxPaymentMade(event: OneTxPaymentMade): void {
 
   otxp.save()
 
-  let transaction = Transaction.load(event.transaction.hash.toHexString())
-  if (transaction == null){
-    transaction = new Transaction(event.transaction.hash.toHexString())
-    transaction.block = "block_" + event.block.number.toString()
-    transaction.save()
-  }
-
-  let block = Block.load("block_" + event.block.number.toString())
-  if (block == null){
-    block = new Block("block_" + event.block.number.toString())
-    block.timestamp = event.block.timestamp
-    block.save()
-  }
-
+  handleEvent("OneTxPaymentMade(address,uint256,uint256)", event, colony)
 
 }
 

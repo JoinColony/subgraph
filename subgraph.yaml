@@ -8,7 +8,7 @@ dataSources:
     name: ColonyNetwork
     network: mainnet
     source:
-      address: '0x0000000000000000000000000000000000000000'
+      address: '0x45B17FF6998D4d76A10a32621A71773E3722DA65'
       abi: IColonyNetwork
     mapping:
       kind: ethereum/events
@@ -84,3 +84,5 @@ templates:
           handler: handlePaymentAdded
         - event: 'PaymentPayoutSet(indexed uint256,address,uint256)'
           handler: handlePaymentPayoutSet
+        - event: ColonyMetadata(string)
+          handler: handleColonyMetadata

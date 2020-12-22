@@ -5,6 +5,8 @@ type Colony @entity {
   colonyChainId: BigInt!
   token: String # Address
   domains: [Domain!]!
+  metadata: String
+  metadataHistory: [String!]!
 }
 
 type Domain @entity {
@@ -13,6 +15,8 @@ type Domain @entity {
   parent: Domain
   name: String
   colonyAddress: String
+  metadata: String
+  metadataHistory: [String!]!
 }
 
 type Payment @entity {
@@ -64,4 +68,14 @@ type Transaction @entity {
 type Block @entity {
   id: ID!
   timestamp: BigInt
+}
+
+type Event @entity {
+  id: ID!
+  transaction: Transaction
+  address: String
+  associatedColony: Colony
+  name: String
+  args: [String!]!
+  argNames: [String!]!
 }
