@@ -42,6 +42,14 @@ type OneTxPayment @entity {
   payment: Payment
 }
 
+type TokensMinted @entity {
+  id: ID!
+  amount: BigInt
+  colony: Colony
+  recipient: String
+  agent: String
+}
+
 type Token @entity {
   id: ID!
   decimals: BigInt
