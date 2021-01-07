@@ -9,6 +9,7 @@ dataSources:
     network: mainnet
     source:
       abi: IColonyNetwork
+      address: '0x0000000000000000000000000000000000000000'
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -79,11 +80,11 @@ templates:
       eventHandlers:
         - event: DomainAdded(uint256)
           handler: handleDomainAdded
-        - event: PaymentAdded(uint256)
+        - event: 'PaymentAdded(string,uint256)'
           handler: handlePaymentAdded
-        - event: 'PaymentPayoutSet(indexed uint256,address,uint256)'
+        - event: 'PaymentPayoutSet(string,indexed uint256,address,uint256)'
           handler: handlePaymentPayoutSet
-        - event: ColonyMetadata(string)
+        - event: 'ColonyMetadata(string,string)'
           handler: handleColonyMetadata
         - event: 'TokensMinted(address,address,uint256)'
           handler: handleTokensMinted

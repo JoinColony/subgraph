@@ -72,7 +72,7 @@ export function handlePaymentPayoutSet(event: PaymentPayoutSet): void{
     token.save()
 
   }
-  handleEvent("PaymentPayoutSet(uint256,address,uint256)", event, event.address)
+  handleEvent("PaymentPayoutSet(string,uint256,address,uint256)", event, event.address)
 }
 
 export function handlePaymentAdded(event: PaymentAdded): void {
@@ -90,7 +90,7 @@ export function handlePaymentAdded(event: PaymentAdded): void {
   payment.to = paymentInfo.recipient.toHexString()
   payment.fundingPot = event.address.toHexString() + "_fundingpot_" + paymentInfo.fundingPotId.toString()
   payment.save()
-  handleEvent("PaymentAdded(uint256)", event, event.address)
+  handleEvent("PaymentAdded(string,uint256)", event, event.address)
 }
 
 export function handleColonyMetadata(event: ColonyMetadata): void {
@@ -101,7 +101,7 @@ export function handleColonyMetadata(event: ColonyMetadata): void {
   metadataHistory.push(event.params.metadata.toString())
   colony.metadataHistory = metadataHistory
   colony.save()
-  handleEvent("handleColonyMetadata(string)", event, event.address)
+  handleEvent("ColonyMetadata(string,string)", event, event.address)
 }
 
 export function handleTokensMinted(event: TokensMinted): void {
@@ -113,6 +113,6 @@ export function handleTokensMinted(event: TokensMinted): void {
   tokensMinted.recipient = event.params.who
   tokensMinted.agent = event.params.agent
   tokensMinted.save()
-  
+
   handleEvent("TokensMinted(address,address,uint256)", event, event.address)
 }
