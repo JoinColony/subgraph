@@ -76,6 +76,5 @@ type Event @entity {
   address: String
   associatedColony: Colony
   name: String
-  args: [String!]!
-  argNames: [String!]!
+  args: String
 }

@@ -17,6 +17,7 @@
     "js-yaml": "^3.14.1"
   },
   "dependencies": {
+    "assemblyscript-json": "^0.3.3",
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
     "truffle": "^5.0.4",
