@@ -1,4 +1,5 @@
-import { BigInt, crypto, ByteArray, Bytes } from '@graphprotocol/graph-ts'
+import { BigInt, crypto, ByteArray, Bytes, Address } from '@graphprotocol/graph-ts'
+
 import { log } from '@graphprotocol/graph-ts'
 
 import {
@@ -7,7 +8,8 @@ import {
   ExtensionInstalled
 } from '../../generated/ColonyNetwork/IColonyNetwork'
 
-import { Colony, Domain } from '../../generated/schema'
+import { Colony, Domain, Token } from '../../generated/schema'
+import { Token as TokenContract } from '../../generated/templates/Token/Token'
 import { Colony as ColonyTemplate, OneTxPayment as OneTxPaymentTemplate } from '../../generated/templates'
 
 export function handleColonyAdded(event: ColonyAdded): void {
@@ -24,8 +26,28 @@ export function handleColonyAdded(event: ColonyAdded): void {
     colony.metadataHistory = []
   }
 
+  let tokenAddress = event.params.token.toHexString()
+  let token = Token.load(tokenAddress)
+  if (token == null){
+    token = new Token(tokenAddress);
+    let t = TokenContract.bind(Address.fromString(tokenAddress))
+
+    let decimals = t.try_decimals()
+    if (decimals.reverted){
+      token.decimals = BigInt.fromI32(18)
+    } else {
+      token.decimals = BigInt.fromI32(decimals.value)
+    }
+    let symbol = t.try_symbol()
+    if (!symbol.reverted){
+      token.symbol = symbol.value
+    }
+
+    token.save()
+  }
+
   colony.colonyChainId = event.params.colonyId
-  colony.token = event.params.token.toHex()
+  colony.token = tokenAddress
   colony.domains = [rootDomain.id]
   colony.save()
 

@@ -3,7 +3,7 @@ type Colony @entity {
   ensName: String
   orbitAddress: String
   colonyChainId: BigInt!
-  token: String # Address
+  token: Token # Address
   domains: [Domain!]!
   metadata: String
   metadataHistory: [String!]!
@@ -40,14 +40,6 @@ type OneTxPayment @entity {
   transaction: Transaction
   expenditure: Expenditure
   payment: Payment
-}
-
-type TokensMinted @entity {
-  id: ID!
-  amount: BigInt
-  colony: Colony
-  recipient: String
-  agent: String
 }
 
 type Token @entity {

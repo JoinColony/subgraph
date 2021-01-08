@@ -6,7 +6,7 @@ import { Token as TokenContract } from '../../generated/templates/Token/Token'
 
 import { Token, Colony, Domain, Payment, FundingPotPayout, FundingPot } from '../../generated/schema'
 
-import { OneTxPayment, TokensMinted } from '../../generated/schema'
+import { OneTxPayment } from '../../generated/schema'
 
 import { handleEvent } from './event'
 
@@ -105,14 +105,5 @@ export function handleColonyMetadata(event: ColonyMetadata): void {
 }
 
 export function handleTokensMinted(event: TokensMinted): void {
-  const colony = Colony.load(event.address.toHexString())
-  let tokensMintedGid =  colony.id + "_tokensminted_" + event.transaction.hash.toHexString() + "_" + event.log_index
-  let tokensMinted = new TokensMinted(tokensMintedGid)
-  tokensMinted.amount = event.params.amount
-  tokensMinted.colony = colony.id
-  tokensMinted.recipient = event.params.who
-  tokensMinted.agent = event.params.agent
-  tokensMinted.save()
-
   handleEvent("TokensMinted(address,address,uint256)", event, event.address)
 }
