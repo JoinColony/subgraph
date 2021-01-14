@@ -3,7 +3,7 @@ type Colony @entity {
   ensName: String
   orbitAddress: String
   colonyChainId: BigInt!
-  token: String # Address
+  token: Token
   domains: [Domain!]!
   metadata: String
   metadataHistory: [String!]!
@@ -76,6 +76,5 @@ type Event @entity {
   address: String
   associatedColony: Colony
   name: String
-  args: [String!]!
-  argNames: [String!]!
+  args: String
 }

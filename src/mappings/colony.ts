@@ -1,14 +1,13 @@
-import { BigInt, log, Address } from '@graphprotocol/graph-ts'
+import { log, Address } from '@graphprotocol/graph-ts'
 
-import { IColony, DomainAdded, PaymentAdded, PaymentPayoutSet, ColonyMetadata } from '../../generated/templates/Colony/IColony'
+import { IColony, DomainAdded, PaymentAdded, PaymentPayoutSet, ColonyMetadata, TokensMinted } from '../../generated/templates/Colony/IColony'
 
-import { Token as TokenContract } from '../../generated/templates/Token/Token'
-
-import { Token, Colony, Domain, Payment, FundingPotPayout, FundingPot } from '../../generated/schema'
+import { Colony, Domain, Payment, FundingPotPayout, FundingPot } from '../../generated/schema'
 
 import { OneTxPayment } from '../../generated/schema'
 
 import { handleEvent } from './event'
+import { createToken } from './token'
 
 export function handleDomainAdded(event: DomainAdded): void {
   let domain = new Domain(event.address.toHex() + '_domain_' +  event.params.domainId.toString())
@@ -53,26 +52,9 @@ export function handlePaymentPayoutSet(event: PaymentPayoutSet): void{
   }
   fundingPot.save()
 
-  let token = Token.load(fundingPotPayout.token)
-  if (token == null){
-    token = new Token(fundingPotPayout.token);
-    let t = TokenContract.bind(Address.fromString(fundingPotPayout.token))
+  createToken(fundingPotPayout.token)
 
-    let decimals = t.try_decimals()
-    if (decimals.reverted){
-      token.decimals = BigInt.fromI32(18)
-    } else {
-      token.decimals = BigInt.fromI32(decimals.value)
-    }
-    let symbol = t.try_symbol()
-    if (!symbol.reverted){
-      token.symbol = symbol.value
-    }
-
-    token.save()
-
-  }
-  handleEvent("PaymentPayoutSet(uint256,address,uint256)", event, event.address)
+  handleEvent("PaymentPayoutSet(address,uint256,address,uint256)", event, event.address)
 }
 
 export function handlePaymentAdded(event: PaymentAdded): void {
@@ -90,7 +72,7 @@ export function handlePaymentAdded(event: PaymentAdded): void {
   payment.to = paymentInfo.recipient.toHexString()
   payment.fundingPot = event.address.toHexString() + "_fundingpot_" + paymentInfo.fundingPotId.toString()
   payment.save()
-  handleEvent("PaymentAdded(uint256)", event, event.address)
+  handleEvent("PaymentAdded(address,uint256)", event, event.address)
 }
 
 export function handleColonyMetadata(event: ColonyMetadata): void {
@@ -101,5 +83,9 @@ export function handleColonyMetadata(event: ColonyMetadata): void {
   metadataHistory.push(event.params.metadata.toString())
   colony.metadataHistory = metadataHistory
   colony.save()
-  handleEvent("handleColonyMetadata(string)", event, event.address)
+  handleEvent("ColonyMetadata(address,string)", event, event.address)
+}
+
+export function handleTokensMinted(event: TokensMinted): void {
+  handleEvent("TokensMinted(address,address,uint256)", event, event.address)
 }

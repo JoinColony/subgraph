@@ -1,4 +1,5 @@
-import { BigInt, crypto, ByteArray, Bytes } from '@graphprotocol/graph-ts'
+import { BigInt, crypto, ByteArray, Bytes, Address } from '@graphprotocol/graph-ts'
+
 import { log } from '@graphprotocol/graph-ts'
 
 import {
@@ -9,6 +10,7 @@ import {
 
 import { Colony, Domain } from '../../generated/schema'
 import { Colony as ColonyTemplate, OneTxPayment as OneTxPaymentTemplate } from '../../generated/templates'
+import { createToken } from './token'
 
 export function handleColonyAdded(event: ColonyAdded): void {
   let rootDomain = new Domain(event.params.colonyAddress.toHex() + '_domain_1')
@@ -24,8 +26,11 @@ export function handleColonyAdded(event: ColonyAdded): void {
     colony.metadataHistory = []
   }
 
+  let tokenAddress = event.params.token.toHexString()
+  createToken(tokenAddress)
+
   colony.colonyChainId = event.params.colonyId
-  colony.token = event.params.token.toHex()
+  colony.token = tokenAddress
   colony.domains = [rootDomain.id]
   colony.save()
 
