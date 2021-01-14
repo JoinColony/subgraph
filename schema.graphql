@@ -3,7 +3,7 @@ type Colony @entity {
   ensName: String
   orbitAddress: String
   colonyChainId: BigInt!
-  token: Token # Address
+  token: Token
   domains: [Domain!]!
   metadata: String
   metadataHistory: [String!]!
