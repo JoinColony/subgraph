@@ -16,7 +16,6 @@ export function handleColonyAdded(event: ColonyAdded): void {
   let rootDomain = new Domain(event.params.colonyAddress.toHex() + '_domain_1')
   rootDomain.domainChainId = new BigInt(1)
   rootDomain.metadata = ""
-  rootDomain.metadataHistory = []
   rootDomain.save()
 
   let colony = Colony.load(event.params.colonyAddress.toHex())

@@ -1,10 +1,23 @@
 import { log, Address } from '@graphprotocol/graph-ts'
 
-import { IColony, DomainAdded, PaymentAdded, PaymentPayoutSet, ColonyMetadata, TokensMinted } from '../../generated/templates/Colony/IColony'
+import {
+  IColony,
+  DomainAdded,
+  DomainMetadata,
+  PaymentAdded,
+  PaymentPayoutSet,
+  ColonyMetadata,
+  TokensMinted,
+} from '../../generated/templates/Colony/IColony'
 
-import { Colony, Domain, Payment, FundingPotPayout, FundingPot } from '../../generated/schema'
-
-import { OneTxPayment } from '../../generated/schema'
+import {
+  Colony,
+  Domain,
+  DomainMetadata as DomainMetadataInstance,
+  Payment,
+  FundingPotPayout,
+  FundingPot,
+} from '../../generated/schema'
 
 import { handleEvent } from './event'
 import { createToken } from './token'
@@ -20,6 +33,27 @@ export function handleDomainAdded(event: DomainAdded): void {
   domain.name = "Domain #" + event.params.domainId.toString()
   domain.colonyAddress = event.address.toHex()
   domain.save()
+}
+
+export function handleDomainMetadata(event: DomainMetadata): void {
+  let metadata = event.params.metadata.toString()
+  let domain = new Domain(event.address.toHex() + '_domain_' + event.params.domainId.toString())
+  domain.metadata = metadata
+
+  let metadataHistory = new DomainMetadataInstance(
+    event.address.toHex() +
+    '_domain_' + event.params.domainId.toString() +
+    '_transaction_' + event.transaction.hash.toHexString() +
+    '_log_' + event.logIndex.toString(),
+  )
+  metadataHistory.transaction = event.transaction.hash.toHexString()
+  metadataHistory.domain = domain.id
+  metadataHistory.metadata = metadata
+
+  metadataHistory.save()
+  domain.save()
+
+  handleEvent("DomainMetadata(address,uint256,string)", event, event.address)
 }
 
 export function handlePaymentPayoutSet(event: PaymentPayoutSet): void{
