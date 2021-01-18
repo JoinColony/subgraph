@@ -31,6 +31,9 @@ export function handleDomainAdded(event: DomainAdded): void {
   // isn't really a good sign...
   domain.parent = event.address.toHex() + '_domain_1'
   domain.name = "Domain #" + event.params.domainId.toString()
+  if (event.params.domainId.toString() == '1') {
+    domain.name = "Root"
+  }
   domain.colonyAddress = event.address.toHex()
   domain.save()
 }
