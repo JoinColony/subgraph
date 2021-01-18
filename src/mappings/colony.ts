@@ -29,7 +29,7 @@ export function handleDomainAdded(event: DomainAdded): void {
   // event.transaction.input.toHexString()
   // And extract the parent that way. But it causes a memory-access out-of-bounds error which
   // isn't really a good sign...
-  domain.parent = event.address.toHex() + '_1'
+  domain.parent = event.address.toHex() + '_domain_1'
   domain.name = "Domain #" + event.params.domainId.toString()
   domain.colonyAddress = event.address.toHex()
   domain.save()
