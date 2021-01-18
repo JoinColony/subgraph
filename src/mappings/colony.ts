@@ -37,6 +37,8 @@ export function handleDomainAdded(event: DomainAdded): void {
   }
   domain.colonyAddress = event.address.toHex()
   domain.save()
+
+  handleEvent('DomainAdded(address,uint256)', event, event.address);
 }
 
 export function handleDomainMetadata(event: DomainMetadata): void {
