@@ -8,7 +8,7 @@ import {
   ExtensionInstalled
 } from '../../generated/ColonyNetwork/IColonyNetwork'
 
-import { Colony, Domain } from '../../generated/schema'
+import { Colony, Domain, ColonyMetadata } from '../../generated/schema'
 import { Colony as ColonyTemplate, OneTxPayment as OneTxPaymentTemplate } from '../../generated/templates'
 import { createToken } from './token'
 
@@ -19,10 +19,9 @@ export function handleColonyAdded(event: ColonyAdded): void {
   rootDomain.save()
 
   let colony = Colony.load(event.params.colonyAddress.toHex())
-  if (colony == null){
+  if (colony == null) {
     colony = new Colony(event.params.colonyAddress.toHexString())
     colony.metadata = ""
-    colony.metadataHistory = []
   }
 
   let tokenAddress = event.params.token.toHexString()
@@ -39,7 +38,7 @@ export function handleColonyAdded(event: ColonyAdded): void {
 export function handleExtensionInstalled(event: ExtensionInstalled): void {
   let ONE_TX_PAYMENT = crypto.keccak256(ByteArray.fromUTF8("OneTxPayment")).toHexString()
   log.info("ExtensionInstalled event seen, {}, {}", [event.params.extensionId.toHexString(), ONE_TX_PAYMENT]);
-  if (event.params.extensionId.toHexString() == ONE_TX_PAYMENT){
+  if (event.params.extensionId.toHexString() == ONE_TX_PAYMENT) {
     let cn = IColonyNetwork.bind(event.address);
     let extensionAddress = cn.getExtensionInstallation(<Bytes>ByteArray.fromHexString(ONE_TX_PAYMENT), event.params.colony)
     log.info("Adding extension at address {}", [extensionAddress.toHexString()]);

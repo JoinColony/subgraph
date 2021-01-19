@@ -6,7 +6,14 @@ type Colony @entity {
   token: Token
   domains: [Domain!]!
   metadata: String
-  metadataHistory: [String!]!
+  metadataHistory: [ColonyMetadata!]! @derivedFrom(field: "colony")
+}
+
+type ColonyMetadata @entity {
+  id: ID! # colonyAddress_transactionHash_logId
+  colony: Colony!
+  transaction: Transaction!
+  metadata: String
 }
 
 type Domain @entity {

@@ -12,6 +12,7 @@ import {
 
 import {
   Colony,
+  ColonyMetadata as ColonyMetadataInstance,
   Domain,
   DomainMetadata as DomainMetadataInstance,
   Payment,
@@ -23,7 +24,7 @@ import { handleEvent } from './event'
 import { createToken } from './token'
 
 export function handleDomainAdded(event: DomainAdded): void {
-  let domain = new Domain(event.address.toHex() + '_domain_' +  event.params.domainId.toString())
+  let domain = new Domain(event.address.toHex() + '_domain_' + event.params.domainId.toString())
   domain.domainChainId = event.params.domainId
   // The real way to get the parent would be to look at this
   // event.transaction.input.toHexString()
@@ -68,10 +69,10 @@ export function handlePaymentPayoutSet(event: PaymentPayoutSet): void{
   let paymentInfo = c.getPayment(event.params.paymentId)
   let fundingPotChainId = paymentInfo.fundingPotId
 
-  let fundingPotPayoutGid = event.address.toHexString() + "_fundingpot_" +  fundingPotChainId.toString() + "_" + event.params.token.toHexString()
+  let fundingPotPayoutGid = event.address.toHexString() + "_fundingpot_" + fundingPotChainId.toString() + "_" + event.params.token.toHexString()
   let fundingPotPayout = FundingPotPayout.load(fundingPotPayoutGid);
 
-  if (fundingPotPayout == null){
+  if (fundingPotPayout == null) {
     fundingPotPayout = new FundingPotPayout(fundingPotPayoutGid)
   }
 
@@ -83,11 +84,11 @@ export function handlePaymentPayoutSet(event: PaymentPayoutSet): void{
 
   let fundingPotGid = event.address.toHexString() + "_fundingpot_" + fundingPotChainId.toString()
   let fundingPot = FundingPot.load(fundingPotGid)
-  if (fundingPot == null){
+  if (fundingPot == null) {
     fundingPot = new FundingPot(fundingPotGid)
     fundingPot.fundingPotPayouts = [fundingPotPayoutGid]
   } else {
-    if (fundingPot.fundingPotPayouts.indexOf(fundingPotPayoutGid) == -1){
+    if (fundingPot.fundingPotPayouts.indexOf(fundingPotPayoutGid) == -1) {
       fundingPot.fundingPotPayouts.push(fundingPotPayoutGid)
     }
   }
@@ -102,7 +103,7 @@ export function handlePaymentAdded(event: PaymentAdded): void {
   log.info("PaymentAdded event seen", [])
   let paymentGid = event.address.toHexString() + "_payment_" + event.params.paymentId.toString()
   let payment = Payment.load(paymentGid)
-  if (payment == null){
+  if (payment == null) {
     payment = new Payment(paymentGid)
   }
   let c = IColony.bind(event.address);
@@ -118,12 +119,23 @@ export function handlePaymentAdded(event: PaymentAdded): void {
 
 export function handleColonyMetadata(event: ColonyMetadata): void {
   let colony = Colony.load(event.address.toHexString())
-  colony.metadata = event.params.metadata.toString()
-  // NB you have to do this reassignment dance with arrays
-  let metadataHistory = colony.metadataHistory
-  metadataHistory.push(event.params.metadata.toString())
-  colony.metadataHistory = metadataHistory
+  let metadata = event.params.metadata.toString()
+
+  colony.metadata = metadata
+
+  let metadataHistory = new ColonyMetadataInstance(
+    event.address.toHex() +
+    '_transaction_' + event.transaction.hash.toHexString() +
+    '_log_' + event.logIndex.toString(),
+  )
+
+  metadataHistory.transaction = event.transaction.hash.toHexString()
+  metadataHistory.colony = colony.id
+  metadataHistory.metadata = metadata
+
+  metadataHistory.save()
   colony.save()
+
   handleEvent("ColonyMetadata(address,string)", event, event.address)
 }
 
