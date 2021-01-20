@@ -5,12 +5,16 @@ import { log } from '@graphprotocol/graph-ts'
 import {
   IColonyNetwork,
   ColonyAdded,
-  ExtensionInstalled
+  ExtensionInstalled,
+  ColonyLabelRegistered
 } from '../../generated/ColonyNetwork/IColonyNetwork'
 
-import { Colony, Domain, ColonyMetadata } from '../../generated/schema'
+import { handleEvent } from './event'
+
+import { Colony, Domain } from '../../generated/schema'
 import { Colony as ColonyTemplate, OneTxPayment as OneTxPaymentTemplate } from '../../generated/templates'
 import { createToken } from './token'
+import { IColonyNetwork as ColonyNetworkContract } from '../../generated/ColonyNetwork/IColonyNetwork'
 
 export function handleColonyAdded(event: ColonyAdded): void {
   let rootDomain = new Domain(event.params.colonyAddress.toHex() + '_domain_1')
@@ -21,6 +25,8 @@ export function handleColonyAdded(event: ColonyAdded): void {
   let colony = Colony.load(event.params.colonyAddress.toHex())
   if (colony == null) {
     colony = new Colony(event.params.colonyAddress.toHexString())
+    let colonyNetwork = ColonyNetworkContract.bind(Address.fromString(event.address.toHexString()))
+    colony.ensName = colonyNetwork.lookupRegisteredENSDomain(Address.fromString(event.params.colonyAddress.toHexString()))
     colony.metadata = ""
   }
 
@@ -33,6 +39,10 @@ export function handleColonyAdded(event: ColonyAdded): void {
   colony.save()
 
   ColonyTemplate.create(event.params.colonyAddress)
+}
+
+export function handleColonyLabelRegistered(event: ColonyLabelRegistered): void {
+  handleEvent("ColonyLabelRegistered(address,bytes32)", event, event.address)
 }
 
 export function handleExtensionInstalled(event: ExtensionInstalled): void {
