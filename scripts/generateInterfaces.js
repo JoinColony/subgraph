@@ -5,13 +5,13 @@ const exec = util.promisify(require("child_process").exec);
 const yaml = require('js-yaml');
 
 async function main() {
-	const commit = process.env.CONTRACT_COMMIT || "develop"
+	const commit = process.env.CONTRACTCOMMIT || "develop"
 	try {
 		await exec(`rm -rf ./interfaces`)
 		options = {cwd: "./colonyNetwork"}
 		await exec(`git clone https://github.com/joinColony/colonyNetwork.git colonyNetwork`)
 		await exec(`git checkout ${commit} && git submodule update --init --recursive`, options)
-		await exec(`yarn install`, options)
+		await exec(`yarn install --ignore-engines`, options)
 		await exec(`yarn run provision:token:contracts`, options)
 
 		await exec(`yarn run truffle compile`, options)
