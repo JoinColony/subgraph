@@ -11,7 +11,7 @@
     "build-goerli": "sed -i'' -e 's/network: mainnet/network: goerli/g' ./subgraph.yaml && NETWORK_ADDRESS='0x79073fc2117dD054FCEdaCad1E7018C9CbE3ec0B' node ./scripts/generateInterfaces && graph codegen && graph build",
     "deploy": "graph deploy joinColony/subgraph --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "deploy-local": "graph deploy joinColony/subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
-    "deploy-goerli": "graph deploy joinColony/colony-goerli --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy-goerli": "graph deploy --access-token ${GRAPH_TOKEN} joinColony/colony-goerli --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "graph-auth": "graph auth https://api.thegraph.com/deploy ${GRAPH_TOKEN}"
   },
   "devDependencies": {
