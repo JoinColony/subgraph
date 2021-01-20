@@ -8,6 +8,8 @@ jobs:
     name: Build and push subgraph
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Install needed dependencies
         run: npm i
       - name: Auth with the graph
