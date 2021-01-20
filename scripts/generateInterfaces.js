@@ -6,6 +6,7 @@ const yaml = require('js-yaml');
 
 async function main() {
 	const commit = process.env.CONTRACT_COMMIT || "develop"
+	console.log(`Using commit ${commit} for the contracts`);
 	try {
 		await exec(`rm -rf ./interfaces`)
 		options = {cwd: "./colonyNetwork"}
