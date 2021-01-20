@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 description: A subgraph for the colonyNetwork
-repository: 'https://github.com/sprusr/colonySubgraph'
+repository: 'https://github.com/JoinColony/subgraph'
 schema:
   file: ./schema.graphql
 dataSources:
