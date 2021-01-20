@@ -15,8 +15,8 @@ jobs:
       - name: Auth with the graph
         env:
           GRAPH_TOKEN: ${{ secrets.GRAPH_TOKEN }}
-        run: node run graph-auth
+        run: npm run graph-auth
       - name: Build the graph
-        run: node run build-goerli
+        run: npm run build-goerli
       - name: Deploy the graph
-        run: node run deploy-goerli
+        run: npm run deploy-goerli
