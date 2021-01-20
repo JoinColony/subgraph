@@ -5,7 +5,7 @@ const exec = util.promisify(require("child_process").exec);
 const yaml = require('js-yaml');
 
 async function main() {
-	const commit = process.env.CONTRACTCOMMIT || "develop"
+	const commit = process.env.CONTRACT_COMMIT || "develop"
 	try {
 		await exec(`rm -rf ./interfaces`)
 		options = {cwd: "./colonyNetwork"}
