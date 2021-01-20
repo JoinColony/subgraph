@@ -1,0 +1,20 @@
+name: Triggered Tasks
+
+on:
+  repository_dispatch:
+
+jobs:
+  deploy-goerli:
+    name: Build and push subgraph
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install needed dependencies
+        run: npm i
+      - name: Auth with the graph
+        env:
+          GRAPH_TOKEN: ${{ secrets.GRAPH_TOKEN }}
+        run: node run graph-auth
+      - name: Build the graph
+        run: node run build-goerli
+      - name: Deploy the graph
+        run: node run deploy-goerli
