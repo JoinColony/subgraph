@@ -23,7 +23,7 @@ jobs:
         uses: mvasigh/dispatch-action@main
         with:
           token: ${{ secrets.CHEWIE_GITHUB_TOKEN }}
-          event_type: deploy_goerli
+          event_type: deploy-goerli
           message: |
             {
               "SUBGRAPH_COMMIT": "$SUBGRAPH_COMMIT",
