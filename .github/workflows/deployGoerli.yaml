@@ -1,0 +1,26 @@
+name: Deploy Goerli
+
+on:
+  repository_dispatch:
+    types: [deploy-goerli]
+
+jobs:
+  trigger-deploy-goerli:
+  deploy-goerli:
+    name: Build and push subgraph
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.client_payload.message.SUBGRAPH_COMMIT }}
+      - name: Install needed dependencies
+        run: npm i
+      - name: Build the graph
+        run: npm run build-goerli
+        env:
+          CONTRACT_COMMIT: ${{ github.event.client_payload.message.CONTRACT_COMMIT}}
+      - name: Deploy the graph
+        run: npm run deploy-goerli
+        env:
+          GRAPH_TOKEN: ${{ secrets.GRAPH_TOKEN }}
