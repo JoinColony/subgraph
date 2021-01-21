@@ -2,6 +2,7 @@ name: Triggered Tasks
 
 on:
   repository_dispatch:
+    types: [trigger-deploy-goerli]
 
 jobs:
   trigger-deploy-goerli:
@@ -12,6 +13,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.client_payload.FRONTEND_COMMIT}}
+          repository: https://github.com/JoinColony/colonyDapp.git
       - name: Get commit for network
         run: |
           echo "NETWORK_COMMIT=${git ls-tree HEAD:src/lib/ | grep colonyNetwork | awk '{ print $3 }'} >> $GITHUB_ENV"
@@ -22,12 +24,17 @@ jobs:
         uses: mvasigh/dispatch-action@main
         with:
           token: ${{ secrets.CHEWIE_GITHUB_TOKEN }}
-          event_type: repository_dispatch
+          event_type: deploy-goerli
           message: |
             {
               SUBGRAPH_COMMIT: $SUBGRAPH_COMMIT,
               NETWORK_COMMIT: $NETWORK_COMMIT
             }
+on:
+  repository_dispatch:
+    types: [deploy-goerli]
+
+jobs:
   deploy-goerli:
     name: Build and push subgraph
     runs-on: ubuntu-latest
