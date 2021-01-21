@@ -132,5 +132,5 @@ export function handleTokensMinted(event: TokensMinted): void {
 }
 
 export function handleFundsMovedBetweenFundingPots(event: ColonyFundsMovedBetweenFundingPots): void {
-  handleEvent("FundsMovedBetweenFundingPots(address,uint256,uint256,uint256,address)", event, event.address)
+  handleEvent("ColonyFundsMovedBetweenFundingPots(address,indexed uint256,indexed uint256,uint256,address)", event, event.address)
 }
