@@ -23,9 +23,9 @@ jobs:
         uses: mvasigh/dispatch-action@main
         with:
           token: ${{ secrets.CHEWIE_GITHUB_TOKEN }}
-          event_type: repository_dispatch
+          event_type: deploy_goerli
           message: |
             {
-              "SUBGRAPH_COMMIT": "$SUBGRAPH_COMMIT",
-              "NETWORK_COMMIT": "$NETWORK_COMMIT"
+              "SUBGRAPH_COMMIT": $SUBGRAPH_COMMIT,
+              "NETWORK_COMMIT": $NETWORK_COMMIT
             }
