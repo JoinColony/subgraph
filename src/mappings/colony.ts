@@ -17,6 +17,7 @@ import {
   Payment,
   FundingPotPayout,
   FundingPot,
+  ColonyFundsMovedBetweenFundingPots,
 } from '../../generated/schema'
 
 import { handleEvent } from './event'
@@ -128,4 +129,8 @@ export function handleColonyMetadata(event: ColonyMetadata): void {
 
 export function handleTokensMinted(event: TokensMinted): void {
   handleEvent("TokensMinted(address,address,uint256)", event, event.address)
+}
+
+export function handleFundsMovedBetweenFundingPots(event: ColonyFundsMovedBetweenFundingPots): void {
+  handleEvent("FundsMovedBetweenFundingPots(address,uint256,uint256,uint256,address)", event, event.address)
 }

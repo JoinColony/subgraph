@@ -92,3 +92,5 @@ templates:
           handler: handleColonyMetadata
         - event: 'TokensMinted(address,address,uint256)'
           handler: handleTokensMinted
+        - event: 'FundsMovedBetweenFundingPots(address,address,uint256)'
+          handler: handleFundsMovedBetweenFundingPots
