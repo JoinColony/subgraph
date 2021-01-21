@@ -26,6 +26,6 @@ jobs:
           event_type: deploy-goerli
           message: |
             {
-              "SUBGRAPH_COMMIT": "${{$SUBGRAPH_COMMIT}}",
-              "NETWORK_COMMIT": "${{$NETWORK_COMMIT}}"
+              "SUBGRAPH_COMMIT": "${{env.SUBGRAPH_COMMIT}}",
+              "NETWORK_COMMIT": "${{env.NETWORK_COMMIT}}"
             }
