@@ -15,10 +15,10 @@ jobs:
           repository: JoinColony/colonyDapp
       - name: Get commit for network
         run: |
-          echo "NETWORK_COMMIT=${git ls-tree HEAD:src/lib/ | grep colonyNetwork | awk '{ print $3 }'} >> $GITHUB_ENV"
+          echo "NETWORK_COMMIT=`git ls-tree HEAD:src/lib/ | grep colonyNetwork | awk '{ print $3 }'` >> $GITHUB_ENV"
       - name: Get commit for subgraph
         run: |
-          echo "SUBGRAPH_COMMIT=${git ls-tree HEAD:src/lib/ | grep subgraph | awk '{ print $3 }'} >> $GITHUB_ENV"
+          echo "SUBGRAPH_COMMIT=`git ls-tree HEAD:src/lib/ | grep subgraph | awk '{ print $3 }'` >> $GITHUB_ENV"
       - name: Run build
         uses: mvasigh/dispatch-action@main
         with:
