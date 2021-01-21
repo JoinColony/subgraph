@@ -5,7 +5,6 @@ on:
     types: [deploy-goerli]
 
 jobs:
-  trigger-deploy-goerli:
   deploy-goerli:
     name: Build and push subgraph
     runs-on: ubuntu-latest
