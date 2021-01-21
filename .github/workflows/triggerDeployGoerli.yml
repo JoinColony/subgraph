@@ -26,6 +26,6 @@ jobs:
           event_type: repository_dispatch
           message: |
             {
-              SUBGRAPH_COMMIT: $SUBGRAPH_COMMIT,
-              NETWORK_COMMIT: $NETWORK_COMMIT
+              "SUBGRAPH_COMMIT": "$SUBGRAPH_COMMIT",
+              "NETWORK_COMMIT": "$NETWORK_COMMIT"
             }
