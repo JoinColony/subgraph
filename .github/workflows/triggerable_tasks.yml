@@ -4,6 +4,30 @@ on:
   repository_dispatch:
 
 jobs:
+  trigger-deploy-goerli:
+    name: Get commits needed for subgraph deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout frontend repository
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.client_payload.FRONTEND_COMMIT}}
+      - name: Get commit for network
+        run: |
+          echo "NETWORK_COMMIT=${git ls-tree HEAD:src/lib/ | grep colonyNetwork | awk '{ print $3 }'} >> $GITHUB_ENV"
+      - name: Get commit for subgraph
+        run: |
+          echo "SUBGRAPH_COMMIT=${git ls-tree HEAD:src/lib/ | grep subgraph | awk '{ print $3 }'} >> $GITHUB_ENV"
+      - name: Run build
+        uses: mvasigh/dispatch-action@main
+        with:
+          token: ${{ secrets.CHEWIE_GITHUB_TOKEN }}
+          event_type: repository_dispatch
+          message: |
+            {
+              SUBGRAPH_COMMIT: $SUBGRAPH_COMMIT,
+              NETWORK_COMMIT: $NETWORK_COMMIT
+            }
   deploy-goerli:
     name: Build and push subgraph
     runs-on: ubuntu-latest
@@ -11,13 +35,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.client_payload.SUBGRAPH_COMMIT }}
+          ref: ${{ github.event.client_payload.message.SUBGRAPH_COMMIT }}
       - name: Install needed dependencies
         run: npm i
       - name: Build the graph
         run: npm run build-goerli
         env:
-          CONTRACT_COMMIT: ${{ github.event.client_payload.CONTRACT_COMMIT}}
+          CONTRACT_COMMIT: ${{ github.event.client_payload.message.CONTRACT_COMMIT}}
       - name: Deploy the graph
         run: npm run deploy-goerli
         env:
