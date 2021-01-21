@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.client_payload.FRONTEND_COMMIT}}
-          repository: https://github.com/JoinColony/colonyDapp.git
+          repository: JoinColony/colonyDapp
       - name: Get commit for network
         run: |
           echo "NETWORK_COMMIT=${git ls-tree HEAD:src/lib/ | grep colonyNetwork | awk '{ print $3 }'} >> $GITHUB_ENV"
