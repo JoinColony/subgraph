@@ -8,6 +8,7 @@ import {
   PaymentPayoutSet,
   ColonyMetadata,
   TokensMinted,
+  ColonyFundsMovedBetweenFundingPots,
 } from '../../generated/templates/Colony/IColony'
 
 import {
@@ -17,7 +18,6 @@ import {
   Payment,
   FundingPotPayout,
   FundingPot,
-  ColonyFundsMovedBetweenFundingPots,
 } from '../../generated/schema'
 
 import { handleEvent } from './event'
