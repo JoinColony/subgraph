@@ -16,7 +16,14 @@ type Domain @entity {
   name: String
   colonyAddress: String
   metadata: String
-  metadataHistory: [String!]!
+  metadataHistory: [DomainMetadata!]! @derivedFrom(field: "domain")
+}
+
+type DomainMetadata @entity {
+  id: ID! # colonyAddress_domainId_transactionHash_logId
+  domain: Domain!
+  transaction: Transaction!
+  metadata: String
 }
 
 type Payment @entity {
