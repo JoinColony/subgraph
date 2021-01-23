@@ -125,6 +125,7 @@ export function handleColonyMetadata(event: ColonyMetadata): void {
 
   let metadataHistory = new ColonyMetadataInstance(
     event.address.toHex() +
+    '_metadata_' + metadata +
     '_transaction_' + event.transaction.hash.toHexString() +
     '_log_' + event.logIndex.toString(),
   )
