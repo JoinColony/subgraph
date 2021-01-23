@@ -49,6 +49,7 @@ export function handleDomainMetadata(event: DomainMetadata): void {
   let metadataHistory = new DomainMetadataInstance(
     event.address.toHex() +
     '_domain_' + event.params.domainId.toString() +
+    '_metadata_' + metadata +
     '_transaction_' + event.transaction.hash.toHexString() +
     '_log_' + event.logIndex.toString(),
   )
