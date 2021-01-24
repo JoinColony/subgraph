@@ -36,7 +36,11 @@ import { handleEvent } from './event'
 import { replaceFirst} from '../utils';
 
 import { Colony, Domain } from '../../generated/schema'
-import { Colony as ColonyTemplate, OneTxPayment as OneTxPaymentTemplate } from '../../generated/templates'
+import {
+  Colony as ColonyTemplate,
+  OneTxPayment as OneTxPaymentTemplate,
+  CoinMachine as CoinMachineTemplate,
+} from '../../generated/templates'
 
 import { createToken } from './token'
 import { IColonyNetwork as ColonyNetworkContract } from '../../generated/ColonyNetwork/IColonyNetwork'
@@ -163,13 +167,26 @@ export function handleExtensionAddedToNetwork(event: ExtensionAddedToNetwork): v
 
 export function handleExtensionInstalled(event: ExtensionInstalled): void {
   let ONE_TX_PAYMENT = crypto.keccak256(ByteArray.fromUTF8("OneTxPayment")).toHexString()
-  log.info("ExtensionInstalled event seen, {}, {}", [event.params.extensionId.toHexString(), ONE_TX_PAYMENT]);
+  let COIN_MACHINE = crypto.keccak256(ByteArray.fromUTF8("CoinMachine")).toHexString()
+
   if (event.params.extensionId.toHexString() == ONE_TX_PAYMENT) {
+    log.info("ExtensionInstalled event seen, {}, {}", [event.params.extensionId.toHexString(), ONE_TX_PAYMENT]);
     let cn = IColonyNetwork.bind(event.address);
     let extensionAddress = cn.getExtensionInstallation(<Bytes>ByteArray.fromHexString(ONE_TX_PAYMENT), event.params.colony)
     log.info("Adding extension at address {}", [extensionAddress.toHexString()]);
 
     OneTxPaymentTemplate.create(extensionAddress)
+
+    handleEvent("ExtensionInstalled(indexed bytes32,indexed address,version)", event, event.address)
+  }
+
+  if (event.params.extensionId.toHexString() == COIN_MACHINE) {
+    log.info("ExtensionInstalled event seen, {}, {}", [event.params.extensionId.toHexString(), COIN_MACHINE]);
+    let cn = IColonyNetwork.bind(event.address);
+    let extensionAddress = cn.getExtensionInstallation(<Bytes>ByteArray.fromHexString(COIN_MACHINE), event.params.colony)
+    log.info("Adding extension at address {}", [extensionAddress.toHexString()]);
+
+    CoinMachineTemplate.create(extensionAddress)
 
     handleEvent("ExtensionInstalled(indexed bytes32,indexed address,version)", event, event.address)
   }

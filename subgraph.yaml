@@ -122,6 +122,26 @@ templates:
       eventHandlers:
         - event: 'OneTxPaymentMade(address,uint256,uint256)'
           handler: handleOneTxPaymentMade
+  - name: CoinMachine
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: CoinMachine
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/coinMachine.ts
+      entities:
+        - CoinMachine
+      abis:
+        - name: CoinMachine
+          file: ./../colonyNetwork/build/contracts/CoinMachine.json
+      eventHandlers:
+        - event: 'TokensBought(address,uint256,uint256)'
+          handler: handleTokensBought
+        - event: 'PeriodUpdated(uint256,uint256)'
+          handler: handlePeriodUpdated
   - name: Colony
     kind: ethereum/contract
     network: mainnet
