@@ -1,4 +1,4 @@
-import { log, Address } from '@graphprotocol/graph-ts'
+import { log } from '@graphprotocol/graph-ts'
 
 import {
   IColony,
@@ -9,6 +9,7 @@ import {
   PaymentPayoutSet,
   ColonyMetadata,
   TokensMinted,
+  ColonyInitialised,
 } from '../../generated/templates/Colony/IColony'
 
 import {
@@ -163,4 +164,8 @@ export function handleColonyMetadata(event: ColonyMetadata): void {
 
 export function handleTokensMinted(event: TokensMinted): void {
   handleEvent("TokensMinted(address,address,uint256)", event, event.address)
+}
+
+export function handleColonyInitialised(event: ColonyInitialised): void {
+  handleEvent("ColonyInitialised(address,address,address)", event, event.address)
 }
