@@ -64,6 +64,16 @@ dataSources:
           handler: handleExtensionDeprecated
         - event: 'ExtensionUninstalled(indexed bytes32,indexed address)'
           handler: handleExtensionDeprecated
+        - event: 'RecoveryRoleSet(indexed address,bool)'
+          handler: handleRecoveryRoleSet
+        - event: RecoveryModeEntered(address)
+          handler: handleRecoveryModeEntered
+        - event: RecoveryModeExited(address)
+          handler: handleRecoveryModeExited
+        - event: 'RecoveryStorageSlotSet(address,uint256,bytes32,bytes32)'
+          handler: handleRecoveryStorageSlotSet
+        - event: RecoveryModeExitApproved(address)
+          handler: handleRecoveryModeExitApproved
       file: ./src/mappings/colonyNetwork.ts
 templates:
   - name: Token

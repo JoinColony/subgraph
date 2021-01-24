@@ -25,6 +25,11 @@ import {
   ExtensionUpgraded,
   ExtensionDeprecated,
   ExtensionUninstalled,
+  RecoveryRoleSet,
+  RecoveryModeEntered,
+  RecoveryModeExited,
+  RecoveryStorageSlotSet,
+  RecoveryModeExitApproved,
 } from '../../generated/ColonyNetwork/IColonyNetwork'
 
 import { handleEvent } from './event'
@@ -180,4 +185,24 @@ export function handleExtensionDeprecated(event: ExtensionDeprecated): void {
 
 export function handleExtensionUninstalled(event: ExtensionUninstalled): void {
   handleEvent("ExtensionUninstalled(indexed bytes32,indexed address)", event, event.address)
+}
+
+export function handleRecoveryRoleSet(event: RecoveryRoleSet): void {
+  handleEvent("RecoveryRoleSet(indexed address,bool)", event, event.address)
+}
+
+export function handleRecoveryModeEntered(event: RecoveryModeEntered): void {
+  handleEvent("RecoveryModeEntered(address)", event, event.address)
+}
+
+export function handleRecoveryModeExited(event: RecoveryModeExited): void {
+  handleEvent("RecoveryModeExited(address)", event, event.address)
+}
+
+export function handleRecoveryStorageSlotSet(event: RecoveryStorageSlotSet): void {
+  handleEvent("RecoveryStorageSlotSet(address,uint256,bytes32,bytes32)", event, event.address)
+}
+
+export function handleRecoveryModeExitApproved(event: RecoveryModeExitApproved): void {
+  handleEvent("RecoveryModeExitApproved(address)", event, event.address)
 }
