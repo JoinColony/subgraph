@@ -96,3 +96,5 @@ templates:
           handler: handleColonyMetadata
         - event: 'TokensMinted(address,address,uint256)'
           handler: handleTokensMinted
+        - event: 'ColonyInitialised(address,address,address)'
+          handler: handleColonyInitialised
