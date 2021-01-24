@@ -1,8 +1,17 @@
 import { Address, BigInt } from '@graphprotocol/graph-ts'
 
-import { Token as TokenContract } from '../../generated/templates/Token/Token'
-import { Token } from '../../generated/templates/Token/Token'
+import {
+  Token as TokenContract,
+  Mint,
+  Burn,
+  LogSetAuthority,
+  LogSetOwner,
+  Approval,
+  Transfer,
+} from '../../generated/templates/Token/Token'
 import { Token as TokenSchema } from '../../generated/schema'
+
+import { handleEvent } from './event'
 
 export function createToken(tokenAddress: string): void {
   let token = TokenSchema.load(tokenAddress)
@@ -22,4 +31,28 @@ export function createToken(tokenAddress: string): void {
     }
     token.save()
   }
+}
+
+export function handleMint(event: Mint): void {
+  handleEvent("Mint(indexed address,uint256)", event, event.address)
+}
+
+export function handleBurn(event: Burn): void {
+  handleEvent("Burn(indexed address,uint256)", event, event.address)
+}
+
+export function handleLogSetAuthority(event: LogSetAuthority): void {
+  handleEvent("LogSetAuthority(indexed address)", event, event.address)
+}
+
+export function handleLogSetOwner(event: LogSetOwner): void {
+  handleEvent("LogSetOwner(indexed address)", event, event.address)
+}
+
+export function handleApproval(event: Approval): void {
+  handleEvent("Approval(indexed address,indexed address,uint256)", event, event.address)
+}
+
+export function handleTransfer(event: Transfer): void {
+  handleEvent("Transfer(indexed address,indexed address,uint256)", event, event.address)
 }
