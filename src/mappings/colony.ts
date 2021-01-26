@@ -42,6 +42,7 @@ import {
   PaymentRecipientSet,
   PaymentFinalized,
   TokensBurned,
+  ColonyFundsMovedBetweenFundingPots,
 } from '../../generated/templates/Colony/IColony'
 
 import {
@@ -329,4 +330,6 @@ export function handleTokensBurned(event: TokensBurned): void {
   handleEvent("TokensBurned(address,address,uint256)", event, event.address)
 }
 
-
+export function handleFundsMovedBetweenFundingPots(event: ColonyFundsMovedBetweenFundingPots): void {
+  handleEvent("ColonyFundsMovedBetweenFundingPots(address,uint256,uint256,uint256,address)", event, event.address)
+}
