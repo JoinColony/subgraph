@@ -188,3 +188,7 @@ templates:
           handler: handlePaymentFinalized
         - event: 'TokensBurned(address,address,uint256)'
           handler: handleTokensBurned
+        - event: 'TokensMinted(address,address,uint256)'
+          handler: handleTokensMinted
+        - event: 'ColonyFundsMovedBetweenFundingPots(address,indexed uint256,indexed uint256,uint256,address)'
+          handler: handleFundsMovedBetweenFundingPots
