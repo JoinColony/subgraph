@@ -85,7 +85,7 @@ templates:
         - event: 'DomainAdded(address,uint256)'
           handler: handleDomainAdded
         - event: DomainAdded(uint256)
-          handler: handleDomainAdded1
+          handler: handleHistoricDomainAdded
         - event: 'DomainMetadata(address,indexed uint256,string)'
           handler: handleDomainMetadata
         - event: 'PaymentAdded(address,uint256)'
