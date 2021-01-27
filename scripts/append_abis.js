@@ -1,8 +1,11 @@
 const path = require('path');
 const { writeFileSync } = require("fs");
 
-const ICOLONY_PATH = process.env.CUSTOM_ICOLONY_PATH || path.resolve(__dirname, '..', '..', 'colonyNetwork/build/contracts/IColony.json');
+const ICOLONY_PATH = process.env.CUSTOM_ICOLONY_PATH ? path.resolve(__dirname, process.env.CUSTOM_ICOLONY_PATH) : path.resolve(__dirname, '..', '..', 'colonyNetwork/build/contracts/IColony.json');
 const ADDITIONAL_ABIS_PATH = path.resolve(__dirname, './additionalAbis.json');
+
+console.log('interfaces path')
+console.log(ICOLONY_PATH)
 
 const IColony = require(ICOLONY_PATH);
 const additionalAbis = require(ADDITIONAL_ABIS_PATH);
