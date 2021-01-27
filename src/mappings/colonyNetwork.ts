@@ -26,15 +26,22 @@ export function handleColonyAdded(event: ColonyAdded): void {
   if (colony == null) {
     colony = new Colony(event.params.colonyAddress.toHexString())
     let colonyNetwork = ColonyNetworkContract.bind(Address.fromString(event.address.toHexString()))
+
     log.info('---------------------', []);
-    log.info('Colony Address: {} ENS Name: {}', [event.params.colonyAddress.toHexString(), colonyNetwork.lookupRegisteredENSDomain(Address.fromString(event.params.colonyAddress.toHexString()))]);
-    log.info('---------------------', []);
+    log.info('handleColonyAdded', []);
+
     let ensName = colonyNetwork.try_lookupRegisteredENSDomain(Address.fromString(event.params.colonyAddress.toHexString()))
     if (ensName.reverted) {
       colony.ensName = null;
+      log.info('reverted!!!', []);
     } else {
       colony.ensName = ensName.value;
+      log.info('Colony Address: {} ENS Name: {}', [
+        event.params.colonyAddress.toHexString(),
+        ensName.value,
+      ]);
     }
+    log.info('---------------------', []);
     colony.metadata = ""
   }
 
@@ -50,17 +57,27 @@ export function handleColonyAdded(event: ColonyAdded): void {
 }
 
 export function handleColonyLabelRegistered(event: ColonyLabelRegistered): void {
-  let colony = Colony.load(event.params.colony.toHex())
+  let colony = Colony.load(event.params.colony.toHexString())
   let colonyNetwork = ColonyNetworkContract.bind(Address.fromString(event.address.toHexString()))
+
+  log.info('---------------------', []);
+  log.info('handleColonyLabelRegistered', []);
 
   if (!colony.ensName) {
     let ensName = colonyNetwork.try_lookupRegisteredENSDomain(Address.fromString(event.params.colony.toHexString()))
     if (ensName.reverted) {
+      log.info('reverted!!!', []);
       colony.ensName = null;
     } else {
+      log.info('Colony Address: {} ENS Name: {}', [
+        event.params.colony.toHexString(),
+        ensName.value,
+      ]);
       colony.ensName = ensName.value;
     }
   }
+
+  log.info('---------------------', []);
 
   colony.save()
 
