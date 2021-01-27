@@ -5,7 +5,7 @@
     "build-contract": "solc contracts/Gravity.sol --abi -o abis --overwrite && solc contracts/Gravity.sol --bin -o bin --overwrite",
     "create": "graph create joinColony/subgraph --node https://api.thegraph.com/deploy/",
     "create-local": "graph create joinColony/subgraph --node http://127.0.0.1:8020",
-    "precodegen": "node scripts/setup_config.js",
+    "precodegen": "node scripts/setup_config.js && node scripts/append_abis.js",
     "codegen": "graph codegen",
     "build": "graph build",
     "build-goerli": "sed -i'' -e 's/network: mainnet/network: goerli/g' ./subgraph.yaml && NETWORK_ADDRESS='0x79073fc2117dD054FCEdaCad1E7018C9CbE3ec0B' node ./scripts/generateInterfaces && graph codegen && graph build",
