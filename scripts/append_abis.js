@@ -19,6 +19,9 @@ additionalAbis.map((abiEntry) => {
   }
 });
 
+console.log('Adding following abis')
+console.log(neededAbis)
+
 writeFileSync(ICOLONY_PATH, JSON.stringify({
   ...IColony,
   abi: [
