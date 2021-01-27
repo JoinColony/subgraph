@@ -3,6 +3,7 @@ import { log, Address } from '@graphprotocol/graph-ts'
 import {
   IColony,
   DomainAdded,
+  DomainAdded1,
   DomainMetadata,
   PaymentAdded,
   PaymentPayoutSet,
@@ -41,6 +42,26 @@ export function handleDomainAdded(event: DomainAdded): void {
 
   handleEvent('DomainAdded(address,uint256)', event, event.address);
 }
+
+export function handleDomainAdded1(event: DomainAdded1): void {
+  let domain = new Domain(event.address.toHex() + '_domain_' + event.params.domainId.toString())
+  domain.domainChainId = event.params.domainId
+  // The real way to get the parent would be to look at this
+  // event.transaction.input.toHexString()
+  // And extract the parent that way. But it causes a memory-access out-of-bounds error which
+  // isn't really a good sign...
+  domain.parent = event.address.toHex() + '_domain_1'
+  domain.name = "Domain #" + event.params.domainId.toString()
+  if (event.params.domainId.toString() == '1') {
+    domain.name = "Root"
+    domain.parent = null
+  }
+  domain.colonyAddress = event.address.toHex()
+  domain.save()
+
+  handleEvent('DomainAdded(address)', event, event.address);
+}
+
 
 export function handleDomainMetadata(event: DomainMetadata): void {
   let metadata = event.params.metadata.toString()
