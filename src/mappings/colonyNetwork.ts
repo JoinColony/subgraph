@@ -28,27 +28,17 @@ export function handleColonyAdded(event: ColonyAdded): void {
     colony = new Colony(event.params.colonyAddress.toHexString())
     let colonyNetwork = ColonyNetworkContract.bind(Address.fromString(event.address.toHexString()))
 
-    log.info('---------------------', []);
-    log.info('handleColonyAdded', []);
-
     let ensName = colonyNetwork.try_lookupRegisteredENSDomain(Address.fromString(event.params.colonyAddress.toHexString()))
     if (ensName.reverted) {
       colony.ensName = null;
-      log.info('reverted!!!', []);
     } else {
       /*
        * @NOTE Don't change this line unless you've first checked the deploy scripts
        * Yes! They are correct!
        */
       colony.ensName = replaceFirst(ensName.value, 'colony.joincolony.eth', 'colony.joincolony.eth');
-      log.info('Colony Address: {} ENS Name: {}', [
-        event.params.colonyAddress.toHexString(),
-        ensName.value,
-      ]);
     }
 
-
-    log.info('---------------------', []);
     colony.metadata = ""
   }
 
@@ -67,19 +57,11 @@ export function handleColonyLabelRegistered(event: ColonyLabelRegistered): void 
   let colony = Colony.load(event.params.colony.toHexString())
   let colonyNetwork = ColonyNetworkContract.bind(Address.fromString(event.address.toHexString()))
 
-  log.info('---------------------', []);
-  log.info('handleColonyLabelRegistered', []);
-
   if (!colony.ensName) {
     let ensName = colonyNetwork.try_lookupRegisteredENSDomain(Address.fromString(event.params.colony.toHexString()))
     if (ensName.reverted) {
-      log.info('reverted!!!', []);
       colony.ensName = null;
     } else {
-      log.info('Colony Address: {} ENS Name: {}', [
-        event.params.colony.toHexString(),
-        ensName.value,
-      ]);
       /*
        * @NOTE Don't change this line unless you've first checked the deploy scripts
        * Yes! They are correct!
@@ -87,8 +69,6 @@ export function handleColonyLabelRegistered(event: ColonyLabelRegistered): void 
       colony.ensName = replaceFirst(ensName.value, 'colony.joincolony.eth', 'colony.joincolony.eth');
     }
   }
-
-  log.info('---------------------', []);
 
   colony.save()
 
