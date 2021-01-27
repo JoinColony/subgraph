@@ -21,7 +21,7 @@ jobs:
         run: npm run build-goerli
         env:
           CONTRACT_COMMIT: ${{ github.event.client_payload.message.CONTRACT_COMMIT}}
-          CUSTOM_ICOLONY_PATH: "./colonyNetwork/build/contracts/IColony.json"
+          CUSTOM_ICOLONY_PATH: "../colonyNetwork/build/contracts/IColony.json"
       - name: Deploy the graph
         run: npm run deploy-goerli
         env:
