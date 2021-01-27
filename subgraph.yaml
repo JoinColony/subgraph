@@ -24,6 +24,8 @@ dataSources:
       eventHandlers:
         - event: 'ColonyAdded(indexed uint256,indexed address,address)'
           handler: handleColonyAdded
+        - event: 'ColonyLabelRegistered(indexed address,bytes32)'
+          handler: handleColonyLabelRegistered
         - event: 'ExtensionInstalled(indexed bytes32,indexed address,uint256)'
           handler: handleExtensionInstalled
       file: ./src/mappings/colonyNetwork.ts
