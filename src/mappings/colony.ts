@@ -3,7 +3,7 @@ import { log, Address } from '@graphprotocol/graph-ts'
 import {
   IColony,
   DomainAdded,
-  DomainAdded1,
+  DomainAdded1 as HistoricDomainAdded,
   DomainMetadata,
   PaymentAdded,
   PaymentPayoutSet,
@@ -43,7 +43,7 @@ export function handleDomainAdded(event: DomainAdded): void {
   handleEvent('DomainAdded(address,uint256)', event, event.address);
 }
 
-export function handleDomainAdded1(event: DomainAdded1): void {
+export function handleHistoricDomainAdded(event: HistoricDomainAdded): void {
   let domain = new Domain(event.address.toHex() + '_domain_' + event.params.domainId.toString())
   domain.domainChainId = event.params.domainId
   // The real way to get the parent would be to look at this
