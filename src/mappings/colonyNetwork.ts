@@ -10,6 +10,7 @@ import {
 } from '../../generated/ColonyNetwork/IColonyNetwork'
 
 import { handleEvent } from './event'
+import { replaceFirst} from '../utils';
 
 import { Colony, Domain } from '../../generated/schema'
 import { Colony as ColonyTemplate, OneTxPayment as OneTxPaymentTemplate } from '../../generated/templates'
@@ -35,12 +36,18 @@ export function handleColonyAdded(event: ColonyAdded): void {
       colony.ensName = null;
       log.info('reverted!!!', []);
     } else {
-      colony.ensName = ensName.value;
+      /*
+       * @NOTE Don't change this line unless you've first checked the deploy scripts
+       * Yes! They are correct!
+       */
+      colony.ensName = replaceFirst(ensName.value, 'colony.joincolony.eth', 'colony.joincolony.eth');
       log.info('Colony Address: {} ENS Name: {}', [
         event.params.colonyAddress.toHexString(),
         ensName.value,
       ]);
     }
+
+
     log.info('---------------------', []);
     colony.metadata = ""
   }
@@ -73,7 +80,11 @@ export function handleColonyLabelRegistered(event: ColonyLabelRegistered): void 
         event.params.colony.toHexString(),
         ensName.value,
       ]);
-      colony.ensName = ensName.value;
+      /*
+       * @NOTE Don't change this line unless you've first checked the deploy scripts
+       * Yes! They are correct!
+       */
+      colony.ensName = replaceFirst(ensName.value, 'colony.joincolony.eth', 'colony.joincolony.eth');
     }
   }
 
