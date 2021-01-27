@@ -26,7 +26,15 @@ export function handleColonyAdded(event: ColonyAdded): void {
   if (colony == null) {
     colony = new Colony(event.params.colonyAddress.toHexString())
     let colonyNetwork = ColonyNetworkContract.bind(Address.fromString(event.address.toHexString()))
-    colony.ensName = colonyNetwork.lookupRegisteredENSDomain(Address.fromString(event.params.colonyAddress.toHexString()))
+    log.info('---------------------', []);
+    log.info('Colony Address: {} ENS Name: {}', [event.params.colonyAddress.toHexString(), colonyNetwork.lookupRegisteredENSDomain(Address.fromString(event.params.colonyAddress.toHexString()))]);
+    log.info('---------------------', []);
+    let ensName = colonyNetwork.try_lookupRegisteredENSDomain(Address.fromString(event.params.colonyAddress.toHexString()))
+    if (ensName.reverted) {
+      colony.ensName = null;
+    } else {
+      colony.ensName = ensName.value;
+    }
     colony.metadata = ""
   }
 
@@ -42,6 +50,20 @@ export function handleColonyAdded(event: ColonyAdded): void {
 }
 
 export function handleColonyLabelRegistered(event: ColonyLabelRegistered): void {
+  let colony = Colony.load(event.params.colony.toHex())
+  let colonyNetwork = ColonyNetworkContract.bind(Address.fromString(event.address.toHexString()))
+
+  if (!colony.ensName) {
+    let ensName = colonyNetwork.try_lookupRegisteredENSDomain(Address.fromString(event.params.colony.toHexString()))
+    if (ensName.reverted) {
+      colony.ensName = null;
+    } else {
+      colony.ensName = ensName.value;
+    }
+  }
+
+  colony.save()
+
   handleEvent("ColonyLabelRegistered(address,bytes32)", event, event.address)
 }
 
