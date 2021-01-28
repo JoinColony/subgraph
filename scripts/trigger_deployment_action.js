@@ -6,7 +6,7 @@ async function main() {
       'event_type': `deploy-goerli`,
       'client_payload': {
         'message':{
-        SUBGRAPH_COMMIT: process.env.SUBGRAPH_COMMIT
+        SUBGRAPH_COMMIT: process.env.SUBGRAPH_COMMIT,
         CONTRACT_COMMIT: process.env.NETWORK_COMMIT
       }}
     }
