@@ -19,13 +19,7 @@ jobs:
       - name: Get commit for subgraph
         run: |
           echo "SUBGRAPH_COMMIT=`git ls-tree HEAD:src/lib/ | grep subgraph | awk '{ print $3 }'` >> $GITHUB_ENV"
-      - name: Run build
-        uses: mvasigh/dispatch-action@main
-        with:
-          token: ${{ secrets.CHEWIE_GITHUB_TOKEN }}
-          event_type: deploy-goerli
-          message: |
-            {
-              "SUBGRAPH_COMMIT": "${{env.SUBGRAPH_COMMIT}}",
-              "NETWORK_COMMIT": "${{env.NETWORK_COMMIT}}"
-            }
+      - name: Trigger deploy with appropriate commits
+        run: node ./scripts/trigger_deployment_action.js
+        env:
+          CHEWIE_GITHUB_TOKEN: ${{ secrets.CHEWIE_GITHUB_TOKEN }}
