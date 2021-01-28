@@ -8,16 +8,23 @@ jobs:
     name: Get commits needed for subgraph deployment
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout subgraph repository
+        uses: actions/checkout@v2
+        with:
+          repository: joinColony/subgraph
       - name: Checkout frontend repository
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.client_payload.FRONTEND_COMMIT}}
           repository: JoinColony/colonyDapp
+          path: ./colonyDapp
       - name: Get commit for network
         run: |
+          cd colonyDapp
           echo "NETWORK_COMMIT=`git ls-tree HEAD:src/lib/ | grep colonyNetwork | awk '{ print $3 }'` >> $GITHUB_ENV"
       - name: Get commit for subgraph
         run: |
+          cd colonyDapp
           echo "SUBGRAPH_COMMIT=`git ls-tree HEAD:src/lib/ | grep subgraph | awk '{ print $3 }'` >> $GITHUB_ENV"
       - name: Trigger deploy with appropriate commits
         run: node ./scripts/trigger_deployment_action.js
