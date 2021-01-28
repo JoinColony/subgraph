@@ -23,10 +23,12 @@ jobs:
       - name: Get commit for network
         run: |
           cd colonyDapp
+          git ls-tree HEAD:src/lib/ | grep colonyNetwork | awk '{ print $3 }'
           echo "NETWORK_COMMIT=`git ls-tree HEAD:src/lib/ | grep colonyNetwork | awk '{ print $3 }'` >> $GITHUB_ENV"
       - name: Get commit for subgraph
         run: |
           cd colonyDapp
+          git ls-tree HEAD:src/lib/ | grep subgraph | awk '{ print $3 }'
           echo "SUBGRAPH_COMMIT=`git ls-tree HEAD:src/lib/ | grep subgraph | awk '{ print $3 }'` >> $GITHUB_ENV"
       - name: Trigger deploy with appropriate commits
         run: node ./scripts/trigger_deployment_action.js
