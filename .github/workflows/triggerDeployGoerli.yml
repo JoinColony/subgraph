@@ -20,14 +20,6 @@ jobs:
           ref: ${{ github.event.client_payload.FRONTEND_COMMIT}}
           repository: JoinColony/colonyDapp
           path: ./colonyDapp
-      - name: Get commit for network
-        run: |
-          cd colonyDapp
-          echo "NETWORK_COMMIT=`git ls-tree HEAD:src/lib/ | grep colonyNetwork | awk '{ print $3 }'` >> $GITHUB_ENV"
-      - name: Get commit for subgraph
-        run: |
-          cd colonyDapp
-          echo "SUBGRAPH_COMMIT=`git ls-tree HEAD:src/lib/ | grep subgraph | awk '{ print $3 }'` >> $GITHUB_ENV"
       - name: Trigger deploy with appropriate commits
         run: |
           NETWORK_COMMIT=`cd colonyDapp && git ls-tree HEAD:src/lib/ | grep colonyNetwork | awk '{ print $3 }'`   
