@@ -10,6 +10,7 @@ async function main() {
         CONTRACT_COMMIT: process.env.NETWORK_COMMIT
       }}
     }
+    console.log('formData', formData)
     await request({
       method: 'POST',
       uri: `https://api.github.com/repos/joinColony/subgraph/dispatches`,
