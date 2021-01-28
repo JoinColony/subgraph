@@ -30,6 +30,8 @@ jobs:
           echo "SUBGRAPH_COMMIT=`git ls-tree HEAD:src/lib/ | grep subgraph | awk '{ print $3 }'` >> $GITHUB_ENV"
       - name: Trigger deploy with appropriate commits
         run: |
+          NETWORK_COMMIT=`cd colonyDapp && git ls-tree HEAD:src/lib/ | grep colonyNetwork | awk '{ print $3 }'`   
+          SUBGRAPH_COMMIT=`cd colonyDapp && git ls-tree HEAD:src/lib/ | grep subgraph | awk '{ print $3 }'`
           NETWORK_COMMIT=$NETWORK_COMMIT SUBGRAPH_COMMIT=$SUBGRAPH_COMMIT node ./scripts/trigger_deployment_action.js
         env:
           CHEWIE_GITHUB_TOKEN: ${{ secrets.CHEWIE_GITHUB_TOKEN }}
