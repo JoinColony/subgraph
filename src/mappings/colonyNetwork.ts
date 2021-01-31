@@ -108,7 +108,7 @@ export function handleColonyAdded(event: ColonyAdded): void {
 
   ColonyTemplate.create(event.params.colonyAddress)
 
-  handleEvent("ColonyAdded(indexed uint256,indexed address,address)", event, event.address)
+  handleEvent("ColonyAdded(uint256,address,address)", event, event.address)
 }
 
 export function handleSkillAdded(event: SkillAdded): void {
@@ -132,7 +132,7 @@ export function handleReputationRootHashSet(event: ReputationRootHashSet): void 
 }
 
 export function handleUserLabelRegistered(event: UserLabelRegistered): void {
-  handleEvent("UserLabelRegistered(indexed address,bytes32)", event, event.address)
+  handleEvent("UserLabelRegistered(address,bytes32)", event, event.address)
 }
 
 export function handleColonyLabelRegistered(event: ColonyLabelRegistered): void {
@@ -162,7 +162,7 @@ export function handleReputationMinerPenalised(event: ReputationMinerPenalised):
 }
 
 export function handleExtensionAddedToNetwork(event: ExtensionAddedToNetwork): void {
-  handleEvent("ExtensionAddedToNetwork(indexed bytes32,version)", event, event.address)
+  handleEvent("ExtensionAddedToNetwork(bytes32,version)", event, event.address)
 }
 
 export function handleExtensionInstalled(event: ExtensionInstalled): void {
@@ -177,7 +177,7 @@ export function handleExtensionInstalled(event: ExtensionInstalled): void {
 
     OneTxPaymentTemplate.create(extensionAddress)
 
-    handleEvent("ExtensionInstalled(indexed bytes32,indexed address,version)", event, event.address)
+    handleEvent("ExtensionInstalled(bytes32,address,version)", event, event.address)
   }
 
   if (event.params.extensionId.toHexString() == COIN_MACHINE) {
@@ -188,24 +188,24 @@ export function handleExtensionInstalled(event: ExtensionInstalled): void {
 
     CoinMachineTemplate.create(extensionAddress)
 
-    handleEvent("ExtensionInstalled(indexed bytes32,indexed address,version)", event, event.address)
+    handleEvent("ExtensionInstalled(bytes32,address,version)", event, event.address)
   }
 }
 
 export function handleExtensionUpgraded(event: ExtensionUpgraded): void {
-  handleEvent("ExtensionUpgraded(indexed bytes32,indexed address,version)", event, event.address)
+  handleEvent("ExtensionUpgraded(bytes32,address,version)", event, event.address)
 }
 
 export function handleExtensionDeprecated(event: ExtensionDeprecated): void {
-  handleEvent("ExtensionDeprecated(indexed bytes32,indexed address,bool)", event, event.address)
+  handleEvent("ExtensionDeprecated(bytes32,address,bool)", event, event.address)
 }
 
 export function handleExtensionUninstalled(event: ExtensionUninstalled): void {
-  handleEvent("ExtensionUninstalled(indexed bytes32,indexed address)", event, event.address)
+  handleEvent("ExtensionUninstalled(bytes32,address)", event, event.address)
 }
 
 export function handleRecoveryRoleSet(event: RecoveryRoleSet): void {
-  handleEvent("RecoveryRoleSet(indexed address,bool)", event, event.address)
+  handleEvent("RecoveryRoleSet(address,bool)", event, event.address)
 }
 
 export function handleRecoveryModeEntered(event: RecoveryModeEntered): void {

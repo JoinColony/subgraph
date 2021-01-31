@@ -34,25 +34,25 @@ export function createToken(tokenAddress: string): void {
 }
 
 export function handleMint(event: Mint): void {
-  handleEvent("Mint(indexed address,uint256)", event, event.address)
+  handleEvent("Mint(address,uint256)", event, event.address)
 }
 
 export function handleBurn(event: Burn): void {
-  handleEvent("Burn(indexed address,uint256)", event, event.address)
+  handleEvent("Burn(address,uint256)", event, event.address)
 }
 
 export function handleLogSetAuthority(event: LogSetAuthority): void {
-  handleEvent("LogSetAuthority(indexed address)", event, event.address)
+  handleEvent("LogSetAuthority(address)", event, event.address)
 }
 
 export function handleLogSetOwner(event: LogSetOwner): void {
-  handleEvent("LogSetOwner(indexed address)", event, event.address)
+  handleEvent("LogSetOwner(address)", event, event.address)
 }
 
 export function handleApproval(event: Approval): void {
-  handleEvent("Approval(indexed address,indexed address,uint256)", event, event.address)
+  handleEvent("Approval(address,address,uint256)", event, event.address)
 }
 
 export function handleTransfer(event: Transfer): void {
-  handleEvent("Transfer(indexed address,indexed address,uint256)", event, event.address)
+  handleEvent("Transfer(address,address,uint256)", event, event.address)
 }
