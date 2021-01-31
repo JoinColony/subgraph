@@ -270,6 +270,14 @@ export function handleColonyMetadata(event: ColonyMetadata): void {
   handleEvent("ColonyMetadata(address,string)", event, event.address)
 }
 
+export function handleFundingPotAdded(event: FundingPotAdded): void {
+  handleEvent("FundingPotAdded(uint256)", event, event.address)
+}
+
+export function handleAnnotation(event: Annotation): void {
+  handleEvent("Annotation(address,bytes32,string)", event, event.address)
+}
+
 export function handlePaymentPayoutSet(event: PaymentPayoutSet): void {
   let c = IColony.bind(event.address);
   let paymentInfo = c.getPayment(event.params.paymentId)
