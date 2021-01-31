@@ -90,27 +90,27 @@ export function handleExpenditureAdded(event: ExpenditureAdded): void {
 }
 
 export function handleExpenditureTransferred(event: ExpenditureTransferred): void {
-  handleEvent("ExpenditureTransferred(address,indexed uint256,indexed address)", event, event.address)
+  handleEvent("ExpenditureTransferred(address,uint256,address)", event, event.address)
 }
 
 export function handleExpenditureCancelled(event: ExpenditureCancelled): void {
-  handleEvent("ExpenditureCancelled(address,indexed uint256)", event, event.address)
+  handleEvent("ExpenditureCancelled(address,uint256)", event, event.address)
 }
 
 export function handleExpenditureFinalized(event: ExpenditureFinalized): void {
-  handleEvent("ExpenditureFinalized(address,indexed uint256)", event, event.address)
+  handleEvent("ExpenditureFinalized(address,uint256)", event, event.address)
 }
 
 export function handleExpenditureRecipientSet(event: ExpenditureRecipientSet): void {
-  handleEvent("ExpenditureRecipientSet(address,indexed uint256,indexed uint256,indexed address)", event, event.address)
+  handleEvent("ExpenditureRecipientSet(address,uint256,uint256,address)", event, event.address)
 }
 
 export function handleExpenditureSkillSet(event: ExpenditureSkillSet): void {
-  handleEvent("ExpenditureSkillSet(address,indexed uint256,indexed uint256,indexed uint256)", event, event.address)
+  handleEvent("ExpenditureSkillSet(address,uint256,uint256,uint256)", event, event.address)
 }
 
 export function handleExpenditurePayoutSet(event: ExpenditurePayoutSet): void {
-  handleEvent("ExpenditurePayoutSet(address,indexed uint256,indexed uint256,indexed address,uint256)", event, event.address)
+  handleEvent("ExpenditurePayoutSet(address,uint256,uint256,address,uint256)", event, event.address)
 }
 
 export function handlePaymentAdded(event: PaymentAdded): void {
@@ -136,23 +136,23 @@ export function handleTaskAdded(event: TaskAdded): void {
 }
 
 export function handleTaskBriefSet(event: TaskBriefSet): void {
-  handleEvent("TaskBriefSet(indexed uint256,bytes32)", event, event.address)
+  handleEvent("TaskBriefSet(uint256,bytes32)", event, event.address)
 }
 
 export function handleTaskDueDateSet(event: TaskDueDateSet): void {
-  handleEvent("TaskDueDateSet(indexed uint256,uint256)", event, event.address)
+  handleEvent("TaskDueDateSet(uint256,uint256)", event, event.address)
 }
 
 export function handleTaskSkillSet(event: TaskSkillSet): void {
-  handleEvent("TaskSkillSet(indexed uint256,indexed uint256)", event, event.address)
+  handleEvent("TaskSkillSet(uint256,uint256)", event, event.address)
 }
 
 export function handleTaskRoleUserSet(event: TaskRoleUserSet): void {
-  handleEvent("TaskRoleUserSet(indexed uint256,uint8,indexed address)", event, event.address)
+  handleEvent("TaskRoleUserSet(uint256,uint8,address)", event, event.address)
 }
 
 export function handleTaskPayoutSet(event: TaskPayoutSet): void {
-  handleEvent("TaskPayoutSet(indexed uint256,uint8,address,uint256)", event, event.address)
+  handleEvent("TaskPayoutSet(uint256,uint8,address,uint256)", event, event.address)
 }
 
 export function handleTaskChangedViaSignatures(event: TaskChangedViaSignatures): void {
@@ -160,19 +160,19 @@ export function handleTaskChangedViaSignatures(event: TaskChangedViaSignatures):
 }
 
 export function handleTaskDeliverableSubmitted(event: TaskDeliverableSubmitted): void {
-  handleEvent("TaskDeliverableSubmitted(address,indexed uint256,bytes32)", event, event.address)
+  handleEvent("TaskDeliverableSubmitted(address,uint256,bytes32)", event, event.address)
 }
 
 export function handleTaskCompleted(event: TaskCompleted): void {
-  handleEvent("TaskCompleted(address,indexed uint256)", event, event.address)
+  handleEvent("TaskCompleted(address,uint256)", event, event.address)
 }
 
 export function handleTaskWorkRatingRevealed(event: TaskWorkRatingRevealed): void {
-  handleEvent("TaskWorkRatingRevealed(address,indexed uint256,uint8,uint8)", event, event.address)
+  handleEvent("TaskWorkRatingRevealed(address,uint256,uint8,uint8)", event, event.address)
 }
 
 export function handleTaskFinalized(event: TaskFinalized): void {
-  handleEvent("TaskFinalized(address,indexed uint256)", event, event.address)
+  handleEvent("TaskFinalized(address,uint256)", event, event.address)
 }
 
 export function handleTokensMinted(event: TokensMinted): void {
@@ -180,11 +180,11 @@ export function handleTokensMinted(event: TokensMinted): void {
 }
 
 export function handlePayoutClaimed(event: PayoutClaimed): void {
-  handleEvent("PayoutClaimed(address,indexed uint256,address,uint256)", event, event.address)
+  handleEvent("PayoutClaimed(address,uint256,address,uint256)", event, event.address)
 }
 
 export function handleTaskCanceled(event: TaskCanceled): void {
-  handleEvent("TaskCanceled(indexed uint256)", event, event.address)
+  handleEvent("TaskCanceled(uint256)", event, event.address)
 }
 
 export function handleDomainAdded(event: DomainAdded): void {
@@ -306,15 +306,15 @@ export function handlePaymentPayoutSet(event: PaymentPayoutSet): void {
 }
 
 export function handlePaymentSkillSet(event: PaymentSkillSet): void {
-  handleEvent("PaymentSkillSet(address,indexed uint256,uint256)", event, event.address)
+  handleEvent("PaymentSkillSet(address,uint256,uint256)", event, event.address)
 }
 
 export function handlePaymentRecipientSet(event: PaymentRecipientSet): void {
-  handleEvent("PaymentRecipientSet(address,indexed uint256,address)", event, event.address)
+  handleEvent("PaymentRecipientSet(address,uint256,address)", event, event.address)
 }
 
 export function handlePaymentFinalized(event: PaymentFinalized): void {
-  handleEvent("PaymentFinalized(address,indexed uint256)", event, event.address)
+  handleEvent("PaymentFinalized(address,uint256)", event, event.address)
 }
 
 export function handleTokensBurned(event: TokensBurned): void {
