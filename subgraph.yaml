@@ -22,58 +22,12 @@ dataSources:
         - name: Token
           file: ./../colonyNetwork/build/contracts/Token.json
       eventHandlers:
-        - event: ColonyNetworkInitialised(address)
-          handler: handleColonyNetworkInitialised
-        - event: TokenLockingAddressSet(address)
-          handler: handleTokenLockingAddressSet
-        - event: MiningCycleResolverSet(address)
-          handler: handleMiningCycleResolverSet
-        - event: NetworkFeeInverseSet(uint256)
-          handler: handleNetworkFeeInverseSet
-        - event: 'TokenWhitelisted(address,bool)'
-          handler: handleTokenWhitelisted
-        - event: 'ColonyVersionAdded(uint256,address)'
-          handler: handleColonyVersionAdded
-        - event: 'MetaColonyCreated(address,address,uint256)'
-          handler: handleMetaColonyCreated
         - event: 'ColonyAdded(indexed uint256,indexed address,address)'
           handler: handleColonyAdded
-        - event: 'SkillAdded(uint256,uint256)'
-          handler: handleSkillAdded
-        - event: 'AuctionCreated(address,address,uint256)'
-          handler: handleAuctionCreated
-        - event: ReputationMiningInitialised(address)
-          handler: handleReputationMiningInitialised
-        - event: 'ReputationMiningCycleComplete(bytes32,uint256)'
-          handler: handleReputationMiningCycleComplete
-        - event: 'ReputationRootHashSet(bytes32,uint256,address[],uint256)'
-          handler: handleReputationRootHashSet
-        - event: 'UserLabelRegistered(indexed address,bytes32)'
-          handler: handleUserLabelRegistered
         - event: 'ColonyLabelRegistered(indexed address,bytes32)'
           handler: handleColonyLabelRegistered
-        - event: 'ReputationMinerPenalised(address,uint256)'
-          handler: handleReputationMinerPenalised
-        - event: 'ExtensionAddedToNetwork(indexed bytes32,uint256)'
-          handler: handleExtensionAddedToNetwork
         - event: 'ExtensionInstalled(indexed bytes32,indexed address,uint256)'
           handler: handleExtensionInstalled
-        - event: 'ExtensionUpgraded(indexed bytes32,indexed address,uint256)'
-          handler: handleExtensionUpgraded
-        - event: 'ExtensionDeprecated(indexed bytes32,indexed address,bool)'
-          handler: handleExtensionDeprecated
-        - event: 'ExtensionUninstalled(indexed bytes32,indexed address)'
-          handler: handleExtensionDeprecated
-        - event: 'RecoveryRoleSet(indexed address,bool)'
-          handler: handleRecoveryRoleSet
-        - event: RecoveryModeEntered(address)
-          handler: handleRecoveryModeEntered
-        - event: RecoveryModeExited(address)
-          handler: handleRecoveryModeExited
-        - event: 'RecoveryStorageSlotSet(address,uint256,bytes32,bytes32)'
-          handler: handleRecoveryStorageSlotSet
-        - event: RecoveryModeExitApproved(address)
-          handler: handleRecoveryModeExitApproved
       file: ./src/mappings/colonyNetwork.ts
 templates:
   - name: Token
@@ -91,19 +45,7 @@ templates:
       abis:
         - name: Token
           file: ./../colonyNetwork/build/contracts/Token.json
-      eventHandlers:
-        - event: 'Mint(indexed address,uint256)'
-          handler: handleMint
-        - event: 'Burn(indexed address,uint256)'
-          handler: handleBurn
-        - event: LogSetAuthority(indexed address)
-          handler: handleLogSetAuthority
-        - event: LogSetOwner(indexed address)
-          handler: handleLogSetOwner
-        - event: 'Approval(indexed address,indexed address,uint256)'
-          handler: handleApproval
-        - event: 'Transfer(indexed address,indexed address,uint256)'
-          handler: handleTransfer
+      eventHandlers: []
   - name: OneTxPayment
     kind: ethereum/contract
     network: mainnet
