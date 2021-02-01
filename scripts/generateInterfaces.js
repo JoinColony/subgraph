@@ -22,6 +22,7 @@ async function main() {
 		await exec("mv ./colonyNetwork/build/contracts/Token.json ./interfaces")
 		await exec("mv ./colonyNetwork/build/contracts/IColony.json ./interfaces")
 		await exec("mv ./colonyNetwork/build/contracts/OneTxPayment.json ./interfaces")
+		await exec("mv ./colonyNetwork/build/contracts/CoinMachine.json ./interfaces")
 		console.log("Interfaces extracted")
 	} catch (err) {
 		console.log(err)
