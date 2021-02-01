@@ -4,32 +4,9 @@ import { log } from '@graphprotocol/graph-ts'
 
 import {
   IColonyNetwork,
-  ColonyNetworkInitialised,
-  TokenLockingAddressSet,
-  MiningCycleResolverSet,
-  NetworkFeeInverseSet,
-  TokenWhitelisted,
-  ColonyVersionAdded,
-  MetaColonyCreated,
   ColonyAdded,
-  SkillAdded,
-  AuctionCreated,
-  ReputationMiningInitialised,
-  ReputationMiningCycleComplete,
-  ReputationRootHashSet,
-  UserLabelRegistered,
   ColonyLabelRegistered,
-  ReputationMinerPenalised,
-  ExtensionAddedToNetwork,
   ExtensionInstalled,
-  ExtensionUpgraded,
-  ExtensionDeprecated,
-  ExtensionUninstalled,
-  RecoveryRoleSet,
-  RecoveryModeEntered,
-  RecoveryModeExited,
-  RecoveryStorageSlotSet,
-  RecoveryModeExitApproved,
 } from '../../generated/ColonyNetwork/IColonyNetwork'
 
 import { handleEvent } from './event'
@@ -44,34 +21,6 @@ import {
 
 import { createToken } from './token'
 import { IColonyNetwork as ColonyNetworkContract } from '../../generated/ColonyNetwork/IColonyNetwork'
-
-export function handleColonyNetworkInitialised(event: ColonyNetworkInitialised): void {
-  handleEvent("ColonyNetworkInitialised(address)", event, event.address)
-}
-
-export function handleTokenLockingAddressSet(event: TokenLockingAddressSet): void {
-  handleEvent("TokenLockingAddressSet(address)", event, event.address)
-}
-
-export function handleMiningCycleResolverSet(event: MiningCycleResolverSet): void {
-  handleEvent("MiningCycleResolverSet(address)", event, event.address)
-}
-
-export function handleNetworkFeeInverseSet(event: NetworkFeeInverseSet): void {
-  handleEvent("NetworkFeeInverseSet(uint256)", event, event.address)
-}
-
-export function handleTokenWhitelisted(event: TokenWhitelisted): void {
-  handleEvent("TokenWhitelisted(address,bool)", event, event.address)
-}
-
-export function handleColonyVersionAdded(event: ColonyVersionAdded): void {
-  handleEvent("ColonyVersionAdded(version,address)", event, event.address)
-}
-
-export function handleMetaColonyCreated(event: MetaColonyCreated): void {
-  handleEvent("MetaColonyCreated(address,address,uint256)", event, event.address)
-}
 
 export function handleColonyAdded(event: ColonyAdded): void {
   let rootDomain = new Domain(event.params.colonyAddress.toHex() + '_domain_1')
@@ -107,32 +56,6 @@ export function handleColonyAdded(event: ColonyAdded): void {
   colony.save()
 
   ColonyTemplate.create(event.params.colonyAddress)
-
-  handleEvent("ColonyAdded(uint256,address,address)", event, event.address)
-}
-
-export function handleSkillAdded(event: SkillAdded): void {
-  handleEvent("SkillAdded(uint256,uint256)", event, event.address)
-}
-
-export function handleAuctionCreated(event: AuctionCreated): void {
-  handleEvent("AuctionCreated(address,address,uint256)", event, event.address)
-}
-
-export function handleReputationMiningInitialised(event: ReputationMiningInitialised): void {
-  handleEvent("ReputationMiningInitialised(address)", event, event.address)
-}
-
-export function handleReputationMiningCycleComplete(event: ReputationMiningCycleComplete): void {
-  handleEvent("ReputationMiningCycleComplete(bytes32,uint256)", event, event.address)
-}
-
-export function handleReputationRootHashSet(event: ReputationRootHashSet): void {
-  handleEvent("ReputationRootHashSet(bytes32,uint256,address[],uint256)", event, event.address)
-}
-
-export function handleUserLabelRegistered(event: UserLabelRegistered): void {
-  handleEvent("UserLabelRegistered(address,bytes32)", event, event.address)
 }
 
 export function handleColonyLabelRegistered(event: ColonyLabelRegistered): void {
@@ -153,16 +76,6 @@ export function handleColonyLabelRegistered(event: ColonyLabelRegistered): void 
   }
 
   colony.save()
-
-  handleEvent("ColonyLabelRegistered(address,bytes32)", event, event.address)
-}
-
-export function handleReputationMinerPenalised(event: ReputationMinerPenalised): void {
-  handleEvent("ReputationMinerPenalised(address,uint256)", event, event.address)
-}
-
-export function handleExtensionAddedToNetwork(event: ExtensionAddedToNetwork): void {
-  handleEvent("ExtensionAddedToNetwork(bytes32,version)", event, event.address)
 }
 
 export function handleExtensionInstalled(event: ExtensionInstalled): void {
@@ -187,39 +100,5 @@ export function handleExtensionInstalled(event: ExtensionInstalled): void {
     log.info("Adding extension at address {}", [extensionAddress.toHexString()]);
 
     CoinMachineTemplate.create(extensionAddress)
-
-    handleEvent("ExtensionInstalled(bytes32,address,version)", event, event.address)
   }
-}
-
-export function handleExtensionUpgraded(event: ExtensionUpgraded): void {
-  handleEvent("ExtensionUpgraded(bytes32,address,version)", event, event.address)
-}
-
-export function handleExtensionDeprecated(event: ExtensionDeprecated): void {
-  handleEvent("ExtensionDeprecated(bytes32,address,bool)", event, event.address)
-}
-
-export function handleExtensionUninstalled(event: ExtensionUninstalled): void {
-  handleEvent("ExtensionUninstalled(bytes32,address)", event, event.address)
-}
-
-export function handleRecoveryRoleSet(event: RecoveryRoleSet): void {
-  handleEvent("RecoveryRoleSet(address,bool)", event, event.address)
-}
-
-export function handleRecoveryModeEntered(event: RecoveryModeEntered): void {
-  handleEvent("RecoveryModeEntered(address)", event, event.address)
-}
-
-export function handleRecoveryModeExited(event: RecoveryModeExited): void {
-  handleEvent("RecoveryModeExited(address)", event, event.address)
-}
-
-export function handleRecoveryStorageSlotSet(event: RecoveryStorageSlotSet): void {
-  handleEvent("RecoveryStorageSlotSet(address,uint256,bytes32,bytes32)", event, event.address)
-}
-
-export function handleRecoveryModeExitApproved(event: RecoveryModeExitApproved): void {
-  handleEvent("RecoveryModeExitApproved(address)", event, event.address)
 }
