@@ -26,6 +26,13 @@ export function handleEvent(eventName: String, event: ethereum.Event, associated
     } else if (event.parameters[i].value.kind == ethereum.ValueKind.FIXED_BYTES) {
       encoder.setString(event.parameters[i].name, event.parameters[i].value.toBytes().toHexString())
       log.info("{}", [event.parameters[i].value.toBytes().toHexString()])
+    } else if (event.parameters[i].value.kind == ethereum.ValueKind.BOOL) {
+      /* I feel dirty doing this. Suggestions are welcomed
+      String(value) isn't a valid operation, and value.toBoolean().toString() isn't valid also
+      (Even tho it's valid in vanilla Javascript) */
+      let stringValue: string = event.parameters[i].value.toBoolean() ? 'true' : 'false'
+      encoder.setString(event.parameters[i].name, stringValue)
+      log.info("{}", [stringValue])
     } else {
       encoder.setString(event.parameters[i].name, "UNKNOWN_PARAMETER_TYPE_UPDATE_SUBGRAPH")
     }
