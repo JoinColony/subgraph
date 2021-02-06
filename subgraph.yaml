@@ -24,6 +24,8 @@ dataSources:
       eventHandlers:
         - event: 'ColonyAdded(indexed uint256,indexed address,address)'
           handler: handleColonyAdded
+        - event: 'ColonyLabelRegistered(indexed address,bytes32)'
+          handler: handleColonyLabelRegistered
         - event: 'ExtensionInstalled(indexed bytes32,indexed address,uint256)'
           handler: handleExtensionInstalled
       file: ./src/mappings/colonyNetwork.ts
@@ -62,6 +64,26 @@ templates:
       eventHandlers:
         - event: 'OneTxPaymentMade(address,uint256,uint256)'
           handler: handleOneTxPaymentMade
+  - name: CoinMachine
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: CoinMachine
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/coinMachine.ts
+      entities:
+        - CoinMachine
+      abis:
+        - name: CoinMachine
+          file: ./../colonyNetwork/build/contracts/CoinMachine.json
+      eventHandlers:
+        - event: 'TokensBought(address,uint256,uint256)'
+          handler: handleTokensBought
+        - event: 'PeriodUpdated(uint256,uint256)'
+          handler: handlePeriodUpdated
   - name: Colony
     kind: ethereum/contract
     network: mainnet
@@ -80,15 +102,91 @@ templates:
         - name: Token
           file: ./../colonyNetwork/build/contracts/Token.json
       eventHandlers:
-        - event: 'DomainAdded(address,uint256)'
-          handler: handleDomainAdded
-        - event: 'DomainMetadata(address,indexed uint256,string)'
-          handler: handleDomainMetadata
+        - event: 'ColonyInitialised(address,address,address)'
+          handler: handleColonyInitialised
+        - event: 'ColonyBootstrapped(address,address[],int256[])'
+          handler: handleColonyBootstrapped
+        - event: 'ColonyFundsClaimed(address,address,uint256,uint256)'
+          handler: handleColonyFundsClaimed
+        - event: 'RewardPayoutCycleStarted(address,uint256)'
+          handler: handleRewardPayoutCycleStarted
+        - event: 'RewardPayoutCycleEnded(address,uint256)'
+          handler: handleRewardPayoutCycleEnded
+        - event: 'RewardPayoutClaimed(uint256,address,uint256,uint256)'
+          handler: handleRewardPayoutClaimed
+        - event: 'ColonyRewardInverseSet(address,uint256)'
+          handler: handleColonyRewardInverseSet
+        - event: 'ExpenditureAdded(address,uint256)'
+          handler: handleExpenditureAdded
+        - event: 'ExpenditureTransferred(address,indexed uint256,indexed address)'
+          handler: handleExpenditureTransferred
+        - event: 'ExpenditureCancelled(address,indexed uint256)'
+          handler: handleExpenditureCancelled
+        - event: 'ExpenditureFinalized(address,indexed uint256)'
+          handler: handleExpenditureFinalized
+        - event: >-
+            ExpenditureRecipientSet(address,indexed uint256,indexed
+            uint256,indexed address)
+          handler: handleExpenditureRecipientSet
+        - event: >-
+            ExpenditureSkillSet(address,indexed uint256,indexed uint256,indexed
+            uint256)
+          handler: handleExpenditureSkillSet
+        - event: >-
+            ExpenditurePayoutSet(address,indexed uint256,indexed uint256,indexed
+            address,uint256)
+          handler: handleExpenditurePayoutSet
         - event: 'PaymentAdded(address,uint256)'
           handler: handlePaymentAdded
-        - event: 'PaymentPayoutSet(address,indexed uint256,address,uint256)'
-          handler: handlePaymentPayoutSet
-        - event: 'ColonyMetadata(address,string)'
-          handler: handleColonyMetadata
+        - event: 'TaskAdded(address,uint256)'
+          handler: handleTaskAdded
+        - event: 'TaskBriefSet(indexed uint256,bytes32)'
+          handler: handleTaskBriefSet
+        - event: 'TaskDueDateSet(indexed uint256,uint256)'
+          handler: handleTaskDueDateSet
+        - event: 'TaskSkillSet(indexed uint256,indexed uint256)'
+          handler: handleTaskSkillSet
+        - event: 'TaskRoleUserSet(indexed uint256,uint8,indexed address)'
+          handler: handleTaskRoleUserSet
+        - event: 'TaskPayoutSet(indexed uint256,uint8,address,uint256)'
+          handler: handleTaskPayoutSet
+        - event: 'TaskChangedViaSignatures(address[])'
+          handler: handleTaskChangedViaSignatures
+        - event: 'TaskDeliverableSubmitted(address,indexed uint256,bytes32)'
+          handler: handleTaskDeliverableSubmitted
+        - event: 'TaskCompleted(address,indexed uint256)'
+          handler: handleTaskCompleted
+        - event: 'TaskWorkRatingRevealed(address,indexed uint256,uint8,uint8)'
+          handler: handleTaskWorkRatingRevealed
+        - event: 'TaskFinalized(address,indexed uint256)'
+          handler: handleTaskFinalized
         - event: 'TokensMinted(address,address,uint256)'
           handler: handleTokensMinted
+        - event: 'PayoutClaimed(address,indexed uint256,address,uint256)'
+          handler: handlePayoutClaimed
+        - event: TaskCanceled(indexed uint256)
+          handler: handleTaskCanceled
+        - event: 'DomainAdded(address,uint256)'
+          handler: handleDomainAdded
+        - event: DomainAdded(uint256)
+          handler: handleHistoricDomainAdded
+        - event: 'DomainMetadata(address,indexed uint256,string)'
+          handler: handleDomainMetadata
+        - event: 'ColonyMetadata(address,string)'
+          handler: handleColonyMetadata
+        - event: FundingPotAdded(uint256)
+          handler: handleFundingPotAdded
+        - event: 'Annotation(indexed address,indexed bytes32,string)'
+          handler: handleAnnotation
+        - event: 'PaymentPayoutSet(address,indexed uint256,address,uint256)'
+          handler: handlePaymentPayoutSet
+        - event: 'PaymentSkillSet(address,indexed uint256,uint256)'
+          handler: handlePaymentSkillSet
+        - event: 'PaymentRecipientSet(address,indexed uint256,address)'
+          handler: handlePaymentRecipientSet
+        - event: 'PaymentFinalized(address,indexed uint256)'
+          handler: handlePaymentFinalized
+        - event: 'TokensBurned(address,address,uint256)'
+          handler: handleTokensBurned
+        - event: 'ColonyFundsMovedBetweenFundingPots(address,indexed uint256,indexed uint256,uint256,address)'
+          handler: handleFundsMovedBetweenFundingPots

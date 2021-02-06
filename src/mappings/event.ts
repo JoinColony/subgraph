@@ -13,16 +13,19 @@ export function handleEvent(eventName: String, event: ethereum.Event, associated
   let encoder = new JSONEncoder();
   encoder.pushObject("");
 
-  for (let i = 0; i< event.parameters.length; i += 1){
-   if (event.parameters[i].value.kind == ethereum.ValueKind.STRING){
-     encoder.setString(event.parameters[i].name, event.parameters[i].value.toString())
-     log.info("{}", [event.parameters[i].value.toString()])
-   } else if (event.parameters[i].value.kind == ethereum.ValueKind.INT || event.parameters[i].value.kind == ethereum.ValueKind.UINT ){
-     encoder.setString(event.parameters[i].name, event.parameters[i].value.toBigInt().toString())
-     log.info("{}", [event.parameters[i].value.toBigInt().toString()])
-   } else if (event.parameters[i].value.kind == ethereum.ValueKind.ADDRESS){
-     encoder.setString(event.parameters[i].name, event.parameters[i].value.toAddress().toHexString())
-     log.info("{}", [event.parameters[i].value.toAddress().toHexString()])
+  for (let i = 0; i < event.parameters.length; i += 1) {
+    if (event.parameters[i].value.kind == ethereum.ValueKind.STRING) {
+      encoder.setString(event.parameters[i].name, event.parameters[i].value.toString())
+      log.info("{}", [event.parameters[i].value.toString()])
+    } else if (event.parameters[i].value.kind == ethereum.ValueKind.INT || event.parameters[i].value.kind == ethereum.ValueKind.UINT) {
+      encoder.setString(event.parameters[i].name, event.parameters[i].value.toBigInt().toString())
+      log.info("{}", [event.parameters[i].value.toBigInt().toString()])
+    } else if (event.parameters[i].value.kind == ethereum.ValueKind.ADDRESS) {
+      encoder.setString(event.parameters[i].name, event.parameters[i].value.toAddress().toHexString())
+      log.info("{}", [event.parameters[i].value.toAddress().toHexString()])
+    } else if (event.parameters[i].value.kind == ethereum.ValueKind.FIXED_BYTES) {
+      encoder.setString(event.parameters[i].name, event.parameters[i].value.toBytes().toHexString())
+      log.info("{}", [event.parameters[i].value.toBytes().toHexString()])
     } else {
       encoder.setString(event.parameters[i].name, "UNKNOWN_PARAMETER_TYPE_UPDATE_SUBGRAPH")
     }
@@ -33,14 +36,14 @@ export function handleEvent(eventName: String, event: ethereum.Event, associated
   eventObj.args = encoder.toString()
 
   let transaction = Transaction.load(event.transaction.hash.toHexString())
-  if (transaction == null){
+  if (transaction == null) {
     transaction = new Transaction(event.transaction.hash.toHexString())
     transaction.block = "block_" + event.block.number.toString()
     transaction.save()
   }
 
   let block = Block.load("block_" + event.block.number.toString())
-  if (block == null){
+  if (block == null) {
     block = new Block("block_" + event.block.number.toString())
     block.timestamp = event.block.timestamp
     block.save()

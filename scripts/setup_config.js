@@ -3,7 +3,7 @@ const os = require('os');
 const { readFileSync, writeFileSync, existsSync } = require('fs');
 const yaml = require('js-yaml');
 
-const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000';
+const NETWORK_ADDRESS = process.env.NETWORK_ADDRESS || '0x0000000000000000000000000000000000000000';
 const SUBGRAPH_CONFIG = path.resolve(__dirname, '..', 'subgraph.yaml');
 const ETHER_ROUTER_ADDRESS = path.resolve(__dirname, '..', '..', 'colonyNetwork/etherrouter-address.json');
 
@@ -21,7 +21,7 @@ try {
     /*
      * Get the deployed etherRouter address
      */
-    let etherRouterAddress = ADDRESS_ZERO;
+    let etherRouterAddress = NETWORK_ADDRESS;
     if (existsSync(ETHER_ROUTER_ADDRESS)) {
       etherRouterAddress = require(ETHER_ROUTER_ADDRESS).etherRouterAddress;
     }

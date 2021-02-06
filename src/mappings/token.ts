@@ -1,7 +1,8 @@
 import { Address, BigInt } from '@graphprotocol/graph-ts'
 
-import { Token as TokenContract } from '../../generated/templates/Token/Token'
-import { Token } from '../../generated/templates/Token/Token'
+import {
+  Token as TokenContract,
+} from '../../generated/templates/Token/Token'
 import { Token as TokenSchema } from '../../generated/schema'
 
 export function createToken(tokenAddress: string): void {
