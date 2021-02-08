@@ -336,5 +336,5 @@ export function handleFundsMovedBetweenFundingPots(event: ColonyFundsMovedBetwee
 }
 
 export function handleColonyRoleSet(event: ColonyRoleSet): void {
-  handleEvent("ColonyRoleSet(address, address, uint256, uint8, bool)", event, event.address)
+  handleEvent("ColonyRoleSet(address,address,uint256,uint8,bool)", event, event.address)
 }
