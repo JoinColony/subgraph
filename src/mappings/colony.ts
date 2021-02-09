@@ -196,7 +196,7 @@ export function handleDomainAdded(event: DomainAdded): void {
   // And extract the parent that way. But it causes a memory-access out-of-bounds error which
   // isn't really a good sign...
   domain.parent = event.address.toHex() + '_domain_1'
-  domain.name = "Domain #" + event.params.domainId.toString()
+  domain.name = "Team #" + event.params.domainId.toString()
   if (event.params.domainId.toString() == '1') {
     domain.name = "Root"
     domain.parent = null
