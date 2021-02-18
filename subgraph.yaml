@@ -196,3 +196,23 @@ templates:
             ColonyRoleSet(address,indexed address,indexed uint256,indexed
             uint8,bool)
           handler: handleColonyRoleSet
+  - name: TokenLocking
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: TokenLocking
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/tokenLocking.ts
+      entities:
+        - TokenLocking
+      abis:
+        - name: TokenLocking
+          file: ./interfaces/TokenLocking.json
+      eventHandlers:
+        - event: 'UserTokenWithdrawn(address,address,uint256)'
+          handler: handleUserTokenWithdrawn
+        - event: 'UserTokenDeposited(address,address,uint256)'
+          handler: handleUserTokenDeposited
