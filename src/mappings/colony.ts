@@ -46,6 +46,7 @@ import {
   ColonyRoleSet,
   ColonyUpgraded,
   ColonyUpgraded1 as HistoricColonyUpgraded,
+  RecoveryModeEntered,
 } from '../../generated/templates/Colony/IColony'
 
 import {
@@ -347,4 +348,8 @@ export function handleColonyUpgraded(event: ColonyUpgraded): void {
 
 export function handleHistoricColonyUpgraded(event: HistoricColonyUpgraded): void {
   handleEvent("ColonyUpgraded(uint256,uint256)", event, event.address)
+}
+
+export function handleRecoveryModeEntered(event: RecoveryModeEntered): void {
+  handleEvent("RecoveryModeEntered(address)", event, event.address)
 }
