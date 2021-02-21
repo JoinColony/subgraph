@@ -47,6 +47,9 @@ import {
   ColonyUpgraded,
   ColonyUpgraded1 as HistoricColonyUpgraded,
   RecoveryModeEntered,
+  RecoveryModeExitApproved,
+  RecoveryModeExited,
+  RecoveryStorageSlotSet,
 } from '../../generated/templates/Colony/IColony'
 
 import {
@@ -352,4 +355,16 @@ export function handleHistoricColonyUpgraded(event: HistoricColonyUpgraded): voi
 
 export function handleRecoveryModeEntered(event: RecoveryModeEntered): void {
   handleEvent("RecoveryModeEntered(address)", event, event.address)
+}
+
+export function handleRecoveryModeExitApproved(event: RecoveryModeExitApproved): void {
+  handleEvent("RecoveryModeExitApproved(address)", event, event.address)
+}
+
+export function handleRecoveryModeExited(event: RecoveryModeExited): void {
+  handleEvent("RecoveryModeExited(address)", event, event.address)
+}
+
+export function handleRecoveryStorageSlotSet(event: RecoveryStorageSlotSet): void {
+  handleEvent("RecoveryStorageSlotSet(address,uint256,bytes32,bytes32)", event, event.address)
 }

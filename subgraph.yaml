@@ -201,6 +201,12 @@ templates:
           handler: handleTokensBurned
         - event: RecoveryModeEntered(address)
           handler: handleRecoveryModeEntered
+        - event: RecoveryModeExitApproved(address)
+          handler: handleRecoveryModeExitApproved
+        - event: RecoveryModeExited(address)
+          handler: handleRecoveryModeExited
+        - event: 'RecoveryStorageSlotSet(address,uint256,bytes32,bytes32)'
+          handler: handleRecoveryStorageSlotSet
         - event: >-
             ColonyFundsMovedBetweenFundingPots(address,indexed uint256,indexed
             uint256,uint256,address)
