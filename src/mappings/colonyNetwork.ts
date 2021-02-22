@@ -90,7 +90,7 @@ export function handleExtensionInstalled(event: ExtensionInstalled): void {
 
     OneTxPaymentTemplate.create(extensionAddress)
 
-    handleEvent("ExtensionInstalled(bytes32,address,version)", event, event.address)
+    handleEvent("ExtensionInstalled(bytes32,address,version)", event, event.params.colony)
   }
 
   if (event.params.extensionId.toHexString() == COIN_MACHINE) {
