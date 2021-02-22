@@ -7,7 +7,7 @@ type Colony @entity {
   domains: [Domain!]!
   metadata: String
   metadataHistory: [ColonyMetadata!]! @derivedFrom(field: "colony")
-  extensions: [ColonyExtension!]
+  extensions: [ColonyExtension!] @derivedFrom(field: "colony")
 }
 
 type ColonyMetadata @entity {
