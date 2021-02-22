@@ -7,6 +7,9 @@ import {
   ColonyAdded,
   ColonyLabelRegistered,
   ExtensionInstalled,
+  ExtensionUninstalled,
+  ExtensionDeprecated,
+  ExtensionUpgraded,
 } from '../../generated/ColonyNetwork/IColonyNetwork'
 
 import { handleEvent } from './event'
@@ -89,8 +92,6 @@ export function handleExtensionInstalled(event: ExtensionInstalled): void {
     log.info("Adding extension at address {}", [extensionAddress.toHexString()]);
 
     OneTxPaymentTemplate.create(extensionAddress)
-
-    handleEvent("ExtensionInstalled(bytes32,address,version)", event, event.params.colony)
   }
 
   if (event.params.extensionId.toHexString() == COIN_MACHINE) {
@@ -101,4 +102,18 @@ export function handleExtensionInstalled(event: ExtensionInstalled): void {
 
     CoinMachineTemplate.create(extensionAddress)
   }
+
+  handleEvent("ExtensionInstalled(bytes32,address,version)", event, event.params.colony)
+}
+
+export function handleExtensionUninstalled(event: ExtensionUninstalled): void {
+  handleEvent("ExtensionUninstalled(bytes32,address)", event, event.params.colony)
+}
+
+export function handleExtensionDeprecated(event: ExtensionDeprecated): void {
+  handleEvent("ExtensionDeprecated(bytes32,address,bool)", event, event.params.colony)
+}
+
+export function handleExtensionUpgraded(event: ExtensionUpgraded): void {
+  handleEvent("ExtensionUpgraded(bytes32,address,uint256)", event, event.params.colony)
 }
