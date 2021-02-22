@@ -1,13 +1,21 @@
-import { BigInt, crypto, ByteArray, Bytes } from '@graphprotocol/graph-ts'
-import { log } from '@graphprotocol/graph-ts'
+import { BigInt } from '@graphprotocol/graph-ts'
 
-import { OneTxPaymentMade } from '../../generated/templates/OneTxPayment/OneTxPayment'
+import {
+  OneTxPaymentMade,
+  ExtensionInitialised,
+  OneTxPayment as OneTxPaymentContract,
+} from '../../generated/templates/OneTxPayment/OneTxPayment'
 
-import { OneTxPayment, Transaction, Block } from '../../generated/schema'
-
-import { OneTxPayment as OneTxPaymentContract } from '../../generated/templates/OneTxPayment/OneTxPayment'
+import { OneTxPayment } from '../../generated/schema'
 
 import { handleEvent } from './event'
+
+export function handleExtensionInitialised(event: ExtensionInitialised): void {
+  let extension = OneTxPaymentContract.bind(event.address);
+  let colony = extension.getColony();
+
+  handleEvent("ExtensionInitialised()", event, colony)
+}
 
 export function handleOneTxPaymentMade(event: OneTxPaymentMade): void {
   let extension = OneTxPaymentContract.bind(event.address);
@@ -28,6 +36,4 @@ export function handleOneTxPaymentMade(event: OneTxPaymentMade): void {
   otxp.save()
 
   handleEvent("OneTxPaymentMade(address,uint256,uint256)", event, colony)
-
 }
-

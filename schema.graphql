@@ -7,6 +7,7 @@ type Colony @entity {
   domains: [Domain!]!
   metadata: String
   metadataHistory: [ColonyMetadata!]! @derivedFrom(field: "colony")
+  extensions: [ColonyExtension!]
 }
 
 type ColonyMetadata @entity {
@@ -91,4 +92,11 @@ type Event @entity {
   associatedColony: Colony
   name: String
   args: String
+}
+
+type ColonyExtension @entity {
+  id: ID! # Address
+  colony: Colony!
+  hash: String
+  installed: Boolean
 }

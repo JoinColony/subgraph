@@ -70,6 +70,8 @@ templates:
       eventHandlers:
         - event: 'OneTxPaymentMade(address,uint256,uint256)'
           handler: handleOneTxPaymentMade
+        - event: ExtensionInitialised()
+          handler: handleExtensionInitialised
   - name: CoinMachine
     kind: ethereum/contract
     network: mainnet
@@ -90,6 +92,8 @@ templates:
           handler: handleTokensBought
         - event: 'PeriodUpdated(uint256,uint256)'
           handler: handlePeriodUpdated
+        - event: ExtensionInitialised()
+          handler: handleExtensionInitialised
   - name: Colony
     kind: ethereum/contract
     network: mainnet
