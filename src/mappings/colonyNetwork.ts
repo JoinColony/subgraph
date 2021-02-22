@@ -85,14 +85,19 @@ export function handleExtensionInstalled(event: ExtensionInstalled): void {
   let ONE_TX_PAYMENT = crypto.keccak256(ByteArray.fromUTF8("OneTxPayment")).toHexString()
   let COIN_MACHINE = crypto.keccak256(ByteArray.fromUTF8("CoinMachine")).toHexString()
 
-  let cn = IColonyNetwork.bind(event.address);
+  let cn = IColonyNetwork.bind(event.address)
   let colony = Colony.load(event.params.colony.toHexString())
   let extensionAddress = cn.getExtensionInstallation(event.params.extensionId, event.params.colony)
 
-  let extension = new ColonyExtension(extensionAddress.toHexString())
+  let extension = new ColonyExtension(
+    colony.id.toString() +
+    '_extension_' + event.params.extensionId.toHexString() +
+    '_transaction_' + event.transaction.hash.toHexString() +
+    '_log_' + event.logIndex.toString(),
+  )
+  extension.address = extensionAddress.toHexString()
   extension.hash = event.params.extensionId.toHexString()
   extension.colony = colony.id
-  extension.installed = true;
 
   if (event.params.extensionId.toHexString() == ONE_TX_PAYMENT) {
     OneTxPaymentTemplate.create(extensionAddress)

@@ -95,8 +95,8 @@ type Event @entity {
 }
 
 type ColonyExtension @entity {
-  id: ID! # Address
+  id: ID! # colonyAddress_extensionId_transactionHash_logId
+  address: String!
   colony: Colony!
-  hash: String
-  installed: Boolean
+  hash: String!
 }
