@@ -3,7 +3,7 @@ const request = require('request-promise-native');
 async function main() {
 
     const formData = {
-      'event_type': `deploy-goerli`,
+      'event_type': `process.env.EVENT_TYPE`,
       'client_payload': {
         'message':{
         SUBGRAPH_COMMIT: process.env.SUBGRAPH_COMMIT,

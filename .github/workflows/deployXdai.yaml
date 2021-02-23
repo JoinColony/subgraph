@@ -1,8 +1,8 @@
-name: Deploy Goerli
+name: Deploy Xdai QA
 
 on:
   repository_dispatch:
-    types: [deploy-goerli]
+    types: [deploy-xdai]
 
 jobs:
   deploy-goerli:
@@ -16,9 +16,9 @@ jobs:
       - name: Install needed dependencies
         run: npm i
       - name: Patch subgraph for bad domains
-        run: sed -i "s|'colony.joincolony.eth', 'colony.joincolony.eth'|'colony.joincolony.eth', 'colony.joincolony.test'|g" ./src/mappings/colonyNetwork.ts
+        run: sed -i "s|'colony.joincolony.eth', 'colony.joincolony.eth'|'colony.joincolony.eth', 'colony.joincolony.colonyxdai'|g" ./src/mappings/colonyNetwork.ts
       - name: Build the graph
-        run: npm run build-goerli
+        run: npm run build-xdai
         env:
           CONTRACT_COMMIT: ${{ github.event.client_payload.message.CONTRACT_COMMIT}}
           CUSTOM_ICOLONY_PATH: "../interfaces/IColony.json"
@@ -26,4 +26,4 @@ jobs:
         run: npm run deploy-network
         env:
           GRAPH_TOKEN: ${{ secrets.GRAPH_TOKEN }}
-          SUBGRAPH_NAME: goerli
+          SUBGRAPH_NAME: xdai

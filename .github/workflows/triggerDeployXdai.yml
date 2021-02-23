@@ -1,10 +1,10 @@
 name: Prepare deploy goerli
 on:
   repository_dispatch:
-    types: [trigger-deploy-goerli]
+    types: [trigger-deploy-xdai]
 
 jobs:
-  trigger-deploy-goerli:
+  trigger-deploy-xdai:
     name: Get commits needed for subgraph deployment
     runs-on: ubuntu-latest
     steps:
@@ -24,6 +24,6 @@ jobs:
         run: |
           NETWORK_COMMIT=`cd colonyDapp && git ls-tree HEAD:src/lib/ | grep colonyNetwork | awk '{ print $3 }'`
           SUBGRAPH_COMMIT=`cd colonyDapp && git ls-tree HEAD:src/lib/ | grep subgraph | awk '{ print $3 }'`
-          NETWORK_COMMIT=$NETWORK_COMMIT SUBGRAPH_COMMIT=$SUBGRAPH_COMMIT EVENT_TYPE=deploy-goerli node ./scripts/trigger_deployment_action.js
+          NETWORK_COMMIT=$NETWORK_COMMIT SUBGRAPH_COMMIT=$SUBGRAPH_COMMIT EVENT_TYPE=deploy-xdai node ./scripts/trigger_deployment_action.js
         env:
           CHEWIE_GITHUB_TOKEN: ${{ secrets.CHEWIE_GITHUB_TOKEN }}
