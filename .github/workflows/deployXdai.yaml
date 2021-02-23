@@ -26,4 +26,4 @@ jobs:
         run: npm run deploy-network
         env:
           GRAPH_TOKEN: ${{ secrets.GRAPH_TOKEN }}
-          SUBGRAPH_NAME: xdai
+          SUBGRAPH_NAME: colony-xdai
