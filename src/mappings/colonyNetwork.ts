@@ -1,4 +1,4 @@
-import { BigInt, crypto, ByteArray, Bytes, Address } from '@graphprotocol/graph-ts'
+import { BigInt, crypto, ByteArray, Address } from '@graphprotocol/graph-ts'
 
 import { log } from '@graphprotocol/graph-ts'
 
@@ -7,12 +7,15 @@ import {
   ColonyAdded,
   ColonyLabelRegistered,
   ExtensionInstalled,
+  ExtensionUninstalled,
+  ExtensionDeprecated,
+  ExtensionUpgraded,
 } from '../../generated/ColonyNetwork/IColonyNetwork'
 
 import { handleEvent } from './event'
 import { replaceFirst} from '../utils';
 
-import { Colony, Domain } from '../../generated/schema'
+import { Colony, Domain, ColonyExtension, ColonyMetadata } from '../../generated/schema'
 import {
   Colony as ColonyTemplate,
   OneTxPayment as OneTxPaymentTemplate,
@@ -82,23 +85,42 @@ export function handleExtensionInstalled(event: ExtensionInstalled): void {
   let ONE_TX_PAYMENT = crypto.keccak256(ByteArray.fromUTF8("OneTxPayment")).toHexString()
   let COIN_MACHINE = crypto.keccak256(ByteArray.fromUTF8("CoinMachine")).toHexString()
 
+  let cn = IColonyNetwork.bind(event.address)
+  let colony = Colony.load(event.params.colony.toHexString())
+  let extensionAddress = cn.getExtensionInstallation(event.params.extensionId, event.params.colony)
+
+  let extension = new ColonyExtension(
+    colony.id.toString() +
+    '_extension_' + event.params.extensionId.toHexString() +
+    '_transaction_' + event.transaction.hash.toHexString() +
+    '_log_' + event.logIndex.toString(),
+  )
+  extension.address = extensionAddress.toHexString()
+  extension.hash = event.params.extensionId.toHexString()
+  extension.colony = colony.id
+
   if (event.params.extensionId.toHexString() == ONE_TX_PAYMENT) {
-    log.info("ExtensionInstalled event seen, {}, {}", [event.params.extensionId.toHexString(), ONE_TX_PAYMENT]);
-    let cn = IColonyNetwork.bind(event.address);
-    let extensionAddress = cn.getExtensionInstallation(<Bytes>ByteArray.fromHexString(ONE_TX_PAYMENT), event.params.colony)
-    log.info("Adding extension at address {}", [extensionAddress.toHexString()]);
-
     OneTxPaymentTemplate.create(extensionAddress)
-
-    handleEvent("ExtensionInstalled(bytes32,address,version)", event, event.address)
   }
 
   if (event.params.extensionId.toHexString() == COIN_MACHINE) {
-    log.info("ExtensionInstalled event seen, {}, {}", [event.params.extensionId.toHexString(), COIN_MACHINE]);
-    let cn = IColonyNetwork.bind(event.address);
-    let extensionAddress = cn.getExtensionInstallation(<Bytes>ByteArray.fromHexString(COIN_MACHINE), event.params.colony)
-    log.info("Adding extension at address {}", [extensionAddress.toHexString()]);
-
     CoinMachineTemplate.create(extensionAddress)
   }
+
+  handleEvent("ExtensionInstalled(bytes32,address,version)", event, event.params.colony)
+
+  extension.save()
+  colony.save()
+}
+
+export function handleExtensionUninstalled(event: ExtensionUninstalled): void {
+  handleEvent("ExtensionUninstalled(bytes32,address)", event, event.params.colony)
+}
+
+export function handleExtensionDeprecated(event: ExtensionDeprecated): void {
+  handleEvent("ExtensionDeprecated(bytes32,address,bool)", event, event.params.colony)
+}
+
+export function handleExtensionUpgraded(event: ExtensionUpgraded): void {
+  handleEvent("ExtensionUpgraded(bytes32,address,uint256)", event, event.params.colony)
 }

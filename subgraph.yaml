@@ -28,6 +28,12 @@ dataSources:
           handler: handleColonyLabelRegistered
         - event: 'ExtensionInstalled(indexed bytes32,indexed address,uint256)'
           handler: handleExtensionInstalled
+        - event: 'ExtensionUninstalled(indexed bytes32,indexed address)'
+          handler: handleExtensionUninstalled
+        - event: 'ExtensionDeprecated(indexed bytes32,indexed address,bool)'
+          handler: handleExtensionDeprecated
+        - event: 'ExtensionUpgraded(indexed bytes32,indexed address,uint256)'
+          handler: handleExtensionUpgraded
       file: ./src/mappings/colonyNetwork.ts
 templates:
   - name: Token
@@ -64,6 +70,8 @@ templates:
       eventHandlers:
         - event: 'OneTxPaymentMade(address,uint256,uint256)'
           handler: handleOneTxPaymentMade
+        - event: ExtensionInitialised()
+          handler: handleExtensionInitialised
   - name: CoinMachine
     kind: ethereum/contract
     network: mainnet
@@ -84,6 +92,8 @@ templates:
           handler: handleTokensBought
         - event: 'PeriodUpdated(uint256,uint256)'
           handler: handlePeriodUpdated
+        - event: ExtensionInitialised()
+          handler: handleExtensionInitialised
   - name: Colony
     kind: ethereum/contract
     network: mainnet
