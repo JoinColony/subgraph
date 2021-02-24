@@ -17,6 +17,8 @@ jobs:
         run: npm i
       - name: Patch subgraph for bad domains
         run: sed -i "s|'colony.joincolony.eth', 'colony.joincolony.eth'|'colony.joincolony.eth', 'colony.joincolony.test'|g" ./src/mappings/colonyNetwork.ts
+      - name: Patch subgraph for start block
+        run: sed -i 's|startBlock: 1|startBlock: 526045|g' ./subgraph.yaml
       - name: Build the graph
         run: npm run build-goerli
         env:
