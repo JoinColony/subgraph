@@ -209,3 +209,5 @@ templates:
           handler: handleColonyRoleSet
         - event: 'ColonyUpgraded(address,uint256,uint256)'
           handler: handleColonyUpgraded
+        - event: 'ColonyUpgraded(uint256,uint256)'
+          handler: handleHistoricColonyUpgraded
