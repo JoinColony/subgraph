@@ -11,5 +11,22 @@
     ],
     "name": "DomainAdded",
     "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "oldVersion",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "newVersion",
+        "type": "uint256"
+      }
+    ],
+    "name": "ColonyUpgraded",
+    "type": "event"
   }
 ]

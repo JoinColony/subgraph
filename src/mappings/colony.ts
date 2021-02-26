@@ -44,6 +44,8 @@ import {
   TokensBurned,
   ColonyFundsMovedBetweenFundingPots,
   ColonyRoleSet,
+  ColonyUpgraded,
+  ColonyUpgraded1 as HistoricColonyUpgraded,
 } from '../../generated/templates/Colony/IColony'
 
 import {
@@ -337,4 +339,12 @@ export function handleFundsMovedBetweenFundingPots(event: ColonyFundsMovedBetwee
 
 export function handleColonyRoleSet(event: ColonyRoleSet): void {
   handleEvent("ColonyRoleSet(address,address,uint256,uint8,bool)", event, event.address)
+}
+
+export function handleColonyUpgraded(event: ColonyUpgraded): void {
+  handleEvent("ColonyUpgraded(address,uint256,uint256)", event, event.address)
+}
+
+export function handleHistoricColonyUpgraded(event: HistoricColonyUpgraded): void {
+  handleEvent("ColonyUpgraded(uint256,uint256)", event, event.address)
 }
