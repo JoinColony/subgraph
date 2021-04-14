@@ -119,6 +119,10 @@ templates:
             MotionStaked(indexed uint256,indexed address,indexed
             uint256,uint256)
           handler: handleMotionStaked
+        - event: >-
+            MotionEscalated(indexed uint256,address,indexed uint256,indexed
+            uint256)
+          handler: handleMotionEscalated
   - name: Colony
     kind: ethereum/contract
     network: mainnet
