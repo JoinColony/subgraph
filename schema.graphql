@@ -103,11 +103,12 @@ type ColonyExtension @entity {
 
 type Motion @entity {
   id: ID! # colonyAddress_motion_extensionAddress_motionId
+  extensionAddress: String
   associatedColony: Colony
   transaction: Transaction
   agent: String
   domain: Domain
-  state: Int
-  stake: BigInt
+  currentStake: BigInt
+  requiredStake: BigInt
   escalated: Boolean
 }
