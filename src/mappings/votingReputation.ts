@@ -27,6 +27,7 @@ export function handleMotionCreated(event: MotionCreated): void {
   let chainMotion = extension.getMotion(motionId);
 
   let motion = new Motion(colony.toHexString() + "_motion_" + extension._address.toHexString() + '_' + motionId.toString());
+  motion.fundamentalChainId = motionId
   motion.associatedColony = colony.toHexString()
   motion.extensionAddress = extension._address.toHexString()
   motion.transaction = event.transaction.hash.toHexString()
