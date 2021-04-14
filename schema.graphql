@@ -18,7 +18,7 @@ type ColonyMetadata @entity {
 }
 
 type Domain @entity {
-  id: ID! # colonyAddress_domainId
+  id: ID! # colonyAddress_domain_domainId
   domainChainId: BigInt!
   parent: Domain
   name: String
@@ -99,4 +99,15 @@ type ColonyExtension @entity {
   address: String!
   colony: Colony!
   hash: String!
+}
+
+type Motion @entity {
+  id: ID! # colonyAddress_motion_extensionAddress_motionId
+  associatedColony: Colony
+  transaction: Transaction
+  agent: String
+  domain: Domain
+  state: Int
+  stake: BigInt
+  escalated: Boolean
 }
