@@ -115,6 +115,10 @@ templates:
           handler: handleMotionCreated
         - event: ExtensionInitialised()
           handler: handleExtensionInitialised
+        - event: >-
+            MotionStaked(indexed uint256,indexed address,indexed
+            uint256,uint256)
+          handler: handleMotionStaked
   - name: Colony
     kind: ethereum/contract
     network: mainnet

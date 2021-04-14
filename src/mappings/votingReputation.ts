@@ -2,6 +2,7 @@ import { BigInt } from '@graphprotocol/graph-ts'
 
 import {
   MotionCreated,
+  MotionStaked,
   ExtensionInitialised,
   VotingReputation as VotingReputationContract
 } from '../../generated/templates/VotingReputation/VotingReputation'
@@ -37,4 +38,19 @@ export function handleMotionCreated(event: MotionCreated): void {
   motion.save()
 
   handleEvent("MotionCreated(uint256,address,uint256)", event, colony)
+}
+
+export function handleMotionStaked(event: MotionStaked): void {
+  let extension = VotingReputationContract.bind(event.address);
+  let colony = extension.getColony();
+
+  let motionId = event.params.motionId;
+  let chainMotion = extension.getMotion(motionId);
+
+  let motion = new Motion(colony.toHexString() + "_motion_" + extension._address.toHexString() + '_' + motionId.toString());
+  motion.currentStake = chainMotion.stakes.pop()
+
+  motion.save()
+
+  handleEvent("MotionStaked(uint256,address,uint256,uint256)", event, colony)
 }
