@@ -110,7 +110,7 @@ type Motion @entity {
   transaction: Transaction
   agent: String
   domain: Domain
-  currentStake: BigInt
+  stakes: [BigInt!]
   requiredStake: BigInt
   escalated: Boolean
 }
