@@ -1,10 +1,15 @@
 import { BigInt } from '@graphprotocol/graph-ts'
 
 import {
+  ExtensionInitialised,
   MotionCreated,
   MotionStaked,
+  MotionVoteSubmitted,
+  MotionVoteRevealed,
   MotionEscalated,
-  ExtensionInitialised,
+  MotionFinalized,
+  MotionRewardClaimed,
+  MotionEventSet,
   VotingReputation as VotingReputationContract
 } from '../../generated/templates/VotingReputation/VotingReputation'
 
@@ -59,6 +64,20 @@ export function handleMotionStaked(event: MotionStaked): void {
   handleEvent("MotionStaked(uint256,address,uint256,uint256)", event, colony)
 }
 
+export function handleMotionVoteSubmitted(event: MotionVoteSubmitted): void {
+  let extension = VotingReputationContract.bind(event.address);
+  let colony = extension.getColony();
+
+  handleEvent("MotionVoteSubmitted(uint256,address)", event, colony)
+}
+
+export function handleMotionVoteRevealed(event: MotionVoteRevealed): void {
+  let extension = VotingReputationContract.bind(event.address);
+  let colony = extension.getColony();
+
+  handleEvent("MotionVoteRevealed(uint256,address,uint256)", event, colony)
+}
+
 export function handleMotionEscalated(event: MotionEscalated): void {
   let extension = VotingReputationContract.bind(event.address);
   let colony = extension.getColony();
@@ -72,4 +91,25 @@ export function handleMotionEscalated(event: MotionEscalated): void {
   motion.save()
 
   handleEvent("MotionEscalated(uint256,address,uint256,uint256)", event, colony)
+}
+
+export function handleMotionFinalized(event: MotionFinalized): void {
+  let extension = VotingReputationContract.bind(event.address);
+  let colony = extension.getColony();
+
+  handleEvent("MotionFinalized(uint256,bytes,bool)", event, colony)
+}
+
+export function handleMotionRewardClaimed(event: MotionRewardClaimed): void {
+  let extension = VotingReputationContract.bind(event.address);
+  let colony = extension.getColony();
+
+  handleEvent("MotionRewardClaimed(uint256,address,uint256,uint256)", event, colony)
+}
+
+export function handleMotionEventSet(event: MotionEventSet): void {
+  let extension = VotingReputationContract.bind(event.address);
+  let colony = extension.getColony();
+
+  handleEvent("MotionEventSet(uint256,uint256)", event, colony)
 }

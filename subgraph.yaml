@@ -111,18 +111,33 @@ templates:
         - name: VotingReputation
           file: ./../colonyNetwork/build/contracts/VotingReputation.json
       eventHandlers:
-        - event: 'MotionCreated(indexed uint256,address,indexed uint256)'
-          handler: handleMotionCreated
         - event: ExtensionInitialised()
           handler: handleExtensionInitialised
+        - event: 'MotionCreated(indexed uint256,address,indexed uint256)'
+          handler: handleMotionCreated
         - event: >-
             MotionStaked(indexed uint256,indexed address,indexed
             uint256,uint256)
           handler: handleMotionStaked
         - event: >-
+            MotionVoteSubmitted(indexed uint256,indexed address)
+          handler: handleMotionVoteSubmitted
+        - event: >-
+            MotionVoteRevealed(indexed uint256,indexed address,indexed uint256)
+          handler: handleMotionVoteRevealed
+        - event: >-
+            MotionFinalized(indexed uint256,bytes,bool)
+          handler: handleMotionFinalized
+        - event: >-
             MotionEscalated(indexed uint256,address,indexed uint256,indexed
             uint256)
           handler: handleMotionEscalated
+        - event: >-
+            MotionRewardClaimed(indexed uint256,indexed address,indexed uint256,uint256)
+          handler: handleMotionRewardClaimed
+        - event: >-
+            MotionEventSet(indexed uint256,uint256)
+          handler: handleMotionEventSet
   - name: Colony
     kind: ethereum/contract
     network: mainnet
