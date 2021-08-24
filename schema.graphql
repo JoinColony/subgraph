@@ -114,3 +114,10 @@ type Motion @entity {
   requiredStake: BigInt
   escalated: Boolean
 }
+
+type CoinMachinePeriod @entity {
+  id: ID! # colonyAddress_coinMachine_extensionAddress_timestamp
+  saleEndedAt: BigInt
+  tokensBought: BigInt
+  price: BigInt!
+}
