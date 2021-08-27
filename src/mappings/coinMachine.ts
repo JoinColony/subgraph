@@ -26,6 +26,10 @@ export function handleTokensBought(event: TokensBought): void {
   let periodPrice = extension.getCurrentPrice();
 
   let blockTime = event.block.timestamp;
+
+  // Get the timestamp of when the current period is supposed to end and convert it to milliseconds
+  // blockTime.minus(blockTime.mod(periodLength)) when did the period started
+  // .plus(periodLength) when it's going to end
   let salePeriodEnd = blockTime.minus(blockTime.mod(periodLength)).plus(periodLength).times(BigInt.fromI32(1000));
 
   let periodId = colony.toHexString() + "_coinMachine_" + extension._address.toHexString() + '_' + salePeriodEnd.toString();
@@ -61,9 +65,13 @@ export function handleBlock(block: ethereum.Block): void {
     let tokenBalance = coinMachineExtension.getTokenBalance();
     let periodPrice = coinMachineExtension.getCurrentPrice();
 
+    // If there's no sold tokens and the balance is zero then this is a "paused" sale period
     if (!activeTokenSold.isZero() || !tokenBalance.isZero()) {
       let colonyAddress = coinMachineExtension.getColony();
 
+      // Get the timestamp of when the current period is supposed to end and convert it to milliseconds
+      // blockTime.minus(blockTime.mod(periodLength)) when did the period started
+      // .plus(periodLength) when it's going to end
       let salePeriodEnd = blockTime.minus(blockTime.mod(periodLength)).plus(periodLength).times(BigInt.fromI32(1000));
 
       let periodId = colonyAddress.toHexString() + "_coinMachine_" + coinMachineAddress + '_' + salePeriodEnd.toString();
