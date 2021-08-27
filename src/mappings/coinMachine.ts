@@ -1,5 +1,5 @@
-import { Address, ByteArray, crypto, ethereum } from '@graphprotocol/graph-ts'
-import { ColonyExtension } from '../../generated/schema';
+import { Address, BigInt, dataSource, ethereum, log } from '@graphprotocol/graph-ts'
+import { CoinMachinePeriod } from '../../generated/schema';
 
 import {
   ExtensionInitialised,
@@ -21,6 +21,23 @@ export function handleTokensBought(event: TokensBought): void {
   let extension = CoinMachineContract.bind(event.address);
   let colony = extension.getColony();
 
+  let numTokens = event.params.numTokens;
+  let periodLength = extension.getPeriodLength();
+  let periodPrice = extension.getCurrentPrice();
+
+  let blockTime = event.block.timestamp;
+  let salePeriodEnd = blockTime.minus(blockTime.mod(periodLength)).plus(periodLength).times(BigInt.fromI32(1000));
+
+  let periodId = colony.toHexString() + "_coinMachine_" + extension._address.toHexString() + '_' + salePeriodEnd.toString();
+  let coinMachinePeriod = CoinMachinePeriod.load(periodId);
+
+  if (coinMachinePeriod != null) {
+    coinMachinePeriod.tokensBought = coinMachinePeriod.tokensBought.plus(numTokens);
+    coinMachinePeriod.price = periodPrice;
+
+    coinMachinePeriod.save();
+  }
+
   handleEvent("TokensBought(address,uint256,uint256)", event, colony)
 }
 
@@ -32,15 +49,35 @@ export function handlePeriodUpdated(event: PeriodUpdated): void {
 }
 
 export function handleBlock(block: ethereum.Block): void {
-    const COIN_MACHINE = crypto.keccak256(ByteArray.fromUTF8("CoinMachine")).toHexString()
-    const { address: coinMachineAddress } = ColonyExtension.load(COIN_MACHINE);
-    const coinMachineExtension = CoinMachineContract.bind((coinMachineAddress as unknown) as Address);
-    console.log(coinMachineExtension)
-    const periodLength = coinMachineExtension.getPeriodLength();
-    const windowSize = coinMachineExtension.getWindowSize();
-    const targetPerPeriod = coinMachineExtension.getTargetPerPeriod();
-    const blockTime = block.timestamp;
+  let context = dataSource.context()
+  let coinMachineAddress = context.getString('coinMachineAddress')
+  let coinMachineExtension = CoinMachineContract.bind(Address.fromString(coinMachineAddress));
 
-    // let period = new CoinMachinePeriod(colonyAddress + "_coinMachine_" + coinMachineExtension.address + '_' + timestamp.toString());
-    console.log(periodLength, windowSize, targetPerPeriod, blockTime);
+  let periodLength = coinMachineExtension.getPeriodLength();
+  let blockTime = block.timestamp;
+  
+  if (!periodLength.isZero()) {
+    let activeTokenSold = coinMachineExtension.getActiveSold();
+    let tokenBalance = coinMachineExtension.getTokenBalance();
+    let periodPrice = coinMachineExtension.getCurrentPrice();
+
+    if (!activeTokenSold.isZero() || !tokenBalance.isZero()) {
+      let colonyAddress = coinMachineExtension.getColony();
+
+      let salePeriodEnd = blockTime.minus(blockTime.mod(periodLength)).plus(periodLength).times(BigInt.fromI32(1000));
+
+      let periodId = colonyAddress.toHexString() + "_coinMachine_" + coinMachineAddress + '_' + salePeriodEnd.toString();
+      let coinMachinePeriod = CoinMachinePeriod.load(periodId);
+
+      if (coinMachinePeriod == null) {
+        coinMachinePeriod = new CoinMachinePeriod(periodId)
+        coinMachinePeriod.colonyAddress = colonyAddress.toHexString();
+        coinMachinePeriod.saleEndedAt = salePeriodEnd;
+        coinMachinePeriod.tokensBought = BigInt.fromI32(0);
+        coinMachinePeriod.price = periodPrice;
+
+        coinMachinePeriod.save();
+      }
+    }
+  }
 }
