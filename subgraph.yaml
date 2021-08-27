@@ -221,6 +221,8 @@ templates:
           handler: handleTaskCanceled
         - event: 'DomainAdded(address,uint256)'
           handler: handleDomainAdded
+        - event: DomainAdded(uint256)
+          handler: handleHistoricDomainAdded
         - event: 'DomainMetadata(address,indexed uint256,string)'
           handler: handleDomainMetadata
         - event: 'ColonyMetadata(address,string)'
@@ -257,3 +259,5 @@ templates:
           handler: handleColonyRoleSet
         - event: 'ColonyUpgraded(address,uint256,uint256)'
           handler: handleColonyUpgraded
+        - event: 'ColonyUpgraded(uint256,uint256)'
+          handler: handleHistoricColonyUpgraded
