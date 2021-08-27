@@ -1,6 +1,4 @@
-import { BigInt, crypto, ByteArray, Address } from '@graphprotocol/graph-ts'
-
-import { log } from '@graphprotocol/graph-ts'
+import { BigInt, crypto, ByteArray, Address, DataSourceContext } from '@graphprotocol/graph-ts'
 
 import {
   IColonyNetwork,
@@ -15,7 +13,7 @@ import {
 import { handleEvent } from './event'
 import { replaceFirst} from '../utils';
 
-import { Colony, Domain, ColonyExtension, ColonyMetadata } from '../../generated/schema'
+import { Colony, Domain, ColonyExtension } from '../../generated/schema'
 import {
   Colony as ColonyTemplate,
   OneTxPayment as OneTxPaymentTemplate,
@@ -106,7 +104,9 @@ export function handleExtensionInstalled(event: ExtensionInstalled): void {
   }
 
   if (event.params.extensionId.toHexString() == COIN_MACHINE) {
-    CoinMachineTemplate.create(extensionAddress)
+    let context = new DataSourceContext();
+    context.setString('coinMachineAddress', extensionAddress.toHexString());
+    CoinMachineTemplate.createWithContext(extensionAddress, context);
   }
 
   if (event.params.extensionId.toHexString() == VOTING_REPUTATION) {
