@@ -113,6 +113,7 @@ type Motion @entity {
   stakes: [BigInt!]
   requiredStake: BigInt
   escalated: Boolean
+  events: [Event!]!
 }
 
 type CoinMachinePeriod @entity {
