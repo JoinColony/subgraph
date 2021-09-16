@@ -57,17 +57,18 @@ export function handleBlock(block: ethereum.Block): void {
   let coinMachineAddress = context.getString('coinMachineAddress')
   let coinMachineExtension = CoinMachineContract.bind(Address.fromString(coinMachineAddress));
 
-  let periodLength = coinMachineExtension.getPeriodLength();
+  let periodLengthCall = coinMachineExtension.try_getPeriodLength();
   let blockTime = block.timestamp;
 
-  if (!periodLength.isZero()) {
-    let activeTokenSoldCall = coinMachineExtension.try_getActiveSold();
-    let tokenBalance = coinMachineExtension.getTokenBalance();
-    let periodPrice = coinMachineExtension.getCurrentPrice();
+  if (!periodLengthCall.reverted) {
+    let periodLength = periodLengthCall.value;
 
-    if (!activeTokenSoldCall.reverted) {
+    if (!periodLength.isZero()) {
+      let activeTokenSold = coinMachineExtension.getActiveSold();
+      let tokenBalance = coinMachineExtension.getTokenBalance();
+      let periodPrice = coinMachineExtension.getCurrentPrice();
 
-      let activeTokenSold = activeTokenSoldCall.value;
+
       // If there's no sold tokens and the balance is zero then this is a "paused" sale period
       if (!activeTokenSold.isZero() || !tokenBalance.isZero()) {
         let colonyAddress = coinMachineExtension.getColony();
