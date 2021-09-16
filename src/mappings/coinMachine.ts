@@ -1,4 +1,4 @@
-import { Address, BigInt, dataSource, ethereum, log, json, JSONValue } from '@graphprotocol/graph-ts'
+import { Address, BigInt, dataSource, ethereum, log } from '@graphprotocol/graph-ts'
 import { CoinMachinePeriod } from '../../generated/schema';
 
 import {
@@ -55,16 +55,14 @@ export function handlePeriodUpdated(event: PeriodUpdated): void {
 export function handleBlock(block: ethereum.Block): void {
   let context = dataSource.context()
   let coinMachineAddress = context.getString('coinMachineAddress')
-  log.info("coin machine address: {} --------------------------------------------------", [coinMachineAddress])
   let coinMachineExtension = CoinMachineContract.bind(Address.fromString(coinMachineAddress));
-  log.info("coin machine extension {} --------------------------------------------------", [Address.fromString(coinMachineAddress).toString()])
 
   let periodLengthCall = coinMachineExtension.try_getPeriodLength();
-  log.info("period length revert {} --------------------------------------------------", [`${periodLengthCall.reverted}`])
-  log.info("period length value {} --------------------------------------------------", [periodLengthCall.value.toString()])
+  let versionCall = coinMachineExtension.try_version();
+
   let blockTime = block.timestamp;
 
-  if (!periodLengthCall.reverted) {
+  if (!periodLengthCall.reverted && !versionCall.reverted && versionCall.value.toI32() >= 2) {
     let periodLength = periodLengthCall.value;
 
     if (!periodLength.isZero()) {
