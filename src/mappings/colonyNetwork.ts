@@ -105,9 +105,7 @@ export function handleExtensionInstalled(event: ExtensionInstalled): void {
   }
 
   if (event.params.extensionId.toHexString() == COIN_MACHINE) {
-    let context = new DataSourceContext();
-    context.setString('coinMachineAddress', extensionAddress.toHexString());
-    CoinMachineTemplate.createWithContext(extensionAddress, context);
+    CoinMachineTemplate.create(extensionAddress);
   }
 
   if (event.params.extensionId.toHexString() == VOTING_REPUTATION) {
