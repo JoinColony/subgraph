@@ -53,9 +53,8 @@ export function handlePeriodUpdated(event: PeriodUpdated): void {
 }
 
 export function handleBlock(block: ethereum.Block): void {
-  let context = dataSource.context()
-  let coinMachineAddress = context.getString('coinMachineAddress')
-  let coinMachineExtension = CoinMachineContract.bind(Address.fromString(coinMachineAddress));
+  let coinMachineAddress = dataSource.address()
+  let coinMachineExtension = CoinMachineContract.bind(coinMachineAddress);
 
   let periodLengthCall = coinMachineExtension.try_getPeriodLength();
   let versionCall = coinMachineExtension.try_version();
@@ -80,7 +79,7 @@ export function handleBlock(block: ethereum.Block): void {
         // .plus(periodLength) when it's going to end
         let salePeriodEnd = blockTime.minus(blockTime.mod(periodLength)).plus(periodLength).times(BigInt.fromI32(1000));
 
-        let periodId = colonyAddress.toHexString() + "_coinMachine_" + coinMachineAddress + '_' + salePeriodEnd.toString();
+        let periodId = colonyAddress.toHexString() + "_coinMachine_" + coinMachineAddress.toString() + '_' + salePeriodEnd.toString();
         let coinMachinePeriod = CoinMachinePeriod.load(periodId);
 
         if (coinMachinePeriod == null) {
