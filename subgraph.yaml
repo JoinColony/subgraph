@@ -97,8 +97,6 @@ templates:
           handler: handlePeriodUpdated
         - event: ExtensionInitialised()
           handler: handleExtensionInitialised
-      blockHandlers:
-        - handler: handleBlock
   - name: VotingReputation
     kind: ethereum/contract
     network: mainnet
