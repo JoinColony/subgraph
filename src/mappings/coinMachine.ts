@@ -84,7 +84,6 @@ export function handleBlock(block: ethereum.Block): void {
 
         if (coinMachinePeriod == null) {
           coinMachinePeriod = new CoinMachinePeriod(periodId)
-          coinMachinePeriod.colonyAddress = colonyAddress.toHexString();
           coinMachinePeriod.saleEndedAt = salePeriodEnd;
           coinMachinePeriod.tokensBought = BigInt.fromI32(0);
           coinMachinePeriod.price = periodPrice;
