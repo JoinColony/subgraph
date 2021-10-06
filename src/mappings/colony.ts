@@ -50,6 +50,7 @@ import {
   RecoveryModeExitApproved,
   RecoveryModeExited,
   RecoveryStorageSlotSet,
+  ArbitraryReputationUpdate,
 } from '../../generated/templates/Colony/IColony'
 
 import {
@@ -367,4 +368,8 @@ export function handleRecoveryModeExited(event: RecoveryModeExited): void {
 
 export function handleRecoveryStorageSlotSet(event: RecoveryStorageSlotSet): void {
   handleEvent("RecoveryStorageSlotSet(address,uint256,bytes32,bytes32)", event, event.address)
+}
+
+export function handleArbitraryReputationUpdate(event: ArbitraryReputationUpdate): void {
+  handleEvent("ArbitraryReputationUpdate(address,address,uint256,int256)", event, event.address)
 }
