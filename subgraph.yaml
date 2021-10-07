@@ -54,7 +54,9 @@ templates:
       abis:
         - name: Token
           file: ./../colonyNetwork/build/contracts/Token.json
-      eventHandlers: []
+      eventHandlers:
+        - event: 'Transfer(indexed address,indexed address,uint256)'
+          handler: handleTransfer
   - name: OneTxPayment
     kind: ethereum/contract
     network: mainnet
