@@ -1,4 +1,4 @@
-import { log } from '@graphprotocol/graph-ts'
+import { log, Address } from '@graphprotocol/graph-ts'
 
 import {
   IColony,
