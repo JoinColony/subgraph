@@ -261,3 +261,5 @@ templates:
           handler: handleColonyUpgraded
         - event: 'ColonyUpgraded(uint256,uint256)'
           handler: handleHistoricColonyUpgraded
+        - event: 'ArbitraryReputationUpdate(address,address,uint256,int256)'
+          handler: handleArbitraryReputationUpdate
