@@ -22,8 +22,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: npm upgrade
         run: npm i -g npm@8 --registry=https://registry.npmjs.org
-        env:
-          NPM_CONFIG_PREFIX: "~/.npm-global"
       - name: Install needed dependencies
         run: npm ci
       - name: Patch subgraph for bad domains
