@@ -8,11 +8,18 @@ jobs:
   deploy-goerli:
     name: Build and push subgraph
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.18.0]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.client_payload.message.SUBGRAPH_COMMIT }}
+      - name: Use Node v${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
       - name: npm upgrade
         run: npm i -g npm@8 --registry=https://registry.npmjs.org
         env:
