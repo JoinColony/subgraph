@@ -25,7 +25,7 @@ jobs:
         env:
           NPM_CONFIG_PREFIX: "~/.npm-global"
       - name: Install needed dependencies
-        run: npm i
+        run: npm ci
       - name: Patch subgraph for bad domains
         run: sed -i "s|'colony.joincolony.eth', 'colony.joincolony.eth'|'colony.joincolony.eth', 'colony.joincolony.colonyxdai'|g" ./src/mappings/colonyNetwork.ts
       - name: Patch subgraph for start block
