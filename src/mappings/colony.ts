@@ -44,6 +44,7 @@ import {
   TokensBurned,
   ColonyFundsMovedBetweenFundingPots,
   ColonyRoleSet,
+  ColonyRoleSet1 as ColonyRoleSetOld,
   ColonyUpgraded,
   ColonyUpgraded1 as HistoricColonyUpgraded,
   RecoveryModeEntered,
@@ -340,6 +341,10 @@ export function handleTokensBurned(event: TokensBurned): void {
 
 export function handleFundsMovedBetweenFundingPots(event: ColonyFundsMovedBetweenFundingPots): void {
   handleEvent("ColonyFundsMovedBetweenFundingPots(address,uint256,uint256,uint256,address)", event, event.address)
+}
+
+export function handleColonyRoleSetOld(event: ColonyRoleSetOld): void {
+  handleEvent("ColonyRoleSet(address,uint256,uint8,bool)", event, event.address)
 }
 
 export function handleColonyRoleSet(event: ColonyRoleSet): void {

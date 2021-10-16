@@ -253,6 +253,8 @@ templates:
             ColonyFundsMovedBetweenFundingPots(address,indexed uint256,indexed
             uint256,uint256,address)
           handler: handleFundsMovedBetweenFundingPots
+        - event: 'ColonyRoleSet(indexed address,indexed uint256,indexed uint8,bool)'
+          handler: handleColonyRoleSetOld
         - event: >-
             ColonyRoleSet(address,indexed address,indexed uint256,indexed
             uint8,bool)
