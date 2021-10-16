@@ -119,24 +119,21 @@ templates:
             MotionStaked(indexed uint256,indexed address,indexed
             uint256,uint256)
           handler: handleMotionStaked
-        - event: >-
-            MotionVoteSubmitted(indexed uint256,indexed address)
+        - event: 'MotionVoteSubmitted(indexed uint256,indexed address)'
           handler: handleMotionVoteSubmitted
-        - event: >-
-            MotionVoteRevealed(indexed uint256,indexed address,indexed uint256)
+        - event: 'MotionVoteRevealed(indexed uint256,indexed address,indexed uint256)'
           handler: handleMotionVoteRevealed
-        - event: >-
-            MotionFinalized(indexed uint256,bytes,bool)
+        - event: 'MotionFinalized(indexed uint256,bytes,bool)'
           handler: handleMotionFinalized
         - event: >-
             MotionEscalated(indexed uint256,address,indexed uint256,indexed
             uint256)
           handler: handleMotionEscalated
         - event: >-
-            MotionRewardClaimed(indexed uint256,indexed address,indexed uint256,uint256)
+            MotionRewardClaimed(indexed uint256,indexed address,indexed
+            uint256,uint256)
           handler: handleMotionRewardClaimed
-        - event: >-
-            MotionEventSet(indexed uint256,uint256)
+        - event: 'MotionEventSet(indexed uint256,uint256)'
           handler: handleMotionEventSet
   - name: Colony
     kind: ethereum/contract
@@ -254,6 +251,8 @@ templates:
             ColonyFundsMovedBetweenFundingPots(address,indexed uint256,indexed
             uint256,uint256,address)
           handler: handleFundsMovedBetweenFundingPots
+        - event: 'ColonyRoleSet(indexed address,indexed uint256,indexed uint8,bool)'
+          handler: handleColonyRoleSetOld
         - event: >-
             ColonyRoleSet(address,indexed address,indexed uint256,indexed
             uint8,bool)
