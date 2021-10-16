@@ -51,6 +51,7 @@ import {
   RecoveryModeExitApproved,
   RecoveryModeExited,
   RecoveryStorageSlotSet,
+  RecoveryRoleSet,
 } from '../../generated/templates/Colony/IColony'
 
 import {
@@ -348,6 +349,10 @@ export function handleColonyRoleSetOld(event: ColonyRoleSetOld): void {
 
 export function handleColonyRoleSet(event: ColonyRoleSet): void {
   handleEvent("ColonyRoleSet(address,address,uint256,uint8,bool)", event, event.address)
+}
+
+export function handleRecoveryRoleSet(event: RecoveryRoleSet): void {
+  handleEvent("RecoveryRoleSet(address,bool)", event, event.address)
 }
 
 export function handleColonyUpgraded(event: ColonyUpgraded): void {
