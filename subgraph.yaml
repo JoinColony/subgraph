@@ -259,6 +259,8 @@ templates:
             ColonyRoleSet(address,indexed address,indexed uint256,indexed
             uint8,bool)
           handler: handleColonyRoleSet
+        - event: 'RecoveryRoleSet(indexed address,bool)'
+          handler: handleRecoveryRoleSet
         - event: 'ColonyUpgraded(address,uint256,uint256)'
           handler: handleColonyUpgraded
         - event: 'ColonyUpgraded(uint256,uint256)'
