@@ -35,6 +35,8 @@ dataSources:
           handler: handleExtensionDeprecated
         - event: 'ExtensionUpgraded(indexed bytes32,indexed address,uint256)'
           handler: handleExtensionUpgraded
+        - event: 'ExtensionAddedToNetwork(indexed bytes32,uint256)'
+          handler: handleExtensionAddedToNetwork
       file: ./src/mappings/colonyNetwork.ts
 templates:
   - name: Token
