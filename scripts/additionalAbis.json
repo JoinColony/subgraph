@@ -28,5 +28,32 @@
     ],
     "name": "ColonyUpgraded",
     "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "user",
+        "type": "address"
+            },
+            {
+        "indexed": true,
+        "name": "domainId",
+        "type": "uint256"
+            },
+            {
+        "indexed": true,
+        "name": "role",
+        "type": "uint8"
+            },
+            {
+        "indexed": false,
+        "name": "setTo",
+        "type": "bool"
+            }
+        ],
+    "name": "ColonyRoleSet",
+    "type": "event"
   }
 ]

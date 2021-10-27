@@ -44,12 +44,14 @@ import {
   TokensBurned,
   ColonyFundsMovedBetweenFundingPots,
   ColonyRoleSet,
+  ColonyRoleSet1 as ColonyRoleSetOld,
   ColonyUpgraded,
   ColonyUpgraded1 as HistoricColonyUpgraded,
   RecoveryModeEntered,
   RecoveryModeExitApproved,
   RecoveryModeExited,
   RecoveryStorageSlotSet,
+  RecoveryRoleSet,
   ArbitraryReputationUpdate,
 } from '../../generated/templates/Colony/IColony'
 
@@ -342,8 +344,16 @@ export function handleFundsMovedBetweenFundingPots(event: ColonyFundsMovedBetwee
   handleEvent("ColonyFundsMovedBetweenFundingPots(address,uint256,uint256,uint256,address)", event, event.address)
 }
 
+export function handleColonyRoleSetOld(event: ColonyRoleSetOld): void {
+  handleEvent("ColonyRoleSet(address,uint256,uint8,bool)", event, event.address)
+}
+
 export function handleColonyRoleSet(event: ColonyRoleSet): void {
   handleEvent("ColonyRoleSet(address,address,uint256,uint8,bool)", event, event.address)
+}
+
+export function handleRecoveryRoleSet(event: RecoveryRoleSet): void {
+  handleEvent("RecoveryRoleSet(address,bool)", event, event.address)
 }
 
 export function handleColonyUpgraded(event: ColonyUpgraded): void {

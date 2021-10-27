@@ -8,6 +8,7 @@ import {
   ExtensionUninstalled,
   ExtensionDeprecated,
   ExtensionUpgraded,
+  ExtensionAddedToNetwork,
 } from '../../generated/ColonyNetwork/IColonyNetwork'
 
 import { handleEvent } from './event'
@@ -129,4 +130,11 @@ export function handleExtensionDeprecated(event: ExtensionDeprecated): void {
 
 export function handleExtensionUpgraded(event: ExtensionUpgraded): void {
   handleEvent("ExtensionUpgraded(bytes32,address,uint256)", event, event.params.colony)
+}
+
+export function handleExtensionAddedToNetwork(event: ExtensionAddedToNetwork): void {
+  let cn = IColonyNetwork.bind(event.address)
+  let extensionResolver = cn.getExtensionResolver(event.params.extensionId, event.params.version)
+
+  handleEvent("ExtensionAddedToNetwork(bytes32,uint256)", event, extensionResolver)
 }

@@ -35,6 +35,8 @@ dataSources:
           handler: handleExtensionDeprecated
         - event: 'ExtensionUpgraded(indexed bytes32,indexed address,uint256)'
           handler: handleExtensionUpgraded
+        - event: 'ExtensionAddedToNetwork(indexed bytes32,uint256)'
+          handler: handleExtensionAddedToNetwork
       file: ./src/mappings/colonyNetwork.ts
 templates:
   - name: Token
@@ -253,10 +255,14 @@ templates:
             ColonyFundsMovedBetweenFundingPots(address,indexed uint256,indexed
             uint256,uint256,address)
           handler: handleFundsMovedBetweenFundingPots
+        - event: 'ColonyRoleSet(indexed address,indexed uint256,indexed uint8,bool)'
+          handler: handleColonyRoleSetOld
         - event: >-
             ColonyRoleSet(address,indexed address,indexed uint256,indexed
             uint8,bool)
           handler: handleColonyRoleSet
+        - event: 'RecoveryRoleSet(indexed address,bool)'
+          handler: handleRecoveryRoleSet
         - event: 'ColonyUpgraded(address,uint256,uint256)'
           handler: handleColonyUpgraded
         - event: 'ColonyUpgraded(uint256,uint256)'
