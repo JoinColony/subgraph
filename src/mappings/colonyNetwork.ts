@@ -1,4 +1,4 @@
-import { BigInt, crypto, ByteArray, Address, DataSourceContext } from '@graphprotocol/graph-ts'
+import { BigInt, crypto, ByteArray, Address } from '@graphprotocol/graph-ts'
 
 import {
   IColonyNetwork,
@@ -90,13 +90,8 @@ export function handleExtensionInstalled(event: ExtensionInstalled): void {
   let colony = Colony.load(event.params.colony.toHexString())
   let extensionAddress = cn.getExtensionInstallation(event.params.extensionId, event.params.colony)
 
-  let extension = new ColonyExtension(
-    colony.id.toString() +
-    '_extension_' + event.params.extensionId.toHexString() +
-    '_transaction_' + event.transaction.hash.toHexString() +
-    '_log_' + event.logIndex.toString(),
-  )
-  extension.address = extensionAddress.toHexString()
+  let extension = new ColonyExtension(extensionAddress.toHexString())
+
   extension.hash = event.params.extensionId.toHexString()
   extension.colony = colony.id
 
@@ -105,9 +100,7 @@ export function handleExtensionInstalled(event: ExtensionInstalled): void {
   }
 
   if (event.params.extensionId.toHexString() == COIN_MACHINE) {
-    let context = new DataSourceContext();
-    context.setString('coinMachineAddress', extensionAddress.toHexString());
-    CoinMachineTemplate.createWithContext(extensionAddress, context);
+    CoinMachineTemplate.create(extensionAddress);
   }
 
   if (event.params.extensionId.toHexString() == VOTING_REPUTATION) {

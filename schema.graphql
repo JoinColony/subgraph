@@ -95,8 +95,7 @@ type Event @entity {
 }
 
 type ColonyExtension @entity {
-  id: ID! # colonyAddress_extensionId_transactionHash_logId
-  address: String!
+  id: ID! # extensionAddress
   colony: Colony!
   hash: String!
 }

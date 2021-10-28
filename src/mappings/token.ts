@@ -3,7 +3,12 @@ import { Address, BigInt } from '@graphprotocol/graph-ts'
 import {
   Token as TokenContract,
 } from '../../generated/templates/Token/Token'
-import { Token as TokenSchema } from '../../generated/schema'
+import {
+  Token as TokenSchema,
+} from '../../generated/schema'
+import {
+  Token as TokenTemplate
+} from '../../generated/templates'
 
 export function createToken(tokenAddress: string): void {
   let token = TokenSchema.load(tokenAddress)
@@ -22,5 +27,6 @@ export function createToken(tokenAddress: string): void {
       token.symbol = symbol.value
     }
     token.save()
+    TokenTemplate.create(Address.fromString(tokenAddress))
   }
 }
