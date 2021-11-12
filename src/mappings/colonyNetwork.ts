@@ -20,6 +20,7 @@ import {
   OneTxPayment as OneTxPaymentTemplate,
   CoinMachine as CoinMachineTemplate,
   VotingReputation as VotingReputationTemplate,
+  Whitelist as WhitelistTemplate,
 } from '../../generated/templates'
 
 import { createToken } from './token'
@@ -85,6 +86,7 @@ export function handleExtensionInstalled(event: ExtensionInstalled): void {
   let ONE_TX_PAYMENT = crypto.keccak256(ByteArray.fromUTF8("OneTxPayment")).toHexString()
   let COIN_MACHINE = crypto.keccak256(ByteArray.fromUTF8("CoinMachine")).toHexString()
   let VOTING_REPUTATION = crypto.keccak256(ByteArray.fromUTF8("VotingReputation")).toHexString()
+  let WHITELIST = crypto.keccak256(ByteArray.fromUTF8("Whitelist")).toHexString()
 
   let cn = IColonyNetwork.bind(event.address)
   let colony = Colony.load(event.params.colony.toHexString())
@@ -105,6 +107,10 @@ export function handleExtensionInstalled(event: ExtensionInstalled): void {
 
   if (event.params.extensionId.toHexString() == VOTING_REPUTATION) {
     VotingReputationTemplate.create(extensionAddress)
+  }
+
+  if (event.params.extensionId.toHexString() == WHITELIST) {
+    WhitelistTemplate.create(extensionAddress)
   }
 
   handleEvent("ExtensionInstalled(bytes32,address,version)", event, event.params.colony)

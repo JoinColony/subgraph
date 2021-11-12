@@ -8,7 +8,7 @@ dataSources:
     name: ColonyNetwork
     network: mainnet
     source:
-      address: '0x0000000000000000000000000000000000000000'
+      address: '0x45B17FF6998D4d76A10a32621A71773E3722DA65'
       abi: IColonyNetwork
       startBlock: 1
     mapping:
@@ -137,6 +137,24 @@ templates:
           handler: handleMotionRewardClaimed
         - event: 'MotionEventSet(indexed uint256,uint256)'
           handler: handleMotionEventSet
+  - name: Whitelist
+    kind: ethereum/contract
+    network: mainnet
+    source:
+      abi: Whitelist
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/mappings/whitelist.ts
+      entities:
+        - Whitelist
+      abis:
+        - name: Whitelist
+          file: ./../colonyNetwork/build/contracts/Whitelist.json
+      eventHandlers:
+        - event: ExtensionInitialised()
+          handler: handleExtensionInitialised
   - name: Colony
     kind: ethereum/contract
     network: mainnet
