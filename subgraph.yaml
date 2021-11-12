@@ -157,6 +157,8 @@ templates:
           handler: handleExtensionInitialised
         - event: 'UserApproved(indexed address,bool)'
           handler: handleUserApproved
+        - event: AgreementSigned(indexed address)
+          handler: handleAgreementSigned
   - name: Colony
     kind: ethereum/contract
     network: mainnet
