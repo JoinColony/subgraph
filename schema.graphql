@@ -121,3 +121,9 @@ type CoinMachinePeriod @entity {
   tokensBought: BigInt
   price: BigInt
 }
+
+type KYCAddress @entity {
+  id: ID! # user's wallet address
+  extension: ColonyExtension!
+  status: Boolean!
+}
