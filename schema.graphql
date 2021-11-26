@@ -50,6 +50,7 @@ type Expenditure @entity {
 type OneTxPayment @entity {
   id: ID!
   fundamentalChainId: BigInt
+  timestamp: BigInt
   nPayouts: BigInt
   agent: String
   transaction: Transaction

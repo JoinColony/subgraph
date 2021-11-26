@@ -26,6 +26,7 @@ export function handleOneTxPaymentMade(event: OneTxPaymentMade): void {
   otxp.agent = event.params.agent.toHexString()
   otxp.nPayouts = event.params.nPayouts
   otxp.transaction = event.transaction.hash.toHexString()
+  otxp.timestamp = event.block.timestamp
 
   if (event.params.nPayouts == BigInt.fromI32(1)){
     otxp.payment = colony.toHexString() + "_payment_" + event.params.fundamentalId.toString()
