@@ -87,6 +87,7 @@ type Block @entity {
 
 type Event @entity {
   id: ID!
+  timestamp: BigInt
   transaction: Transaction
   address: String
   associatedColony: Colony

@@ -8,6 +8,7 @@ export function handleEvent(eventName: String, event: ethereum.Event, associated
   eventObj.transaction = event.transaction.hash.toHexString()
   eventObj.address = event.address.toHexString()
   eventObj.associatedColony = associatedColonyAddress.toHexString()
+  eventObj.timestamp = event.block.timestamp;
   eventObj.name = eventName
 
   let encoder = new JSONEncoder();
