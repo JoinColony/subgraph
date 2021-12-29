@@ -8,6 +8,7 @@ import {
   PaymentAdded,
   PaymentPayoutSet,
   ColonyMetadata,
+  TokenUnlocked,
   TokensMinted,
   ColonyInitialised,
   ColonyBootstrapped,
@@ -184,6 +185,10 @@ export function handleTaskWorkRatingRevealed(event: TaskWorkRatingRevealed): voi
 
 export function handleTaskFinalized(event: TaskFinalized): void {
   handleEvent("TaskFinalized(address,uint256)", event, event.address)
+}
+
+export function handleTokenUnlocked(event: TokenUnlocked): void {
+  handleEvent("TokenUnlocked()", event, event.address)
 }
 
 export function handleTokensMinted(event: TokensMinted): void {
