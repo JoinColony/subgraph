@@ -55,5 +55,11 @@
         ],
     "name": "ColonyRoleSet",
     "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "TokenUnlocked",
+    "type": "event"
   }
 ]

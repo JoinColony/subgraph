@@ -235,7 +235,7 @@ templates:
           handler: handleTaskWorkRatingRevealed
         - event: 'TaskFinalized(address,indexed uint256)'
           handler: handleTaskFinalized
-        - event: 'TokenUnlocked()'
+        - event: TokenUnlocked()
           handler: handleTokenUnlocked
         - event: 'TokensMinted(address,address,uint256)'
           handler: handleTokensMinted
