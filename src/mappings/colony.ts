@@ -9,6 +9,7 @@ import {
   PaymentPayoutSet,
   ColonyMetadata,
   TokenUnlocked,
+  TokenUnlocked1 as HistoricTokenUnlocked,
   TokensMinted,
   ColonyInitialised,
   ColonyBootstrapped,
@@ -187,8 +188,12 @@ export function handleTaskFinalized(event: TaskFinalized): void {
   handleEvent("TaskFinalized(address,uint256)", event, event.address)
 }
 
-export function handleTokenUnlocked(event: TokenUnlocked): void {
+export function handleHistoricTokenUnlocked(event: HistoricTokenUnlocked): void {
   handleEvent("TokenUnlocked()", event, event.address)
+}
+
+export function handleTokenUnlocked(event: TokenUnlocked): void {
+  handleEvent("TokenUnlocked(address)", event, event.address)
 }
 
 export function handleTokensMinted(event: TokensMinted): void {

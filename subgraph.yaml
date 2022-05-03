@@ -236,6 +236,8 @@ templates:
         - event: 'TaskFinalized(address,indexed uint256)'
           handler: handleTaskFinalized
         - event: TokenUnlocked()
+          handler: handleHistoricTokenUnlocked
+        - event: TokenUnlocked(address)
           handler: handleTokenUnlocked
         - event: 'TokensMinted(address,address,uint256)'
           handler: handleTokensMinted
