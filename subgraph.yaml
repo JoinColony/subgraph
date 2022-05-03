@@ -92,6 +92,8 @@ templates:
           file: ./../colonyNetwork/build/contracts/CoinMachine.json
       eventHandlers:
         - event: 'TokensBought(address,uint256,uint256)'
+          handler: handleHistoricTokensBought
+        - event: 'TokensBought(indexed address,address,uint256,uint256)'
           handler: handleTokensBought
         - event: 'PeriodUpdated(uint256,uint256)'
           handler: handlePeriodUpdated
