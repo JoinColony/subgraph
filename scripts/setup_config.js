@@ -1,5 +1,4 @@
 const path = require('path');
-const os = require('os');
 const { readFileSync, writeFileSync, existsSync } = require('fs');
 const yaml = require('js-yaml');
 

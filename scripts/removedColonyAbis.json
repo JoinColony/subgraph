@@ -1,0 +1,71 @@
+[
+  {
+    "inputs":
+      [
+        {
+            "internalType": "uint256",
+            "name": "_id",
+            "type": "uint256"
+        },
+        {
+            "internalType": "uint256[]",
+            "name": "_recipientSlots",
+            "type": "uint256[]"
+        },
+        {
+            "internalType": "address payable[]",
+            "name": "_recipients",
+            "type": "address[]"
+        },
+        {
+            "internalType": "uint256[]",
+            "name": "_skillIdSlots",
+            "type": "uint256[]"
+        },
+        {
+            "internalType": "uint256[]",
+            "name": "_skillIds",
+            "type": "uint256[]"
+        },
+        {
+            "internalType": "uint256[]",
+            "name": "_claimDelaySlots",
+            "type": "uint256[]"
+        },
+        {
+            "internalType": "uint256[]",
+            "name": "_claimDelays",
+            "type": "uint256[]"
+        },
+        {
+            "internalType": "uint256[]",
+            "name": "_payoutModifierSlots",
+            "type": "uint256[]"
+        },
+        {
+            "internalType": "int256[]",
+            "name": "_payoutModifiers",
+            "type": "int256[]"
+        },
+        {
+            "internalType": "address[]",
+            "name": "_payoutTokens",
+            "type": "address[]"
+        },
+        {
+            "internalType": "uint256[][]",
+            "name": "_payoutSlots",
+            "type": "uint256[][]"
+        },
+        {
+            "internalType": "uint256[][]",
+            "name": "_payoutValues",
+            "type": "uint256[][]"
+        }
+      ],
+    "name": "setExpenditureValues",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
