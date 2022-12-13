@@ -55,6 +55,7 @@ import {
   RecoveryStorageSlotSet,
   RecoveryRoleSet,
   ArbitraryReputationUpdate,
+  ArbitraryTransaction,
 } from '../../generated/templates/Colony/IColony'
 
 import {
@@ -392,4 +393,8 @@ export function handleRecoveryStorageSlotSet(event: RecoveryStorageSlotSet): voi
 
 export function handleArbitraryReputationUpdate(event: ArbitraryReputationUpdate): void {
   handleEvent("ArbitraryReputationUpdate(address,address,uint256,int256)", event, event.address)
+}
+
+export function handleArbitraryTransaction(event: ArbitraryTransaction): void {
+  handleEvent("ArbitraryTransaction(address,bytes,bool)", event, event.address)
 }
