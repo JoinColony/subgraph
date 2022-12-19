@@ -24,7 +24,7 @@ export function handleEvent(eventName: String, event: ethereum.Event, associated
     } else if (event.parameters[i].value.kind == ethereum.ValueKind.ADDRESS) {
       encoder.setString(event.parameters[i].name, event.parameters[i].value.toAddress().toHexString())
       log.info("{}", [event.parameters[i].value.toAddress().toHexString()])
-    } else if (event.parameters[i].value.kind == ethereum.ValueKind.FIXED_BYTES) {
+    } else if ((event.parameters[i].value.kind == ethereum.ValueKind.FIXED_BYTES) || (event.parameters[i].value.kind == ethereum.ValueKind.BYTES)) {
       encoder.setString(event.parameters[i].name, event.parameters[i].value.toBytes().toHexString())
       log.info("{}", [event.parameters[i].value.toBytes().toHexString()])
     } else if (event.parameters[i].value.kind == ethereum.ValueKind.BOOL) {
