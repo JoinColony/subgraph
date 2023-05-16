@@ -43,6 +43,7 @@ export function handleMotionCreated(event: MotionCreated): void {
   motion.stakes = chainMotion.stakes;
   motion.requiredStake = chainMotion.skillRep.times(totalStakeFraction).div(BigInt.fromI32(10).pow(18))
   motion.escalated = chainMotion.escalated
+  motion.timestamp = event.block.timestamp
 
   motion.save()
 
