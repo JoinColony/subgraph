@@ -5,6 +5,8 @@ import { JSONEncoder } from "assemblyscript-json/assembly";
 export function handleEvent(eventName: String, event: ethereum.Event, associatedColonyAddress: Address): void {
   let eventGid = event.transaction.hash.toHexString() + "_event_" + event.logIndex.toString()
   let eventObj = new Event(eventGid)
+  let eventDomainId = '1'
+
   eventObj.transaction = event.transaction.hash.toHexString()
   eventObj.address = event.address.toHexString()
   eventObj.associatedColony = associatedColonyAddress.toHexString()
@@ -34,7 +36,13 @@ export function handleEvent(eventName: String, event: ethereum.Event, associated
     } else {
       encoder.setString(event.parameters[i].name, "UNKNOWN_PARAMETER_TYPE_UPDATE_SUBGRAPH")
     }
+
+    if (event.parameters[i].name == 'domainId') {
+      eventDomainId = event.parameters[i].value.toBigInt().toString()
+    }
   }
+
+  eventObj.domain = associatedColonyAddress.toHexString() + '_domain_' + eventDomainId
 
   encoder.popObject();
 
