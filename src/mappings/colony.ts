@@ -66,6 +66,7 @@ import {
   Payment,
   FundingPotPayout,
   FundingPot,
+  GlobalSkill,
 } from '../../generated/schema'
 
 import { handleEvent } from './event'
@@ -214,10 +215,23 @@ export function handleDomainAdded(event: DomainAdded): void {
   let colonyClient = IColony.bind(event.address)
   let chainDomain = colonyClient.getDomain(event.params.domainId)
   // instantiate the new domain entity
-  let domain = new Domain(event.address.toHex() + '_domain_' + event.params.domainId.toString())
+  let domainId = event.address.toHex() + '_domain_' + event.params.domainId.toString()
+  let domain = new Domain(domainId)
   domain.domainChainId = event.params.domainId
-  domain.skillChainId = chainDomain.skillId || null
-  domain.fundingPotChainId = chainDomain.fundingPotId || null
+  // set the skill
+  let skillId = 'global_skill_' + chainDomain.skillId.toString();
+  let skill = GlobalSkill.load(skillId)
+  if (skill == null) {
+    skill = new GlobalSkill(skillId)
+    skill.skillChainId = chainDomain.skillId
+    skill.domainIds = [domainId]
+  } else {
+    if (skill.domainIds != null) {
+      skill.domainIds = skill.domainIds.concat([domainId])
+    }
+  }
+  skill.save()
+  domain.skill = skillId
   // The real way to get the parent would be to look at this
   // event.transaction.input.toHexString()
   // And extract the parent that way. But it causes a memory-access out-of-bounds error which
@@ -239,10 +253,23 @@ export function handleHistoricDomainAdded(event: HistoricDomainAdded): void {
   let colonyClient = IColony.bind(event.address)
   let chainDomain = colonyClient.getDomain(event.params.domainId)
   // instantiate the new domain entity
-  let domain = new Domain(event.address.toHex() + '_domain_' + event.params.domainId.toString())
+  let domainId = event.address.toHex() + '_domain_' + event.params.domainId.toString()
+  let domain = new Domain(domainId)
   domain.domainChainId = event.params.domainId
-  domain.skillChainId = chainDomain.skillId || null
-  domain.fundingPotChainId = chainDomain.fundingPotId || null
+  // set the skill
+  let skillId = 'global_skill_' + chainDomain.skillId.toString();
+  let skill = GlobalSkill.load(skillId)
+  if (skill == null) {
+    skill = new GlobalSkill(skillId)
+    skill.skillChainId = chainDomain.skillId
+    skill.domainIds = [domainId]
+  } else {
+    if (skill.domainIds != null) {
+      skill.domainIds = skill.domainIds.concat([domainId])
+    }
+  }
+  skill.save()
+  domain.skill = skillId
   // The real way to get the parent would be to look at this
   // event.transaction.input.toHexString()
   // And extract the parent that way. But it causes a memory-access out-of-bounds error which

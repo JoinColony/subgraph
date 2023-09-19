@@ -9,12 +9,13 @@ import {
   ExtensionDeprecated,
   ExtensionUpgraded,
   ExtensionAddedToNetwork,
+  SkillAdded,
 } from '../../generated/ColonyNetwork/IColonyNetwork'
 
 import { handleEvent } from './event'
 import { replaceFirst} from '../utils';
 
-import { Colony, Domain, ColonyExtension } from '../../generated/schema'
+import { Colony, Domain, ColonyExtension, GlobalSkill } from '../../generated/schema'
 import {
   Colony as ColonyTemplate,
   OneTxPayment as OneTxPaymentTemplate,
@@ -136,4 +137,28 @@ export function handleExtensionAddedToNetwork(event: ExtensionAddedToNetwork): v
   let extensionResolver = cn.getExtensionResolver(event.params.extensionId, event.params.version)
 
   handleEvent("ExtensionAddedToNetwork(bytes32,uint256)", event, extensionResolver)
+}
+
+export function handleSkillAdded(event: SkillAdded): void {
+  let parentSkillId = 'global_skill_' + event.params.parentSkillId.toString()
+  let skillId = 'global_skill_' + event.params.skillId.toString()
+
+  let parentSkill = GlobalSkill.load(parentSkillId)
+  if (parentSkill == null) {
+    parentSkill = new GlobalSkill(parentSkillId)
+    parentSkill.domainIds = []
+    parentSkill.skillChainId = event.params.parentSkillId
+  }
+  parentSkill.save()
+
+  let skill = GlobalSkill.load(skillId)
+  if (skill == null) {
+    skill = new GlobalSkill(skillId)
+    skill.domainIds = []
+    skill.skillChainId = event.params.skillId
+  }
+  skill.parent = parentSkillId
+  skill.save()
+
+  handleEvent("SkillAdded(uint256,uint256)", event, event.address)
 }

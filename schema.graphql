@@ -1,5 +1,5 @@
 type Colony @entity {
-  id: ID! # Address
+  id: ID! # <colonyAddress>
   ensName: String
   orbitAddress: String
   colonyChainId: BigInt!
@@ -11,29 +11,35 @@ type Colony @entity {
 }
 
 type ColonyMetadata @entity {
-  id: ID! # colonyAddress_transactionHash_logId
+  id: ID! # <colonyAddress>_<transactionHash>_<logId>
   colony: Colony!
   transaction: Transaction!
   metadata: String
 }
 
 type Domain @entity {
-  id: ID! # colonyAddress_domain_domainId
+  id: ID! # <colonyAddress>_domain_<domainId>
   domainChainId: BigInt!
   parent: Domain
   name: String
   colonyAddress: String
   metadata: String
   metadataHistory: [DomainMetadata!]! @derivedFrom(field: "domain")
-  skillChainId: BigInt
-  fundingPotChainId: BigInt
+  skill: GlobalSkill
 }
 
 type DomainMetadata @entity {
-  id: ID! # colonyAddress_domainId_transactionHash_logId
+  id: ID! # colonyAddress_<domainId>_<transactionHash>_<logId>
   domain: Domain!
   transaction: Transaction!
   metadata: String
+}
+
+type GlobalSkill @entity {
+  id: ID! # global_skill_<skillChainId>
+  skillChainId: BigInt!
+  parent: GlobalSkill
+  domainIds: [ID!] # list of subgraph domain ids following the above listed domain id format
 }
 
 type Payment @entity {
@@ -50,7 +56,7 @@ type Expenditure @entity {
 }
 
 type OneTxPayment @entity {
-  id: ID! #colonyAddress_oneTxPayment_noOfPayouts_PayoutId (payout id is left zero padded to 18 chars)
+  id: ID! #<colonyAddress>_oneTxPayment_<noOfPayouts>_<PayoutId> (payout id is left zero padded to 18 chars)
   domain: Domain
   fundamentalChainId: BigInt
   timestamp: BigInt
@@ -73,7 +79,7 @@ type FundingPot @entity {
 }
 
 type FundingPotPayout @entity {
-  id: ID!
+  id: ID! # <colonyAddress>_fundingpot_<fundingPotId>_<tokenAddress>
   token: Token
   amount: BigInt
   fundingPotChainId: BigInt
@@ -90,7 +96,7 @@ type Block @entity {
 }
 
 type Event @entity {
-  id: ID! # globalEventCount_txHash_event_logIndex (event count is left zero padded to 18 chars)
+  id: ID! # <globalEventCount>_<txHash>_event_<logIndex> (event count is left zero padded to 18 chars)
   domain: Domain
   timestamp: BigInt
   transaction: Transaction
@@ -101,13 +107,13 @@ type Event @entity {
 }
 
 type ColonyExtension @entity {
-  id: ID! # extensionAddress
+  id: ID! # <extensionAddress>
   colony: Colony!
   hash: String!
 }
 
 type Motion @entity {
-  id: ID! # colonyAddress_motion_extensionAddress_motionId (motion id is left zero padded to 18 chars)
+  id: ID! # <colonyAddress>_motion_<extensionAddress>_<motionId> (motion id is left zero padded to 18 chars)
   fundamentalChainId: BigInt
   action: String
   extensionAddress: String
@@ -122,7 +128,7 @@ type Motion @entity {
 }
 
 type CoinMachinePeriod @entity {
-  id: ID! # colonyAddress_coinMachine_extensionAddress_saleEnd
+  id: ID! # <colonyAddress>_coinMachine_<extensionAddress>_<saleEnd>
   saleEndedAt: BigInt!
   colonyAddress: String!
   tokensBought: BigInt

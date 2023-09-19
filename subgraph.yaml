@@ -37,6 +37,8 @@ dataSources:
           handler: handleExtensionUpgraded
         - event: 'ExtensionAddedToNetwork(indexed bytes32,uint256)'
           handler: handleExtensionAddedToNetwork
+        - event: 'SkillAdded(uint256,uint256)'
+          handler: handleSkillAdded
       file: ./src/mappings/colonyNetwork.ts
 templates:
   - name: Token
