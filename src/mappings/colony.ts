@@ -210,8 +210,14 @@ export function handleTaskCanceled(event: TaskCanceled): void {
 }
 
 export function handleDomainAdded(event: DomainAdded): void {
+  // get the colony client
+  let colonyClient = IColony.bind(event.address)
+  let chainDomain = colonyClient.getDomain(event.params.domainId)
+  // instantiate the new domain entity
   let domain = new Domain(event.address.toHex() + '_domain_' + event.params.domainId.toString())
   domain.domainChainId = event.params.domainId
+  domain.skillChainId = chainDomain.skillId || null
+  domain.fundingPotChainId = chainDomain.fundingPotId || null
   // The real way to get the parent would be to look at this
   // event.transaction.input.toHexString()
   // And extract the parent that way. But it causes a memory-access out-of-bounds error which
@@ -229,8 +235,14 @@ export function handleDomainAdded(event: DomainAdded): void {
 }
 
 export function handleHistoricDomainAdded(event: HistoricDomainAdded): void {
+  // get the colony client
+  let colonyClient = IColony.bind(event.address)
+  let chainDomain = colonyClient.getDomain(event.params.domainId)
+  // instantiate the new domain entity
   let domain = new Domain(event.address.toHex() + '_domain_' + event.params.domainId.toString())
   domain.domainChainId = event.params.domainId
+  domain.skillChainId = chainDomain.skillId || null
+  domain.fundingPotChainId = chainDomain.fundingPotId || null
   // The real way to get the parent would be to look at this
   // event.transaction.input.toHexString()
   // And extract the parent that way. But it causes a memory-access out-of-bounds error which

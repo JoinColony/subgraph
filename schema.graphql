@@ -25,6 +25,8 @@ type Domain @entity {
   colonyAddress: String
   metadata: String
   metadataHistory: [DomainMetadata!]! @derivedFrom(field: "domain")
+  skillChainId: BigInt
+  fundingPotChainId: BigInt
 }
 
 type DomainMetadata @entity {
