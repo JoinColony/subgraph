@@ -1,5 +1,5 @@
-import { ethereum, log, Address } from '@graphprotocol/graph-ts'
-import { Event, Transaction, Block } from '../../generated/schema'
+import { ethereum, log, Address, BigInt } from '@graphprotocol/graph-ts'
+import { Event, Transaction, Block, GlobalSkill } from '../../generated/schema'
 import { JSONEncoder } from "assemblyscript-json/assembly";
 
 export function handleEvent(eventName: String, event: ethereum.Event, associatedColonyAddress: Address): void {
@@ -43,6 +43,40 @@ export function handleEvent(eventName: String, event: ethereum.Event, associated
   }
 
   eventObj.domain = associatedColonyAddress.toHexString() + '_domain_' + eventDomainId
+
+  // if it's an award/smite event
+  if (eventName.includes('ArbitraryReputationUpdate')) {
+    let smite = false
+    let skillChainId = ''
+    let domainId = ''
+    for (let i = 0; i < event.parameters.length; i += 1) {
+      // if the amount is negative, meaning it's a Smite Action
+      if (event.parameters[i].name == 'amount' && event.parameters[i].value.toBigInt().lt(BigInt.fromI32(0))) {
+        smite = true
+      }
+      // set the skill id
+      if (event.parameters[i].name == 'skillId') {
+        skillChainId = event.parameters[i].value.toBigInt().toString()
+      }
+    }
+    // only the smite action can happen in a subdomain
+    // award will always be in root
+    if (smite) {
+      let skill = GlobalSkill.load('global_skill_' + skillChainId)
+      if (skill != null && skill.domainIds != null) {
+        for (let index = 0; index < skill.domainIds.length; index += 1) {
+          let domainIds = skill.domainIds.concat([])
+          let potentialDomainId = domainIds.shift() || ''
+          if (potentialDomainId.includes(associatedColonyAddress.toHexString())) {
+            domainId = potentialDomainId;
+          }
+        }
+      }
+    }
+    if (domainId != '') {
+      eventObj.domain = domainId
+    }
+  }
 
   encoder.popObject();
 
