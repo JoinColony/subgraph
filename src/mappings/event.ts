@@ -63,14 +63,8 @@ export function handleEvent(eventName: String, event: ethereum.Event, associated
     // award will always be in root
     if (smite) {
       let skill = GlobalSkill.load('global_skill_' + skillChainId)
-      if (skill != null && skill.domainIds != null) {
-        for (let index = 0; index < skill.domainIds.length; index += 1) {
-          let domainIds = skill.domainIds.concat([])
-          let potentialDomainId = domainIds.shift() || ''
-          if (potentialDomainId.includes(associatedColonyAddress.toHexString())) {
-            domainId = potentialDomainId;
-          }
-        }
+      if (skill != null && skill.domainId != null) {
+        domainId = skill.domainId
       }
     }
     if (domainId != '') {

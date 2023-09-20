@@ -146,7 +146,6 @@ export function handleSkillAdded(event: SkillAdded): void {
   let parentSkill = GlobalSkill.load(parentSkillId)
   if (parentSkill == null) {
     parentSkill = new GlobalSkill(parentSkillId)
-    parentSkill.domainIds = []
     parentSkill.skillChainId = event.params.parentSkillId
   }
   parentSkill.save()
@@ -154,7 +153,6 @@ export function handleSkillAdded(event: SkillAdded): void {
   let skill = GlobalSkill.load(skillId)
   if (skill == null) {
     skill = new GlobalSkill(skillId)
-    skill.domainIds = []
     skill.skillChainId = event.params.skillId
   }
   skill.parent = parentSkillId

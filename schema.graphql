@@ -39,7 +39,7 @@ type GlobalSkill @entity {
   id: ID! # global_skill_<skillChainId>
   skillChainId: BigInt!
   parent: GlobalSkill
-  domainIds: [ID!] # list of subgraph domain ids following the above listed domain id format
+  domainId: ID # domain id following the above listed domain id format
 }
 
 type Payment @entity {

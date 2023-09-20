@@ -224,12 +224,8 @@ export function handleDomainAdded(event: DomainAdded): void {
   if (skill == null) {
     skill = new GlobalSkill(skillId)
     skill.skillChainId = chainDomain.skillId
-    skill.domainIds = [domainId]
-  } else {
-    if (skill.domainIds != null) {
-      skill.domainIds = skill.domainIds.concat([domainId])
-    }
   }
+  skill.domainId = domainId
   skill.save()
   domain.skill = skillId
   // The real way to get the parent would be to look at this
@@ -262,12 +258,8 @@ export function handleHistoricDomainAdded(event: HistoricDomainAdded): void {
   if (skill == null) {
     skill = new GlobalSkill(skillId)
     skill.skillChainId = chainDomain.skillId
-    skill.domainIds = [domainId]
-  } else {
-    if (skill.domainIds != null) {
-      skill.domainIds = skill.domainIds.concat([domainId])
-    }
   }
+  skill.domainId = domainId
   skill.save()
   domain.skill = skillId
   // The real way to get the parent would be to look at this
