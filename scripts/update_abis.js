@@ -3,7 +3,7 @@ const { writeFileSync } = require("fs");
 
 const ICOLONY_PATH = process.env.CUSTOM_ICOLONY_PATH ? path.resolve(__dirname, process.env.CUSTOM_ICOLONY_PATH) : path.resolve(__dirname, '..', '..', 'colonyNetwork/build/contracts/IColony.json');
 const COINMACHINE_PATH = process.env.CUSTOM_COINMACHINE_PATH ? path.resolve(__dirname, process.env.CUSTOM_COINMACHINE_PATH) : path.resolve(__dirname, '..', '..', 'colonyNetwork/build/contracts/CoinMachine.json');
-const IVOTINGREPUTATIONV9_PATH = process.env.CUSTOM_IVOTINGREPUTATIONV9_PATH ? path.resolve(__dirname, process.env.CUSTOM_IVOTINGREPUTATION_PATH) : path.resolve(__dirname, '..', '..', 'colonyNetwork/build/contracts/IVotingReputationV9.json');
+const IVOTINGREPUTATIONV9_PATH = process.env.CUSTOM_IVOTINGREPUTATIONV9_PATH ? path.resolve(__dirname, process.env.CUSTOM_IVOTINGREPUTATIONV9_PATH) : path.resolve(__dirname, '..', '..', 'colonyNetwork/build/contracts/IVotingReputationV9.json');
 
 const ADDITIONAL_COLONY_ABIS_PATH = path.resolve(__dirname, './additionalColonyAbis.json');
 const REMOVED_COLONY_ABIS_PATH = path.resolve(__dirname, './removedColonyAbis.json');
