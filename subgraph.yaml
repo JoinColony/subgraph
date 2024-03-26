@@ -116,6 +116,8 @@ templates:
       abis:
         - name: VotingReputation
           file: ./../colonyNetwork/build/contracts/VotingReputation.json
+        - name: VotingReputationV9
+          file: ./../colonyNetwork/build/contracts/VotingReputationV9.json
       eventHandlers:
         - event: ExtensionInitialised()
           handler: handleExtensionInitialised

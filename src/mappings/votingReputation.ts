@@ -1,4 +1,4 @@
-import { BigInt } from '@graphprotocol/graph-ts'
+import { BigInt, Address, ethereum } from '@graphprotocol/graph-ts'
 
 import {
   ExtensionInitialised,
@@ -10,8 +10,14 @@ import {
   MotionFinalized,
   MotionRewardClaimed,
   MotionEventSet,
-  VotingReputation as VotingReputationContract
+  VotingReputation as VotingReputationContract,
+  VotingReputation__getMotionResult_motionStruct
 } from '../../generated/templates/VotingReputation/VotingReputation'
+
+import {
+  VotingReputationV9 as VotingReputationV9Contract,
+  VotingReputationV9__getMotionResult_motionStruct
+} from '../../generated/templates/VotingReputationV9/VotingReputationV9'
 
 import { Motion } from '../../generated/schema'
 
@@ -24,12 +30,49 @@ export function handleExtensionInitialised(event: ExtensionInitialised): void {
   handleEvent("ExtensionInitialised()", event, colony)
 }
 
+export function getChainMotion(extensionAddress: Address, motionId: BigInt): VotingReputation__getMotionResult_motionStruct {
+  let e = VotingReputationContract.bind(extensionAddress);
+  let colony = e.getColony();
+  let version = e.version();
+
+  if (version <= BigInt.fromI32(9)) {
+    let e = VotingReputationV9Contract.bind(extensionAddress);
+    let m = e.getMotion(motionId);
+
+    let tupleArray: Array<ethereum.Value> = [
+      ethereum.Value.fromUnsignedBigIntArray(m.events),
+      ethereum.Value.fromBytes(m.rootHash),
+      ethereum.Value.fromUnsignedBigInt(m.domainId),
+      ethereum.Value.fromUnsignedBigInt(m.skillId),
+      ethereum.Value.fromUnsignedBigInt(m.skillRep),
+      ethereum.Value.fromUnsignedBigInt(m.repSubmitted),
+      ethereum.Value.fromUnsignedBigInt(m.paidVoterComp),
+      ethereum.Value.fromUnsignedBigIntArray(m.pastVoterComp),
+      ethereum.Value.fromUnsignedBigIntArray(m.stakes),
+      ethereum.Value.fromUnsignedBigIntArray(m.votes),
+      ethereum.Value.fromBoolean(m.escalated),
+      ethereum.Value.fromBoolean(m.finalized),
+      ethereum.Value.fromAddress(m.altTarget),
+      ethereum.Value.fromI32(0), // This is the new property, which is 0 (unset) for old motions
+      ethereum.Value.fromBytes(m.action)
+    ];
+
+    let tuple = tupleArray as ethereum.Tuple;
+    return tuple as VotingReputation__getMotionResult_motionStruct;
+
+  } else {
+    return e.getMotion(motionId);
+  }
+}
+
 export function handleMotionCreated(event: MotionCreated): void {
   let extension = VotingReputationContract.bind(event.address);
   let colony = extension.getColony();
 
   let motionId = event.params.motionId;
-  let chainMotion = extension.getMotion(motionId);
+
+  let chainMotion = getChainMotion(extension._address, motionId);
+
   let totalStakeFraction = extension.getTotalStakeFraction();
 
   let motion = new Motion(colony.toHexString() + "_motion_" + extension._address.toHexString() + '_' + motionId.toString());
@@ -55,7 +98,7 @@ export function handleMotionStaked(event: MotionStaked): void {
   let colony = extension.getColony();
 
   let motionId = event.params.motionId;
-  let chainMotion = extension.getMotion(motionId);
+  let chainMotion = getChainMotion(event.address, motionId);
 
   let motion = new Motion(colony.toHexString() + "_motion_" + extension._address.toHexString() + '_' + motionId.toString());
   motion.stakes = chainMotion.stakes;
@@ -84,7 +127,7 @@ export function handleMotionEscalated(event: MotionEscalated): void {
   let colony = extension.getColony();
 
   let motionId = event.params.motionId;
-  let chainMotion = extension.getMotion(motionId);
+  let chainMotion = getChainMotion(extension._address, motionId);
 
   let motion = new Motion(colony.toHexString() + "_motion_" + extension._address.toHexString() + '_' + motionId.toString());
   motion.escalated = chainMotion.escalated

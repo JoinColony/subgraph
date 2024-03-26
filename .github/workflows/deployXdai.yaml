@@ -33,6 +33,8 @@ jobs:
         env:
           CONTRACT_COMMIT: ${{ github.event.client_payload.message.CONTRACT_COMMIT}}
           CUSTOM_ICOLONY_PATH: "../interfaces/IColony.json"
+          CUSTOM_COINMACHINE_PATH: "../interfaces/CoinMachine.json"
+          CUSTOM_IVOTINGREPUTATIONV9_PATH: "../interfaces/VotingReputationV9.json"
       - name: Deploy the graph
         run: npm run deploy-network
         env:
