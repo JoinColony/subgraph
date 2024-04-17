@@ -17,7 +17,7 @@ import {
 import {
   VotingReputationV9 as VotingReputationV9Contract,
   VotingReputationV9__getMotionResult_motionStruct
-} from '../../generated/templates/VotingReputationV9/VotingReputationV9'
+} from '../../generated/templates/VotingReputation/VotingReputationV9'
 
 import { Motion } from '../../generated/schema'
 
